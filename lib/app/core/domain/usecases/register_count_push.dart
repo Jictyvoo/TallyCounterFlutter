@@ -18,7 +18,7 @@ class RegisterCountPush {
     final newCounter = CounterRegister(
       startTime: previousCounter.endTime,
       endTime: DateTime.now(),
-      oldValue: previousCounter.oldValue,
+      oldValue: previousCounter.newValue,
       newValue: newValue,
     );
 
