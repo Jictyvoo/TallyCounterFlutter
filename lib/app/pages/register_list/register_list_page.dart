@@ -57,6 +57,7 @@ class _RegisterListPageState extends State<RegisterListPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'increment_button@HERO',
         onPressed: () {
           showDialog(
             context: context,

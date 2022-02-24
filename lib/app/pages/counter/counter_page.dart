@@ -54,6 +54,7 @@ class _CounterPageState extends State<CounterPage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             FloatingActionButton(
+              heroTag: 'decrement_button@HERO',
               onPressed: () {
                 setState(() {
                   _store.decrement();
@@ -64,6 +65,7 @@ class _CounterPageState extends State<CounterPage> {
             ),
             const SizedBox(width: 50),
             FloatingActionButton(
+              heroTag: 'increment_button@HERO',
               onPressed: () {
                 setState(() {
                   _store.increment();
