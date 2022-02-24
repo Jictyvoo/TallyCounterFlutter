@@ -39,9 +39,6 @@ class CounterStore {
       _resetLastRegister();
     }
     _lastRegister = useCase(_lastRegister, PushType.add);
-    _repository.loadAll().then((value) {
-      print(value);
-    });
   }
 
   void decrement() {
