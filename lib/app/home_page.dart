@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Current counter is on value:',
             ),
             CounterPage(),
           ],
