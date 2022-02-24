@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 MaterialPageRoute(
                   builder: (context) => RegisterListPage(
                     store: RegisterListStore(CounterStore.repository),
-                  ),settings: RouteSettings(name: 'list')
+                  ),settings: const RouteSettings(name: 'list')
                 ),
               );
             },

@@ -11,11 +11,15 @@ class RegisterListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: registers.length,
-      itemBuilder: (context, index) {
-        return RegisterCardWidget(counterRegister: registers[index]);
-      },
+    return Scrollbar(
+      isAlwaysShown: true,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        itemCount: registers.length,
+        itemBuilder: (context, index) {
+          return RegisterCardWidget(counterRegister: registers[index]);
+        },
+      ),
     );
   }
 }
