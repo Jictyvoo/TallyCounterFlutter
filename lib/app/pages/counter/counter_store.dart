@@ -1,3 +1,4 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/models/enums/push_type_enum.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
@@ -6,9 +7,9 @@ import 'package:tally_counter/app/core/infra/repositories/counter_register_repos
 
 class CounterStore {
   CounterRegister _lastRegister;
-  static final _repository = CounterRegisterRepositoryMemory();
 
-  static CounterRegisterRepository get repository => _repository;
+  static CounterRegisterRepository get _repository =>
+      Modular.get<CounterRegisterRepository>();
 
   CounterStore([int counter = 0])
       : _lastRegister = CounterRegister(
