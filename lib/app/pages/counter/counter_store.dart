@@ -1,11 +1,14 @@
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/models/enums/push_type_enum.dart';
+import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
 import 'package:tally_counter/app/core/domain/usecases/register_count_push.dart';
 import 'package:tally_counter/app/core/infra/repositories/counter_register_repository_memory.dart';
 
 class CounterStore {
   CounterRegister _lastRegister;
   static final _repository = CounterRegisterRepositoryMemory();
+
+  static CounterRegisterRepository get repository => _repository;
 
   CounterStore([int counter = 0])
       : _lastRegister = CounterRegister(

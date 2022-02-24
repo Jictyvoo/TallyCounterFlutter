@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'pages/counter/counter_page.dart';
+import 'pages/counter/counter_store.dart';
+import 'pages/register_list/register_list_page.dart';
+import 'pages/register_list/register_list_store.dart';
 import 'widgets/popup_trailing.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,7 +21,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: const [PopupTrailing()],
+        actions: [
+          PopupTrailing(
+            onTap: (options) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegisterListPage(
+                    store: RegisterListStore(CounterStore.repository),
+                  ),settings: RouteSettings(name: 'list')
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
