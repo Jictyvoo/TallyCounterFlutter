@@ -1,0 +1,1 @@
+enum PushType { add, remove }
