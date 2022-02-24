@@ -56,6 +56,31 @@ class _RegisterListPageState extends State<RegisterListPage> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (subContext) {
+              return AlertDialog(
+                title: const Text('Alert'),
+                content: const Text(
+                  'Method Unimplemented, check for new versions',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok'),
+                  )
+                ],
+              );
+            },
+          );
+        },
+        tooltip: 'Save register list to a csv file',
+        child: const Icon(Icons.save),
+      ),
     );
   }
 }
