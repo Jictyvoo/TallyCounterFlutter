@@ -71,9 +71,13 @@ class CounterStore {
 
   void setNewValue(final String from) {
     final counter = int.tryParse(from) ?? value;
+    var startTime = _lastRegister.endTime;
+    if (startTime.year <= 0) {
+      startTime = DateTime.now();
+    }
     _lastRegister = CounterRegister(
-      startTime: DateTime(0),
-      endTime: DateTime(0),
+      startTime: startTime,
+      endTime: DateTime.now(),
       oldValue: value,
       newValue: counter,
     );
