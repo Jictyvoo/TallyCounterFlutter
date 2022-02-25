@@ -2,10 +2,27 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/models/enums/push_type_enum.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
+import 'package:tally_counter/app/core/domain/usecases/delay_provider.dart';
 import 'package:tally_counter/app/core/domain/usecases/register_count_push.dart';
-import 'package:tally_counter/app/core/infra/repositories/counter_register_repository_memory.dart';
 
 class CounterStore {
+  static final DelayProvider<CounterRegister> _delayProvider = DelayProvider(
+    onFinishCallback: (counterRegister) {
+      // Save on repository only if it exists
+      _repository.save(counterRegister);
+    },
+    elementFinder: (list) {
+      final first = list.first;
+      final last = list.last;
+      return CounterRegister(
+        startTime: first.startTime,
+        endTime: last.endTime,
+        newValue: last.newValue,
+        oldValue: first.oldValue,
+      );
+    },
+  );
+
   CounterRegister _lastRegister;
 
   static CounterRegisterRepository get _repository =>
@@ -20,7 +37,10 @@ class CounterStore {
         );
 
   static RegisterCountPush get useCase {
-    return RegisterCountPush(_repository);
+    return RegisterCountPush(
+      repository: _repository,
+      delayProvider: _delayProvider,
+    );
   }
 
   int get value => _lastRegister.newValue;
@@ -57,5 +77,8 @@ class CounterStore {
       oldValue: value,
       newValue: counter,
     );
+
+    // Save the new register
+    useCase.saveRegister(_lastRegister);
   }
 }
