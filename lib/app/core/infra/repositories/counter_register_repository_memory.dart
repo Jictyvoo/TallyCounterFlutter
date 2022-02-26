@@ -30,10 +30,11 @@ class CounterRegisterRepositoryMemory implements CounterRegisterRepository {
   }
 
   @override
-  void save(CounterRegister newCounter) {
+  Future<void> save(CounterRegister newCounter) {
     final todayDate = _onlyDate(DateTime.now());
     _storage.putIfAbsent(todayDate, () => []);
     var dayList = _storage[todayDate] ?? const [];
     dayList.add(newCounter);
+    return Future.value();
   }
 }
