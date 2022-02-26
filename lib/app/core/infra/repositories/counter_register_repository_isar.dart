@@ -1,36 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
 import 'package:tally_counter/app/core/infra/collections/counter_register_collection.dart';
-
-import '../utils/path_utils.dart';
+import 'package:tally_counter/app/core/infra/providers/isar_provider.dart';
 
 class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   Isar? _isar;
 
   Future<Isar> get _conn async {
-    if (_isar == null) {
-      final path = await PathUtils.databaseDirectory;
-      _isar = await Isar.open(
-        schemas: [TallyRegisterSchema],
-        directory: path,
-        inspector: kDebugMode, // if want to enable the inspector for debug
-      );
-    }
+    _isar ??= IsarProvider.isar;
     return _isar!;
   }
 
-  @override
-  Future<List<CounterRegister>> load(DateTime fromDate) {
-    return loadAll();
-  }
-
-  @override
-  Future<List<CounterRegister>> loadAll() async {
+  List<CounterRegister> _parseRows(List<TallyRegister> rowsList) {
     final resultList = <CounterRegister>[];
-    final connection = await _conn;
-    for (final row in await connection.tallyRegisters.buildQuery().findAll()) {
+    for (final row in rowsList) {
       resultList.add(
         CounterRegister(
           startTime: row.startAt,
@@ -41,6 +25,37 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       );
     }
     return resultList;
+  }
+
+  @override
+  Future<List<CounterRegister>> load(DateTime fromDate) async {
+    final dayEnd = DateTime(
+      fromDate.year,
+      fromDate.month,
+      fromDate.day,
+      23,
+      59,
+    );
+    final dayBegin = DateTime(
+      fromDate.year,
+      fromDate.month,
+      fromDate.day,
+      0,
+      0,
+    );
+    final connection = await _conn;
+    final query = connection.tallyRegisters
+        .filter()
+        .endAtLessThan(dayEnd)
+        .startAtGreaterThan(dayBegin);
+    return _parseRows(await query.findAll());
+  }
+
+  @override
+  Future<List<CounterRegister>> loadAll() async {
+    final connection = await _conn;
+    final query = connection.tallyRegisters.where();
+    return _parseRows(await query.findAll());
   }
 
   @override

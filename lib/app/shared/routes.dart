@@ -16,7 +16,7 @@ extension AppRoutesUtil on AppRoutes {
     }
   }
 
-  String get path {
+  String get home {
     return '$route/';
   }
 }
