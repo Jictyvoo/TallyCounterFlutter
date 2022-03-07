@@ -18,7 +18,11 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ModuleRoute(AppRoutes.DEFAULT.route, module: SplashModule()),
+        ModuleRoute(
+          AppRoutes.DEFAULT.route,
+          module: SplashModule(),
+          transition: TransitionType.fadeIn,
+        ),
         ChildRoute(
           AppRoutes.HOME.route,
           child: (context, args) => const HomePage(
