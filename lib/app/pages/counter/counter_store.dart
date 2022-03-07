@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/core/domain/models/entities/timer_intersection.dart';
 import 'package:tally_counter/app/core/domain/models/enums/push_type_enum.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
+import 'package:tally_counter/app/core/domain/usecases/count_pause_time.dart';
 import 'package:tally_counter/app/core/domain/usecases/delay_provider.dart';
 import 'package:tally_counter/app/core/domain/usecases/register_count_push.dart';
 
@@ -14,27 +16,25 @@ class CounterStore {
     elementFinder: (list) {
       final first = list.first;
       final last = list.last;
-      return CounterRegister(
+
+      // Calculate the total duration
+      var totalDuration = const Duration();
+      for (final element in list) {
+        totalDuration += element.duration;
+      }
+
+      return CounterRegister.duration(
         startTime: first.startTime,
         endTime: last.endTime,
+        duration: totalDuration,
         newValue: last.newValue,
         oldValue: first.oldValue,
       );
     },
   );
 
-  CounterRegister _lastRegister;
-
   static CounterRegisterRepository get _repository =>
       Modular.get<CounterRegisterRepository>();
-
-  CounterStore([int counter = 0])
-      : _lastRegister = CounterRegister(
-          startTime: DateTime(0),
-          endTime: DateTime(0),
-          newValue: counter,
-          oldValue: counter,
-        );
 
   static RegisterCountPush get useCase {
     return RegisterCountPush(
@@ -43,7 +43,26 @@ class CounterStore {
     );
   }
 
+  static CountPauseTime get _pauseCase {
+    return CountPauseTime();
+  }
+
+  CounterRegister _lastRegister;
+  bool _isPaused;
+  TimeIntersection? _pauseTime;
+
+  CounterStore([int counter = 0])
+      : _lastRegister = CounterRegister(
+          startTime: DateTime(0),
+          endTime: DateTime(0),
+          newValue: counter,
+          oldValue: counter,
+        ),
+        _isPaused = false;
+
   int get value => _lastRegister.newValue;
+
+  bool get isPaused => _isPaused;
 
   void _resetLastRegister() {
     final now = DateTime.now();
@@ -55,18 +74,37 @@ class CounterStore {
     );
   }
 
-  void increment() {
+  void _executePause() {
+    _pauseTime = _pauseCase(_pauseTime);
+  }
+
+  /// Pause the counter, so the time will be subtracted
+  void pause() {
     if (_lastRegister.startTime.year <= 0) {
       _resetLastRegister();
     }
-    _lastRegister = useCase(_lastRegister, PushType.add);
+    _executePause();
+    _isPaused = !_isPaused;
+  }
+
+  void _modifyRegister(PushType pushType) {
+    if (_lastRegister.startTime.year <= 0) {
+      _resetLastRegister();
+    }
+    if (_isPaused) {
+      _executePause();
+    }
+    _lastRegister = useCase(_lastRegister, pushType, _pauseTime);
+    _pauseTime = null;
+    _isPaused = false;
+  }
+
+  void increment() {
+    _modifyRegister(PushType.add);
   }
 
   void decrement() {
-    if (_lastRegister.startTime.year <= 0) {
-      _resetLastRegister();
-    }
-    _lastRegister = useCase(_lastRegister, PushType.remove);
+    _modifyRegister(PushType.remove);
   }
 
   void setNewValue(final String from) {
@@ -84,5 +122,7 @@ class CounterStore {
 
     // Save the new register
     useCase.saveRegister(_lastRegister);
+    _pauseTime = null;
+    _isPaused = false;
   }
 }

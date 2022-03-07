@@ -1,16 +1,26 @@
-class CounterRegister {
-  final Duration duration;
-  final DateTime startTime;
+import 'timer_intersection.dart';
+
+class CounterRegister extends TimeIntersection {
   final DateTime endTime;
   final int oldValue;
   final int newValue;
 
   CounterRegister({
-    required this.startTime,
+    required DateTime startTime,
     required this.endTime,
     this.oldValue = 0,
     this.newValue = 0,
-  }) : duration = endTime.difference(startTime);
+    Duration? pauseDuration,
+  }) : super(startTime, endTime.difference(startTime));
+
+  CounterRegister.duration({
+    required DateTime startTime,
+    DateTime? endTime,
+    required Duration duration,
+    this.oldValue = 0,
+    this.newValue = 0,
+  })  : endTime = endTime ?? startTime.add(duration),
+        super(startTime, duration);
 
   @override
   String toString() {

@@ -53,26 +53,43 @@ class _CounterPageState extends State<CounterPage> {
           alignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            FloatingActionButton(
-              heroTag: 'decrement_button@HERO',
-              onPressed: () {
-                setState(() {
-                  _store.decrement();
-                });
-              },
-              tooltip: 'Decrement',
-              child: const Icon(Icons.remove),
+            Hero(
+              tag: 'decrement_button@HERO',
+              child: Tooltip(
+                message: 'Decrement',
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _store.decrement();
+                    });
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+              ),
             ),
-            const SizedBox(width: 50),
-            FloatingActionButton(
-              heroTag: 'increment_button@HERO',
+            IconButton(
               onPressed: () {
                 setState(() {
-                  _store.increment();
+                  _store.pause();
                 });
               },
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
+              icon: _store.isPaused
+                  ? const Icon(Icons.play_arrow)
+                  : const Icon(Icons.pause),
+            ),
+            Hero(
+              tag: 'increment_button@HERO',
+              child: Tooltip(
+                message: 'Increment',
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _store.increment();
+                    });
+                  },
+                  child: const Icon(Icons.add),
+                ),
+              ),
             )
           ],
         ),

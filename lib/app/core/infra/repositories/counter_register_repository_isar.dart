@@ -15,14 +15,26 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   List<CounterRegister> _parseRows(List<TallyRegister> rowsList) {
     final resultList = <CounterRegister>[];
     for (final row in rowsList) {
-      resultList.add(
-        CounterRegister(
-          startTime: row.startAt,
-          endTime: row.endAt,
-          newValue: row.newValue,
-          oldValue: row.oldValue,
-        ),
-      );
+      if (row.duration == Isar.autoIncrement || row.duration == null) {
+        resultList.add(
+          CounterRegister(
+            startTime: row.startAt,
+            endTime: row.endAt,
+            newValue: row.newValue,
+            oldValue: row.oldValue,
+          ),
+        );
+      } else {
+        resultList.add(
+          CounterRegister.duration(
+            startTime: row.startAt,
+            endTime: row.endAt,
+            duration: Duration(microseconds: row.duration!),
+            newValue: row.newValue,
+            oldValue: row.oldValue,
+          ),
+        );
+      }
     }
     return resultList;
   }
@@ -67,6 +79,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       isar.tallyRegisters.put(TallyRegister(
         startedAt: newCounter.startTime,
         endedAt: newCounter.endTime,
+        duration: newCounter.duration.inMicroseconds,
         oldValue: newCounter.oldValue,
         newValue: newCounter.newValue,
       ));

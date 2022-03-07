@@ -17,16 +17,17 @@ extension GetTallyRegisterCollection on Isar {
 final TallyRegisterSchema = CollectionSchema(
   name: 'TallyRegister',
   schema:
-      '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[]}',
+      '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[]}',
   nativeAdapter: const _TallyRegisterNativeAdapter(),
   webAdapter: const _TallyRegisterWebAdapter(),
   idName: 'id',
   propertyIds: {
     'description': 0,
-    'endAt': 1,
-    'newValue': 2,
-    'oldValue': 3,
-    'startAt': 4
+    'duration': 1,
+    'endAt': 2,
+    'newValue': 3,
+    'oldValue': 4,
+    'startAt': 5
   },
   listProperties: {},
   indexIds: {},
@@ -54,6 +55,7 @@ class _TallyRegisterWebAdapter extends IsarWebTypeAdapter<TallyRegister> {
       IsarCollection<TallyRegister> collection, TallyRegister object) {
     final jsObj = IsarNative.newJsObject();
     IsarNative.jsObjectSet(jsObj, 'description', object.description);
+    IsarNative.jsObjectSet(jsObj, 'duration', object.duration);
     IsarNative.jsObjectSet(
         jsObj, 'endAt', object.endAt.toUtc().millisecondsSinceEpoch);
     IsarNative.jsObjectSet(jsObj, 'id', object.id);
@@ -68,6 +70,7 @@ class _TallyRegisterWebAdapter extends IsarWebTypeAdapter<TallyRegister> {
   TallyRegister deserialize(
       IsarCollection<TallyRegister> collection, dynamic jsObj) {
     final object = TallyRegister(
+      duration: IsarNative.jsObjectGet(jsObj, 'duration'),
       newValue:
           IsarNative.jsObjectGet(jsObj, 'newValue') ?? double.negativeInfinity,
       oldValue:
@@ -95,6 +98,8 @@ class _TallyRegisterWebAdapter extends IsarWebTypeAdapter<TallyRegister> {
     switch (propertyName) {
       case 'description':
         return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
+      case 'duration':
+        return (IsarNative.jsObjectGet(jsObj, 'duration')) as P;
       case 'endAt':
         return (IsarNative.jsObjectGet(jsObj, 'endAt') != null
             ? DateTime.fromMillisecondsSinceEpoch(
@@ -145,14 +150,16 @@ class _TallyRegisterNativeAdapter extends IsarNativeTypeAdapter<TallyRegister> {
       _description = IsarBinaryWriter.utf8Encoder.convert(value0);
     }
     dynamicSize += (_description?.length ?? 0) as int;
-    final value1 = object.endAt;
-    final _endAt = value1;
-    final value2 = object.newValue;
-    final _newValue = value2;
-    final value3 = object.oldValue;
-    final _oldValue = value3;
-    final value4 = object.startAt;
-    final _startAt = value4;
+    final value1 = object.duration;
+    final _duration = value1;
+    final value2 = object.endAt;
+    final _endAt = value2;
+    final value3 = object.newValue;
+    final _newValue = value3;
+    final value4 = object.oldValue;
+    final _oldValue = value4;
+    final value5 = object.startAt;
+    final _startAt = value5;
     final size = staticSize + dynamicSize;
 
     rawObj.buffer = alloc(size);
@@ -160,23 +167,25 @@ class _TallyRegisterNativeAdapter extends IsarNativeTypeAdapter<TallyRegister> {
     final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
     final writer = IsarBinaryWriter(buffer, staticSize);
     writer.writeBytes(offsets[0], _description);
-    writer.writeDateTime(offsets[1], _endAt);
-    writer.writeLong(offsets[2], _newValue);
-    writer.writeLong(offsets[3], _oldValue);
-    writer.writeDateTime(offsets[4], _startAt);
+    writer.writeLong(offsets[1], _duration);
+    writer.writeDateTime(offsets[2], _endAt);
+    writer.writeLong(offsets[3], _newValue);
+    writer.writeLong(offsets[4], _oldValue);
+    writer.writeDateTime(offsets[5], _startAt);
   }
 
   @override
   TallyRegister deserialize(IsarCollection<TallyRegister> collection, int id,
       IsarBinaryReader reader, List<int> offsets) {
     final object = TallyRegister(
-      newValue: reader.readLong(offsets[2]),
-      oldValue: reader.readLong(offsets[3]),
+      duration: reader.readLongOrNull(offsets[1]),
+      newValue: reader.readLong(offsets[3]),
+      oldValue: reader.readLong(offsets[4]),
     );
     object.description = reader.readStringOrNull(offsets[0]);
-    object.endAt = reader.readDateTime(offsets[1]);
+    object.endAt = reader.readDateTime(offsets[2]);
     object.id = id;
-    object.startAt = reader.readDateTime(offsets[4]);
+    object.startAt = reader.readDateTime(offsets[5]);
     return object;
   }
 
@@ -189,12 +198,14 @@ class _TallyRegisterNativeAdapter extends IsarNativeTypeAdapter<TallyRegister> {
       case 0:
         return (reader.readStringOrNull(offset)) as P;
       case 1:
-        return (reader.readDateTime(offset)) as P;
+        return (reader.readLongOrNull(offset)) as P;
       case 2:
-        return (reader.readLong(offset)) as P;
+        return (reader.readDateTime(offset)) as P;
       case 3:
         return (reader.readLong(offset)) as P;
       case 4:
+        return (reader.readLong(offset)) as P;
+      case 5:
         return (reader.readDateTime(offset)) as P;
       default:
         throw 'Illegal propertyIndex';
@@ -403,6 +414,66 @@ extension TallyRegisterQueryFilter
       property: 'description',
       value: pattern,
       caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+      durationIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: 'duration',
+      value: null,
+    ));
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+      durationEqualTo(int? value) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'duration',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+      durationGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'duration',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+      durationLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'duration',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+      durationBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'duration',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
     ));
   }
 
@@ -674,6 +745,15 @@ extension TallyRegisterQueryWhereSortBy
     return addSortByInternal('description', Sort.desc);
   }
 
+  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByDuration() {
+    return addSortByInternal('duration', Sort.asc);
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+      sortByDurationDesc() {
+    return addSortByInternal('duration', Sort.desc);
+  }
+
   QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByEndAt() {
     return addSortByInternal('endAt', Sort.asc);
   }
@@ -728,6 +808,15 @@ extension TallyRegisterQueryWhereSortThenBy
     return addSortByInternal('description', Sort.desc);
   }
 
+  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByDuration() {
+    return addSortByInternal('duration', Sort.asc);
+  }
+
+  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+      thenByDurationDesc() {
+    return addSortByInternal('duration', Sort.desc);
+  }
+
   QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByEndAt() {
     return addSortByInternal('endAt', Sort.asc);
   }
@@ -778,6 +867,10 @@ extension TallyRegisterQueryWhereDistinct
     return addDistinctByInternal('description', caseSensitive: caseSensitive);
   }
 
+  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByDuration() {
+    return addDistinctByInternal('duration');
+  }
+
   QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByEndAt() {
     return addDistinctByInternal('endAt');
   }
@@ -803,6 +896,10 @@ extension TallyRegisterQueryProperty
     on QueryBuilder<TallyRegister, TallyRegister, QQueryProperty> {
   QueryBuilder<TallyRegister, String?, QQueryOperations> descriptionProperty() {
     return addPropertyNameInternal('description');
+  }
+
+  QueryBuilder<TallyRegister, int?, QQueryOperations> durationProperty() {
+    return addPropertyNameInternal('duration');
   }
 
   QueryBuilder<TallyRegister, DateTime, QQueryOperations> endAtProperty() {
