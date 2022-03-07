@@ -46,9 +46,11 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
     final connection = await _conn;
     final query = connection.tallyRegisters
         .filter()
-        .endAtLessThan(dayEnd)
-        .startAtGreaterThan(dayBegin);
-    return _parseRows(await query.findAll());
+        .endAtBetween(dayBegin, dayEnd)
+        .and()
+        .startAtBetween(dayBegin, dayEnd)
+        .sortByStartAt();
+    return _parseRows(await query.build().findAll());
   }
 
   @override

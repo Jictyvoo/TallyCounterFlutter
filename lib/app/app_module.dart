@@ -29,6 +29,7 @@ class AppModule extends Module {
           AppRoutes.REGISTER_LIST.route,
           child: (context, args) => RegisterListPage(
             store: RegisterListStore(),
+            fromDate: args.data,
           ),
         ),
       ];

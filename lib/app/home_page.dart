@@ -23,7 +23,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           PopupTrailing(
             onTap: (options) {
-              Modular.to.pushNamed(AppRoutes.REGISTER_LIST.route);
+              if (options == PopupOptions.showAll) {
+                Modular.to.pushNamed(AppRoutes.REGISTER_LIST.route);
+              } else {
+                Modular.to.pushNamed(
+                  AppRoutes.REGISTER_LIST.route,
+                  arguments: DateTime.now(),
+                );
+              }
             },
           )
         ],

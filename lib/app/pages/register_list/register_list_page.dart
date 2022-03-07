@@ -8,8 +8,10 @@ import 'register_list_store.dart';
 
 class RegisterListPage extends StatefulWidget {
   final RegisterListStore? store;
+  final DateTime? fromDate;
 
-  const RegisterListPage({Key? key, this.store}) : super(key: key);
+  const RegisterListPage({Key? key, this.store, this.fromDate})
+      : super(key: key);
 
   @override
   _RegisterListPageState createState() => _RegisterListPageState();
@@ -21,7 +23,7 @@ class _RegisterListPageState extends State<RegisterListPage> {
   @override
   void initState() {
     if (widget.store != null) {
-      _future = widget.store!.load();
+      _future = widget.store!.load(widget.fromDate);
     }
     super.initState();
   }

@@ -8,9 +8,9 @@ class RegisterListStore {
   RegisterListStore([CounterRegisterRepository? repository])
       : _repository = repository ?? Modular.get<CounterRegisterRepository>();
 
-  Future<List<CounterRegister>> load([bool today = false]) {
-    if (today) {
-      return _repository.load(DateTime.now());
+  Future<List<CounterRegister>> load([DateTime? fromDate]) {
+    if (fromDate != null) {
+      return _repository.load(fromDate);
     }
     return _repository.loadAll();
   }
