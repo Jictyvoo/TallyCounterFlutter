@@ -8,8 +8,12 @@ import 'delay_provider.dart';
 class RegisterCountPush {
   final CounterRegisterRepository? _repository;
   final DelayProvider<CounterRegister>? delayProvider;
+  final CounterRegister previousCounter;
+  final TimeIntersection? pauseTime;
 
-  RegisterCountPush({
+  RegisterCountPush(
+    this.previousCounter,
+    this.pauseTime, {
     CounterRegisterRepository? repository,
     this.delayProvider,
   }) : _repository = repository;
@@ -24,11 +28,47 @@ class RegisterCountPush {
     }
   }
 
-  CounterRegister call(
-    CounterRegister previousCounter,
-    PushType pushType, [
-    TimeIntersection? pauseTime,
-  ]) {
+  CounterRegister _newRegister({
+    required DateTime startTime,
+    required DateTime endTime,
+    required int oldValue,
+    required int newValue,
+  }) {
+    return pauseTime != null
+        ? CounterRegister.duration(
+            startTime: previousCounter.endTime,
+            endTime: endTime,
+            duration: endTime.difference(previousCounter.endTime) -
+                pauseTime!.duration,
+            oldValue: previousCounter.newValue,
+            newValue: newValue,
+          )
+        : CounterRegister(
+            startTime: previousCounter.endTime,
+            endTime: endTime,
+            oldValue: previousCounter.newValue,
+            newValue: newValue,
+          );
+  }
+
+  CounterRegister setValue(int newValue) {
+    var startTime = previousCounter.endTime;
+    if (startTime.year <= 0) {
+      startTime = DateTime.now();
+    }
+    final newRegister = _newRegister(
+      startTime: startTime,
+      endTime: DateTime.now(),
+      oldValue: previousCounter.newValue,
+      newValue: newValue,
+    );
+
+    // Save the new register
+    saveRegister(newRegister);
+    return newRegister;
+  }
+
+  CounterRegister call(PushType pushType) {
     var newValue = previousCounter.newValue;
     if (pushType == PushType.add) {
       newValue += 1;
@@ -37,21 +77,12 @@ class RegisterCountPush {
     }
 
     final nowTime = DateTime.now();
-    final newCounter = pauseTime != null
-        ? CounterRegister.duration(
-            startTime: previousCounter.endTime,
-            endTime: nowTime,
-            duration: nowTime.difference(previousCounter.endTime) -
-                pauseTime.duration,
-            oldValue: previousCounter.newValue,
-            newValue: newValue,
-          )
-        : CounterRegister(
-            startTime: previousCounter.endTime,
-            endTime: nowTime,
-            oldValue: previousCounter.newValue,
-            newValue: newValue,
-          );
+    final newCounter = _newRegister(
+      startTime: previousCounter.endTime,
+      endTime: nowTime,
+      oldValue: previousCounter.newValue,
+      newValue: newValue,
+    );
     saveRegister(newCounter);
     return newCounter;
   }

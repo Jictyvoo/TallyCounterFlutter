@@ -36,8 +36,10 @@ class CounterStore {
   static CounterRegisterRepository get _repository =>
       Modular.get<CounterRegisterRepository>();
 
-  static RegisterCountPush get useCase {
+  RegisterCountPush get useCase {
     return RegisterCountPush(
+      _lastRegister,
+      _pauseTime,
       repository: _repository,
       delayProvider: _delayProvider,
     );
@@ -58,7 +60,7 @@ class CounterStore {
           newValue: counter,
           oldValue: counter,
         ),
-        _isPaused = false;
+        _isPaused = true;
 
   int get value => _lastRegister.newValue;
 
@@ -99,7 +101,7 @@ class CounterStore {
     if (_isPaused) {
       _executePause();
     }
-    _lastRegister = useCase(_lastRegister, pushType, _pauseTime);
+    _lastRegister = useCase(pushType);
     _pauseTime = null;
     _isPaused = false;
   }
@@ -114,19 +116,7 @@ class CounterStore {
 
   void setNewValue(final String from) {
     final counter = int.tryParse(from) ?? value;
-    var startTime = _lastRegister.endTime;
-    if (startTime.year <= 0) {
-      startTime = DateTime.now();
-    }
-    _lastRegister = CounterRegister(
-      startTime: startTime,
-      endTime: DateTime.now(),
-      oldValue: value,
-      newValue: counter,
-    );
-
-    // Save the new register
-    useCase.saveRegister(_lastRegister);
+    _lastRegister = useCase.setValue(counter);
     _pauseTime = null;
     _isPaused = false;
   }
