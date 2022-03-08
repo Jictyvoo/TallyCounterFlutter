@@ -10,7 +10,6 @@ class CounterRegister extends TimeIntersection {
     required this.endTime,
     this.oldValue = 0,
     this.newValue = 0,
-    Duration? pauseDuration,
   }) : super(startTime, endTime.difference(startTime));
 
   CounterRegister.duration({

@@ -75,7 +75,10 @@ class CounterStore {
   }
 
   void _executePause() {
-    _pauseTime = _pauseCase(_pauseTime);
+    if (_isPaused && _pauseTime == null) {
+      return;
+    }
+    _pauseTime = _pauseCase(_pauseTime, _isPaused);
   }
 
   /// Pause the counter, so the time will be subtracted
