@@ -35,16 +35,8 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Current counter is on value:',
-            ),
-            CounterPage(),
-          ],
-        ),
+      body: const Center(
+        child: CounterPage(),
       ),
     );
   }

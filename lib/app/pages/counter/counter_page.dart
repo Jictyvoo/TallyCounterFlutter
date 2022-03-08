@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tally_counter/app/pages/counter/widgets/pause_duration_timer_widget.dart';
 
 import 'counter_store.dart';
 import 'widgets/change_value_dialog.dart';
@@ -13,11 +14,29 @@ class CounterPage extends StatefulWidget {
 class _CounterPageState extends State<CounterPage> {
   final CounterStore _store = CounterStore();
 
+  Widget _buildPauseDuration() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          'Paused for: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        PauseDurationTimerWidget(
+          elapsedPauseTime: _store.pauseDuration,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        const Text(
+          'Current counter is on value:',
+        ),
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 100, minHeight: 100),
           child: TextButton(
@@ -49,6 +68,7 @@ class _CounterPageState extends State<CounterPage> {
           ),
         ),
         const SizedBox(height: 12),
+        if (_store.isPaused) _buildPauseDuration(),
         ButtonBar(
           alignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,

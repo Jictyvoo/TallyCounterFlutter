@@ -64,6 +64,8 @@ class CounterStore {
 
   bool get isPaused => _isPaused;
 
+  Duration get pauseDuration => _pauseTime?.duration ?? const Duration();
+
   void _resetLastRegister() {
     final now = DateTime.now();
     _lastRegister = CounterRegister(
