@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   void _startInitJobs() {
     Future.wait([
       _infraInit?.ensureInitialized() ?? Future.value(),
-      Future.delayed(const Duration(seconds: 1)),
+      Future.delayed(const Duration(seconds: 2)),
     ]).then((value) {
       Modular.to.navigate(AppRoutes.HOME.route);
     });
@@ -41,28 +41,33 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: 110,
-          minHeight: 110,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(26),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Expanded(
-                flex: 1,
-                child: SizedBox.shrink(),
-              ),
-              RotationLogoWidget(),
-              LinearProgressIndicator(),
-              Expanded(
-                flex: 2,
-                child: SizedBox.shrink(),
-              ),
-              WowlsFooter(),
-            ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 110,
+            minHeight: 110,
+            maxWidth: 800,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(26),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Expanded(
+                  flex: 1,
+                  child: SizedBox.shrink(),
+                ),
+                RotationLogoWidget(),
+                LinearProgressIndicator(),
+                Expanded(
+                  flex: 2,
+                  child: SizedBox.shrink(),
+                ),
+                WowlsFooter(),
+              ],
+            ),
           ),
         ),
       ),
