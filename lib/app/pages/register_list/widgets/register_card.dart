@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 
+import 'register_card_options.dart';
+
 class RegisterCardWidget extends StatelessWidget {
   final CounterRegister counterRegister;
+  final VoidCallback? onDeleteCallback;
+  final VoidCallback? onEditCallback;
 
-  const RegisterCardWidget({Key? key, required this.counterRegister})
-      : super(key: key);
+  const RegisterCardWidget({
+    Key? key,
+    required this.counterRegister,
+    this.onDeleteCallback,
+    this.onEditCallback,
+  }) : super(key: key);
 
   String _formatDate(final DateTime dateTime) {
     final formatDate = DateFormat.yMd();
@@ -37,59 +45,71 @@ class RegisterCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(Icons.calendar_today_outlined),
-                const SizedBox(width: 10),
-                Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_formatDate(counterRegister.startTime)),
-                    Text(_formatDate(counterRegister.endTime)),
+                    const Icon(Icons.calendar_today_outlined),
+                    const SizedBox(width: 10),
+                    Column(
+                      children: [
+                        Text(_formatDate(counterRegister.startTime)),
+                        Text(_formatDate(counterRegister.endTime)),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-            Row(
-              children: [
-                const Text(
-                  'Split Duration: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(width: 26),
-                Text(_duration)
-              ],
-            ),
+                Row(
+                  children: [
+                    const Text(
+                      'Split Duration: ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 26),
+                    Text(_duration)
+                  ],
+                ),
 
-            // Show old and new values
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Value Changes: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 26),
-                Expanded(
-                  child: _buildValueContainer(
-                    counterRegister.oldValue,
-                    color: const Color(0xff4e4ed2),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildValueContainer(
-                    counterRegister.newValue,
-                    color: const Color(0xfa69d455),
-                  ),
+                // Show old and new values
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Value Changes: ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 26),
+                    Expanded(
+                      child: _buildValueContainer(
+                        counterRegister.oldValue,
+                        color: const Color(0xff4e4ed2),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildValueContainer(
+                        counterRegister.newValue,
+                        color: const Color(0xfa69d455),
+                      ),
+                    ),
+                  ],
                 ),
               ],
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: RegisterCardOptions(
+                onDelete: onDeleteCallback,
+                onEdit: onEditCallback,
+              ),
             ),
           ],
         ),
