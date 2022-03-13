@@ -115,6 +115,9 @@ class CounterStore {
   }
 
   void setNewValue(final String from) {
+    if (_lastRegister.startTime.year <= 0) {
+      _resetLastRegister();
+    }
     final counter = int.tryParse(from) ?? value;
     _lastRegister = useCase.setValue(counter);
     _pauseTime = null;

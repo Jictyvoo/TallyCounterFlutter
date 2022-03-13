@@ -51,7 +51,7 @@ class _RegisterListPageState extends State<RegisterListPage> {
               child: Text('Error when loading registers'),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
-            return RegisterListWidget(registers: result);
+            return Center(child: RegisterListWidget(registers: result));
           }
           return const Center(
             child: CircularProgressIndicator(),

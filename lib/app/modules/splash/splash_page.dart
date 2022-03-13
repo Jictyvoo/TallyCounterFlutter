@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/app_module.dart';
 import 'package:tally_counter/app/core/infra/init.dart';
 import 'package:tally_counter/app/shared/routes.dart';
 import 'package:tally_counter/app/shared/widgets/footer.dart';
@@ -32,6 +33,7 @@ class _SplashPageState extends State<SplashPage> {
   void _startInitJobs() {
     Future.wait([
       _infraInit?.ensureInitialized() ?? Future.value(),
+      Modular.isModuleReady<AppModule>(),
       Future.delayed(const Duration(seconds: 2)),
     ]).then((value) {
       Modular.to.navigate(AppRoutes.HOME.route);

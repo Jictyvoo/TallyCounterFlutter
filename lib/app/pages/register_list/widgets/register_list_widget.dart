@@ -13,12 +13,15 @@ class RegisterListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       isAlwaysShown: true,
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        itemCount: registers.length,
-        itemBuilder: (context, index) {
-          return RegisterCardWidget(counterRegister: registers[index]);
-        },
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          itemCount: registers.length,
+          itemBuilder: (context, index) {
+            return RegisterCardWidget(counterRegister: registers[index]);
+          },
+        ),
       ),
     );
   }
