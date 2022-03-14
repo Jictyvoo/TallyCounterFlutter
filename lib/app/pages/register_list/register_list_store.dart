@@ -14,4 +14,8 @@ class RegisterListStore {
     }
     return _repository.loadAll();
   }
+
+  Future<bool> delete(CounterRegister register) {
+    return _repository.delete(register);
+  }
 }

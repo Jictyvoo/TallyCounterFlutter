@@ -18,6 +18,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       if (row.duration == Isar.autoIncrement || row.duration == null) {
         resultList.add(
           CounterRegister(
+            id: row.id,
             startTime: row.startAt,
             endTime: row.endAt,
             newValue: row.newValue,
@@ -27,6 +28,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       } else {
         resultList.add(
           CounterRegister.duration(
+            id: row.id,
             startTime: row.startAt,
             endTime: row.endAt,
             duration: Duration(microseconds: row.duration!),
@@ -84,5 +86,14 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
         newValue: newCounter.newValue,
       ));
     });
+  }
+
+  @override
+  Future<bool> delete(CounterRegister register) async {
+    final connection = await _conn;
+    final result = await connection.writeTxn((isar) {
+      return isar.tallyRegisters.delete(register.id);
+    });
+    return result;
   }
 }

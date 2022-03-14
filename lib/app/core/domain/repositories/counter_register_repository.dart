@@ -6,4 +6,6 @@ abstract class CounterRegisterRepository {
   Future<List<CounterRegister>> loadAll();
 
   Future<List<CounterRegister>> load(DateTime fromDate);
+
+  Future<bool> delete(CounterRegister register);
 }

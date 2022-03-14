@@ -37,4 +37,19 @@ class CounterRegisterRepositoryMemory implements CounterRegisterRepository {
     dayList.add(newCounter);
     return Future.value();
   }
+
+  @override
+  Future<bool> delete(CounterRegister register) {
+    final registerDate = _onlyDate(register.startTime);
+    var dayList = _storage[registerDate] ?? const [];
+    var index = 0;
+    for (final element in dayList) {
+      if (element == register) {
+        dayList.removeAt(index);
+        return Future.value(true);
+      }
+      index++;
+    }
+    return Future.value(false);
+  }
 }
