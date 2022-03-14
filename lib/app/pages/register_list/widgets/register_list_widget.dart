@@ -97,15 +97,16 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           itemCount: _registerList.length,
           itemBuilder: (context, index) {
+            final counterRegister = _registerList[index];
             return Dismissible(
-              key: ValueKey(_registerList[index]),
+              key: ValueKey(counterRegister),
               direction: DismissDirection.endToStart,
               dismissThresholds: const {
                 DismissDirection.endToStart: 0.6,
               },
               confirmDismiss: _canDeleteDismiss(context),
               onDismissed: (direction) {
-                _deleteRegister(_registerList[index]);
+                _deleteRegister(counterRegister);
               },
               background: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -125,16 +126,14 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                             text: 'Delete register from\n',
                             children: [
                               TextSpan(
-                                text:
-                                    _formatDate(_registerList[index].startTime),
+                                text: _formatDate(counterRegister.startTime),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const TextSpan(text: ' at '),
                               TextSpan(
-                                text:
-                                    _formatTime(_registerList[index].startTime),
+                                text: _formatTime(counterRegister.startTime),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
@@ -155,7 +154,7 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: RegisterCardWidget(
-                  counterRegister: _registerList[index],
+                  counterRegister: counterRegister,
                   onDeleteCallback: _onDeleteCard(context, index),
                 ),
               ),

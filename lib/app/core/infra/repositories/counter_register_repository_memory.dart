@@ -40,7 +40,7 @@ class CounterRegisterRepositoryMemory implements CounterRegisterRepository {
 
   @override
   Future<bool> delete(CounterRegister register) {
-    final registerDate = _onlyDate(register.startTime);
+    final registerDate = _onlyDate(register.endTime);
     var dayList = _storage[registerDate] ?? const [];
     var index = 0;
     for (final element in dayList) {
