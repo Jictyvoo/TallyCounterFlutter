@@ -9,6 +9,7 @@ import 'package:tally_counter/app/core/domain/usecases/register_count_push.dart'
 
 class CounterStore {
   static final DelayProvider<CounterRegister> _delayProvider = DelayProvider(
+    duration: const Duration(milliseconds: 800),
     callback: (counterRegister) {
       // Save on repository only if it exists
       _repository.save(counterRegister);
