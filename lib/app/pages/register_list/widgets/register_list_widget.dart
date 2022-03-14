@@ -6,9 +6,13 @@ import 'register_card.dart';
 
 class RegisterListWidget extends StatefulWidget {
   final List<CounterRegister> registers;
+  final void Function(CounterRegister)? onDeleteCallback;
 
-  const RegisterListWidget({Key? key, required this.registers})
-      : super(key: key);
+  const RegisterListWidget({
+    Key? key,
+    required this.registers,
+    this.onDeleteCallback,
+  }) : super(key: key);
 
   @override
   State<RegisterListWidget> createState() => _RegisterListWidgetState();
@@ -33,7 +37,7 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
     return formatter.format(time);
   }
 
-  Future<bool?> _onDeleteSnackBar(BuildContext context) async {
+  Future<bool?> _onDeleteSnackBar(final BuildContext context) async {
     var canDelete = true;
     final snackBar = SnackBar(
       content: const Text('Register deleted!'),
@@ -53,14 +57,18 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
   }
 
   Future<bool?> Function(DismissDirection) _canDeleteDismiss(
-    BuildContext context,
+    final BuildContext context,
   ) {
     return (DismissDirection direction) async {
       return _onDeleteSnackBar(context);
     };
   }
 
-  VoidCallback _onDeleteCard(BuildContext context, final int index) {
+  void _deleteRegister(final CounterRegister register) {
+    widget.onDeleteCallback?.call(register);
+  }
+
+  VoidCallback _onDeleteCard(final BuildContext context, final int index) {
     return () async {
       final originalList = _registerList;
       _registerList = _registerList.toList();
@@ -72,6 +80,9 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
         setState(() {
           _registerList = originalList;
         });
+      } else {
+        // Call delete without redraw the screen
+        _deleteRegister(originalList[index]);
       }
     };
   }
@@ -93,6 +104,9 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                 DismissDirection.endToStart: 0.6,
               },
               confirmDismiss: _canDeleteDismiss(context),
+              onDismissed: (direction) {
+                _deleteRegister(_registerList[index]);
+              },
               background: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: DecoratedBox(
@@ -138,7 +152,6 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                   ),
                 ),
               ),
-              onDismissed: (direction) {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: RegisterCardWidget(
