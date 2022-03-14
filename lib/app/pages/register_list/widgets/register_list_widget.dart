@@ -76,7 +76,7 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
         _registerList.removeAt(index);
       });
       final canDelete = await _onDeleteSnackBar(context) ?? false;
-      if (!canDelete) {
+      if (!canDelete && mounted) {
         setState(() {
           _registerList = originalList;
         });
