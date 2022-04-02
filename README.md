@@ -1,16 +1,13 @@
-# tally_counter
+# Tally Counter
 
-Tally Counter
+A **Tally Counter** app made in flutter.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Splashscreen while loading all requirements and dependencies for the app
+- Set a directly value for the `counter`
+- Register timestamp for each `counter`
+- List `counter` registries from database
+- _Pause_ and _resume_ `counter` timestamp
+- Handle multiple sequential clicks and generate only one `register` having the initial time the
+  same from the first `counter` and the end time the same as the last
