@@ -35,7 +35,7 @@ class _SplashPageState extends State<RotationLogoWidget>
         shape: BoxShape.circle,
       ),
       child: RotationTransition(
-        turns: Tween(begin: 0.0, end: 1.0).animate(rotationController),
+        turns: Tween(begin: 1.0, end: 0.0).animate(rotationController),
         child: Image.asset('assets/images/logo.png'),
       ),
     );

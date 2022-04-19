@@ -22,6 +22,7 @@ class WowlsFooter extends StatelessWidget {
         'Powered by Jictyvoo\nDeveloped with Flutter',
         softWrap: true,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        textAlign: TextAlign.center,
       ),
       Text(
         '© Wrapped Owls $_enterpriseBirthDate-${DateTime.now().year}'

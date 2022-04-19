@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/app_module.dart';
 import 'package:tally_counter/app/core/infra/init.dart';
@@ -30,6 +33,31 @@ class _SplashPageState extends State<SplashPage> {
     super.dispose();
   }
 
+  FutureOr<void> onStartupError(dynamic error, StackTrace stackTrace) {
+    showDialog(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: const Text('Startup error'),
+            content: SelectableText(stackTrace.toString()),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  // Save on clipboard
+                  await Clipboard.setData(
+                    ClipboardData(text: stackTrace.toString()),
+                  );
+                  Navigator.of(dialogContext).pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
+                child: const Text('Copy and close'),
+              )
+            ],
+          );
+        });
+    return Future.value();
+  }
+
   void _startInitJobs() {
     Future.wait([
       _infraInit?.ensureInitialized() ?? Future.value(),
@@ -37,7 +65,8 @@ class _SplashPageState extends State<SplashPage> {
       Future.delayed(const Duration(seconds: 2)),
     ]).then((value) {
       Modular.to.navigate(AppRoutes.HOME.route);
-    });
+      // ignore: invalid_return_type_for_catch_error
+    }).catchError(onStartupError);
   }
 
   @override
