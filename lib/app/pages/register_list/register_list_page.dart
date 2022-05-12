@@ -14,7 +14,7 @@ class RegisterListPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _RegisterListPageState createState() => _RegisterListPageState();
+  State<RegisterListPage> createState() => _RegisterListPageState();
 }
 
 class _RegisterListPageState extends State<RegisterListPage> {

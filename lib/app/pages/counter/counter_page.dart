@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tally_counter/app/pages/counter/widgets/pause_duration_timer_widget.dart';
 
 import 'counter_store.dart';
 import 'widgets/change_value_dialog.dart';
+import 'widgets/pause_duration_timer_widget.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({Key? key}) : super(key: key);
 
   @override
-  _CounterPageState createState() => _CounterPageState();
+  State<CounterPage> createState() => _CounterPageState();
 }
 
 class _CounterPageState extends State<CounterPage> {
@@ -40,10 +40,6 @@ class _CounterPageState extends State<CounterPage> {
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 100, minHeight: 100),
           child: TextButton(
-            child: Text(
-              '${_store.value}',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             onPressed: () {
               showDialog(
                 context: context,
@@ -64,6 +60,10 @@ class _CounterPageState extends State<CounterPage> {
                 side: BorderSide.none,
               ),
               primary: const Color(0xFFD73E7A),
+            ),
+            child: Text(
+              '${_store.value}',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ),

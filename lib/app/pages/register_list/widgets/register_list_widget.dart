@@ -90,7 +90,7 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      isAlwaysShown: true,
+      thumbVisibility: true,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 600),
         child: ListView.builder(

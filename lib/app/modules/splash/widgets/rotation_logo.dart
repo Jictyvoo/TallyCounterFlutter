@@ -4,7 +4,7 @@ class RotationLogoWidget extends StatefulWidget {
   const RotationLogoWidget({Key? key}) : super(key: key);
 
   @override
-  _SplashPageState createState() => _SplashPageState();
+  State<RotationLogoWidget> createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<RotationLogoWidget>

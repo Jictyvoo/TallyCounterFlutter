@@ -16,8 +16,8 @@ void main() {
     // Get the initial locale values
     defaultSystemLocale = Platform.localeName;
   } else {
-    final currentSystemLocales = WidgetsBinding.instance?.window.locales;
-    defaultSystemLocale = currentSystemLocales?.first.languageCode ?? 'pt_BR';
+    final currentSystemLocales = WidgetsBinding.instance.window.locales;
+    defaultSystemLocale = currentSystemLocales.first.languageCode;
   }
   Intl.defaultLocale = defaultSystemLocale;
   runApp(ModularApp(

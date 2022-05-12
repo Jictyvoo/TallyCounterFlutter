@@ -6,20 +6,16 @@ part of 'counter_register_collection.dart';
 // IsarCollectionGenerator
 // **************************************************************************
 
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
 
 extension GetTallyRegisterCollection on Isar {
-  IsarCollection<TallyRegister> get tallyRegisters {
-    return getCollection('TallyRegister');
-  }
+  IsarCollection<TallyRegister> get tallyRegisters => getCollection();
 }
 
-final TallyRegisterSchema = CollectionSchema(
+const TallyRegisterSchema = CollectionSchema(
   name: 'TallyRegister',
   schema:
       '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[]}',
-  nativeAdapter: const _TallyRegisterNativeAdapter(),
-  webAdapter: const _TallyRegisterWebAdapter(),
   idName: 'id',
   propertyIds: {
     'description': 0,
@@ -31,195 +27,197 @@ final TallyRegisterSchema = CollectionSchema(
   },
   listProperties: {},
   indexIds: {},
-  indexTypes: {},
+  indexValueTypes: {},
   linkIds: {},
-  backlinkIds: {},
-  linkedCollections: [],
-  getId: (obj) {
-    if (obj.id == Isar.autoIncrement) {
-      return null;
-    } else {
-      return obj.id;
-    }
-  },
-  setId: (obj, id) => obj.id = id,
-  getLinks: (obj) => [],
-  version: 2,
+  backlinkLinkNames: {},
+  getId: _tallyRegisterGetId,
+  setId: _tallyRegisterSetId,
+  getLinks: _tallyRegisterGetLinks,
+  attachLinks: _tallyRegisterAttachLinks,
+  serializeNative: _tallyRegisterSerializeNative,
+  deserializeNative: _tallyRegisterDeserializeNative,
+  deserializePropNative: _tallyRegisterDeserializePropNative,
+  serializeWeb: _tallyRegisterSerializeWeb,
+  deserializeWeb: _tallyRegisterDeserializeWeb,
+  deserializePropWeb: _tallyRegisterDeserializePropWeb,
+  version: 3,
 );
 
-class _TallyRegisterWebAdapter extends IsarWebTypeAdapter<TallyRegister> {
-  const _TallyRegisterWebAdapter();
-
-  @override
-  Object serialize(
-      IsarCollection<TallyRegister> collection, TallyRegister object) {
-    final jsObj = IsarNative.newJsObject();
-    IsarNative.jsObjectSet(jsObj, 'description', object.description);
-    IsarNative.jsObjectSet(jsObj, 'duration', object.duration);
-    IsarNative.jsObjectSet(
-        jsObj, 'endAt', object.endAt.toUtc().millisecondsSinceEpoch);
-    IsarNative.jsObjectSet(jsObj, 'id', object.id);
-    IsarNative.jsObjectSet(jsObj, 'newValue', object.newValue);
-    IsarNative.jsObjectSet(jsObj, 'oldValue', object.oldValue);
-    IsarNative.jsObjectSet(
-        jsObj, 'startAt', object.startAt.toUtc().millisecondsSinceEpoch);
-    return jsObj;
+int? _tallyRegisterGetId(TallyRegister object) {
+  if (object.id == Isar.autoIncrement) {
+    return null;
+  } else {
+    return object.id;
   }
-
-  @override
-  TallyRegister deserialize(
-      IsarCollection<TallyRegister> collection, dynamic jsObj) {
-    final object = TallyRegister(
-      duration: IsarNative.jsObjectGet(jsObj, 'duration'),
-      newValue:
-          IsarNative.jsObjectGet(jsObj, 'newValue') ?? double.negativeInfinity,
-      oldValue:
-          IsarNative.jsObjectGet(jsObj, 'oldValue') ?? double.negativeInfinity,
-    );
-    object.description = IsarNative.jsObjectGet(jsObj, 'description');
-    object.endAt = IsarNative.jsObjectGet(jsObj, 'endAt') != null
-        ? DateTime.fromMillisecondsSinceEpoch(
-                IsarNative.jsObjectGet(jsObj, 'endAt'),
-                isUtc: true)
-            .toLocal()
-        : DateTime.fromMillisecondsSinceEpoch(0);
-    object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-    object.startAt = IsarNative.jsObjectGet(jsObj, 'startAt') != null
-        ? DateTime.fromMillisecondsSinceEpoch(
-                IsarNative.jsObjectGet(jsObj, 'startAt'),
-                isUtc: true)
-            .toLocal()
-        : DateTime.fromMillisecondsSinceEpoch(0);
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(Object jsObj, String propertyName) {
-    switch (propertyName) {
-      case 'description':
-        return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
-      case 'duration':
-        return (IsarNative.jsObjectGet(jsObj, 'duration')) as P;
-      case 'endAt':
-        return (IsarNative.jsObjectGet(jsObj, 'endAt') != null
-            ? DateTime.fromMillisecondsSinceEpoch(
-                    IsarNative.jsObjectGet(jsObj, 'endAt'),
-                    isUtc: true)
-                .toLocal()
-            : DateTime.fromMillisecondsSinceEpoch(0)) as P;
-      case 'id':
-        return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
-            as P;
-      case 'newValue':
-        return (IsarNative.jsObjectGet(jsObj, 'newValue') ??
-            double.negativeInfinity) as P;
-      case 'oldValue':
-        return (IsarNative.jsObjectGet(jsObj, 'oldValue') ??
-            double.negativeInfinity) as P;
-      case 'startAt':
-        return (IsarNative.jsObjectGet(jsObj, 'startAt') != null
-            ? DateTime.fromMillisecondsSinceEpoch(
-                    IsarNative.jsObjectGet(jsObj, 'startAt'),
-                    isUtc: true)
-                .toLocal()
-            : DateTime.fromMillisecondsSinceEpoch(0)) as P;
-      default:
-        throw 'Illegal propertyName';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, TallyRegister object) {}
 }
 
-class _TallyRegisterNativeAdapter extends IsarNativeTypeAdapter<TallyRegister> {
-  const _TallyRegisterNativeAdapter();
-
-  @override
-  void serialize(
-      IsarCollection<TallyRegister> collection,
-      IsarRawObject rawObj,
-      TallyRegister object,
-      int staticSize,
-      List<int> offsets,
-      AdapterAlloc alloc) {
-    var dynamicSize = 0;
-    final value0 = object.description;
-    IsarUint8List? _description;
-    if (value0 != null) {
-      _description = IsarBinaryWriter.utf8Encoder.convert(value0);
-    }
-    dynamicSize += (_description?.length ?? 0) as int;
-    final value1 = object.duration;
-    final _duration = value1;
-    final value2 = object.endAt;
-    final _endAt = value2;
-    final value3 = object.newValue;
-    final _newValue = value3;
-    final value4 = object.oldValue;
-    final _oldValue = value4;
-    final value5 = object.startAt;
-    final _startAt = value5;
-    final size = staticSize + dynamicSize;
-
-    rawObj.buffer = alloc(size);
-    rawObj.buffer_length = size;
-    final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
-    final writer = IsarBinaryWriter(buffer, staticSize);
-    writer.writeBytes(offsets[0], _description);
-    writer.writeLong(offsets[1], _duration);
-    writer.writeDateTime(offsets[2], _endAt);
-    writer.writeLong(offsets[3], _newValue);
-    writer.writeLong(offsets[4], _oldValue);
-    writer.writeDateTime(offsets[5], _startAt);
-  }
-
-  @override
-  TallyRegister deserialize(IsarCollection<TallyRegister> collection, int id,
-      IsarBinaryReader reader, List<int> offsets) {
-    final object = TallyRegister(
-      duration: reader.readLongOrNull(offsets[1]),
-      newValue: reader.readLong(offsets[3]),
-      oldValue: reader.readLong(offsets[4]),
-    );
-    object.description = reader.readStringOrNull(offsets[0]);
-    object.endAt = reader.readDateTime(offsets[2]);
-    object.id = id;
-    object.startAt = reader.readDateTime(offsets[5]);
-    return object;
-  }
-
-  @override
-  P deserializeProperty<P>(
-      int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-    switch (propertyIndex) {
-      case -1:
-        return id as P;
-      case 0:
-        return (reader.readStringOrNull(offset)) as P;
-      case 1:
-        return (reader.readLongOrNull(offset)) as P;
-      case 2:
-        return (reader.readDateTime(offset)) as P;
-      case 3:
-        return (reader.readLong(offset)) as P;
-      case 4:
-        return (reader.readLong(offset)) as P;
-      case 5:
-        return (reader.readDateTime(offset)) as P;
-      default:
-        throw 'Illegal propertyIndex';
-    }
-  }
-
-  @override
-  void attachLinks(Isar isar, int id, TallyRegister object) {}
+void _tallyRegisterSetId(TallyRegister object, int id) {
+  object.id = id;
 }
+
+List<IsarLinkBase> _tallyRegisterGetLinks(TallyRegister object) {
+  return [];
+}
+
+void _tallyRegisterSerializeNative(
+    IsarCollection<TallyRegister> collection,
+    IsarRawObject rawObj,
+    TallyRegister object,
+    int staticSize,
+    List<int> offsets,
+    AdapterAlloc alloc) {
+  var dynamicSize = 0;
+  final value0 = object.description;
+  IsarUint8List? _description;
+  if (value0 != null) {
+    _description = IsarBinaryWriter.utf8Encoder.convert(value0);
+  }
+  dynamicSize += (_description?.length ?? 0) as int;
+  final value1 = object.duration;
+  final _duration = value1;
+  final value2 = object.endAt;
+  final _endAt = value2;
+  final value3 = object.newValue;
+  final _newValue = value3;
+  final value4 = object.oldValue;
+  final _oldValue = value4;
+  final value5 = object.startAt;
+  final _startAt = value5;
+  final size = staticSize + dynamicSize;
+
+  rawObj.buffer = alloc(size);
+  rawObj.buffer_length = size;
+  final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+  final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeBytes(offsets[0], _description);
+  writer.writeLong(offsets[1], _duration);
+  writer.writeDateTime(offsets[2], _endAt);
+  writer.writeLong(offsets[3], _newValue);
+  writer.writeLong(offsets[4], _oldValue);
+  writer.writeDateTime(offsets[5], _startAt);
+}
+
+TallyRegister _tallyRegisterDeserializeNative(
+    IsarCollection<TallyRegister> collection,
+    int id,
+    IsarBinaryReader reader,
+    List<int> offsets) {
+  final object = TallyRegister(
+    duration: reader.readLongOrNull(offsets[1]),
+    newValue: reader.readLong(offsets[3]),
+    oldValue: reader.readLong(offsets[4]),
+  );
+  object.description = reader.readStringOrNull(offsets[0]);
+  object.endAt = reader.readDateTime(offsets[2]);
+  object.id = id;
+  object.startAt = reader.readDateTime(offsets[5]);
+  return object;
+}
+
+P _tallyRegisterDeserializePropNative<P>(
+    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
+  switch (propertyIndex) {
+    case -1:
+      return id as P;
+    case 0:
+      return (reader.readStringOrNull(offset)) as P;
+    case 1:
+      return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readDateTime(offset)) as P;
+    case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readDateTime(offset)) as P;
+    default:
+      throw 'Illegal propertyIndex';
+  }
+}
+
+dynamic _tallyRegisterSerializeWeb(
+    IsarCollection<TallyRegister> collection, TallyRegister object) {
+  final jsObj = IsarNative.newJsObject();
+  IsarNative.jsObjectSet(jsObj, 'description', object.description);
+  IsarNative.jsObjectSet(jsObj, 'duration', object.duration);
+  IsarNative.jsObjectSet(
+      jsObj, 'endAt', object.endAt.toUtc().millisecondsSinceEpoch);
+  IsarNative.jsObjectSet(jsObj, 'id', object.id);
+  IsarNative.jsObjectSet(jsObj, 'newValue', object.newValue);
+  IsarNative.jsObjectSet(jsObj, 'oldValue', object.oldValue);
+  IsarNative.jsObjectSet(
+      jsObj, 'startAt', object.startAt.toUtc().millisecondsSinceEpoch);
+  return jsObj;
+}
+
+TallyRegister _tallyRegisterDeserializeWeb(
+    IsarCollection<TallyRegister> collection, dynamic jsObj) {
+  final object = TallyRegister(
+    duration: IsarNative.jsObjectGet(jsObj, 'duration'),
+    newValue:
+        IsarNative.jsObjectGet(jsObj, 'newValue') ?? double.negativeInfinity,
+    oldValue:
+        IsarNative.jsObjectGet(jsObj, 'oldValue') ?? double.negativeInfinity,
+  );
+  object.description = IsarNative.jsObjectGet(jsObj, 'description');
+  object.endAt = IsarNative.jsObjectGet(jsObj, 'endAt') != null
+      ? DateTime.fromMillisecondsSinceEpoch(
+              IsarNative.jsObjectGet(jsObj, 'endAt'),
+              isUtc: true)
+          .toLocal()
+      : DateTime.fromMillisecondsSinceEpoch(0);
+  object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
+  object.startAt = IsarNative.jsObjectGet(jsObj, 'startAt') != null
+      ? DateTime.fromMillisecondsSinceEpoch(
+              IsarNative.jsObjectGet(jsObj, 'startAt'),
+              isUtc: true)
+          .toLocal()
+      : DateTime.fromMillisecondsSinceEpoch(0);
+  return object;
+}
+
+P _tallyRegisterDeserializePropWeb<P>(Object jsObj, String propertyName) {
+  switch (propertyName) {
+    case 'description':
+      return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
+    case 'duration':
+      return (IsarNative.jsObjectGet(jsObj, 'duration')) as P;
+    case 'endAt':
+      return (IsarNative.jsObjectGet(jsObj, 'endAt') != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+                  IsarNative.jsObjectGet(jsObj, 'endAt'),
+                  isUtc: true)
+              .toLocal()
+          : DateTime.fromMillisecondsSinceEpoch(0)) as P;
+    case 'id':
+      return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
+          as P;
+    case 'newValue':
+      return (IsarNative.jsObjectGet(jsObj, 'newValue') ??
+          double.negativeInfinity) as P;
+    case 'oldValue':
+      return (IsarNative.jsObjectGet(jsObj, 'oldValue') ??
+          double.negativeInfinity) as P;
+    case 'startAt':
+      return (IsarNative.jsObjectGet(jsObj, 'startAt') != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+                  IsarNative.jsObjectGet(jsObj, 'startAt'),
+                  isUtc: true)
+              .toLocal()
+          : DateTime.fromMillisecondsSinceEpoch(0)) as P;
+    default:
+      throw 'Illegal propertyName';
+  }
+}
+
+void _tallyRegisterAttachLinks(
+    IsarCollection col, int id, TallyRegister object) {}
 
 extension TallyRegisterQueryWhereSort
     on QueryBuilder<TallyRegister, TallyRegister, QWhere> {
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhere> anyId() {
-    return addWhereClauseInternal(const WhereClause(indexName: null));
+    return addWhereClauseInternal(const IdWhereClause.any());
   }
 }
 
@@ -227,11 +225,10 @@ extension TallyRegisterQueryWhere
     on QueryBuilder<TallyRegister, TallyRegister, QWhereClause> {
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idEqualTo(
       int id) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: id,
       includeLower: true,
-      upper: [id],
+      upper: id,
       includeUpper: true,
     ));
   }
@@ -239,48 +236,34 @@ extension TallyRegisterQueryWhere
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idNotEqualTo(
       int id) {
     if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      );
     } else {
-      return addWhereClauseInternal(WhereClause(
-        indexName: null,
-        lower: [id],
-        includeLower: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: null,
-        upper: [id],
-        includeUpper: false,
-      ));
+      return addWhereClauseInternal(
+        IdWhereClause.greaterThan(lower: id, includeLower: false),
+      ).addWhereClauseInternal(
+        IdWhereClause.lessThan(upper: id, includeUpper: false),
+      );
     }
   }
 
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idGreaterThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [id],
-      includeLower: include,
-    ));
+      int id,
+      {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.greaterThan(lower: id, includeLower: include),
+    );
   }
 
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idLessThan(
-    int id, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      upper: [id],
-      includeUpper: include,
-    ));
+      int id,
+      {bool include = false}) {
+    return addWhereClauseInternal(
+      IdWhereClause.lessThan(upper: id, includeUpper: include),
+    );
   }
 
   QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idBetween(
@@ -289,11 +272,10 @@ extension TallyRegisterQueryWhere
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: null,
-      lower: [lowerId],
+    return addWhereClauseInternal(IdWhereClause.between(
+      lower: lowerId,
       includeLower: includeLower,
-      upper: [upperId],
+      upper: upperId,
       includeUpper: includeUpper,
     ));
   }
