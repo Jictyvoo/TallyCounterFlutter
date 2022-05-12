@@ -12,6 +12,7 @@ class TallyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
       darkTheme: ThemeData.dark(),
       localizationsDelegates: const [

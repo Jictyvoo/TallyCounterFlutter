@@ -68,33 +68,33 @@ void _tallyRegisterSerializeNative(
     AdapterAlloc alloc) {
   var dynamicSize = 0;
   final value0 = object.description;
-  IsarUint8List? _description;
+  IsarUint8List? description;
   if (value0 != null) {
-    _description = IsarBinaryWriter.utf8Encoder.convert(value0);
+    description = IsarBinaryWriter.utf8Encoder.convert(value0);
   }
-  dynamicSize += (_description?.length ?? 0) as int;
+  dynamicSize += (description?.length ?? 0) as int;
   final value1 = object.duration;
-  final _duration = value1;
+  final duration = value1;
   final value2 = object.endAt;
-  final _endAt = value2;
+  final endAt = value2;
   final value3 = object.newValue;
-  final _newValue = value3;
+  final newValue = value3;
   final value4 = object.oldValue;
-  final _oldValue = value4;
+  final oldValue = value4;
   final value5 = object.startAt;
-  final _startAt = value5;
+  final startAt = value5;
   final size = staticSize + dynamicSize;
 
   rawObj.buffer = alloc(size);
   rawObj.buffer_length = size;
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeBytes(offsets[0], _description);
-  writer.writeLong(offsets[1], _duration);
-  writer.writeDateTime(offsets[2], _endAt);
-  writer.writeLong(offsets[3], _newValue);
-  writer.writeLong(offsets[4], _oldValue);
-  writer.writeDateTime(offsets[5], _startAt);
+  writer.writeBytes(offsets[0], description);
+  writer.writeLong(offsets[1], duration);
+  writer.writeDateTime(offsets[2], endAt);
+  writer.writeLong(offsets[3], newValue);
+  writer.writeLong(offsets[4], oldValue);
+  writer.writeDateTime(offsets[5], startAt);
 }
 
 TallyRegister _tallyRegisterDeserializeNative(

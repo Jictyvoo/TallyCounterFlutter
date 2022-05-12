@@ -37,6 +37,7 @@ class _SplashPageState extends State<SplashPage> {
     showDialog(
         context: context,
         builder: (dialogContext) {
+          final contextNavigator = Navigator.of(dialogContext);
           return AlertDialog(
             title: const Text('Startup error'),
             content: SelectableText(stackTrace.toString()),
@@ -47,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
                   await Clipboard.setData(
                     ClipboardData(text: stackTrace.toString()),
                   );
-                  Navigator.of(dialogContext).pop();
+                  contextNavigator.pop();
                   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
                 child: const Text('Copy and close'),
