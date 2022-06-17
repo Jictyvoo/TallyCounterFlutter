@@ -1,21 +1,14 @@
 enum AppRoutes {
-  DEFAULT,
-  HOME,
-  REGISTER_LIST,
+  DEFAULT('/'),
+  HOME('/home'),
+  REGISTER_LIST('/register-list');
+
+  final String route;
+
+  const AppRoutes(this.route);
 }
 
 extension AppRoutesUtil on AppRoutes {
-  String get route {
-    switch (this) {
-      case AppRoutes.DEFAULT:
-        return '/';
-      case AppRoutes.HOME:
-        return '/home';
-      case AppRoutes.REGISTER_LIST:
-        return '/register-list';
-    }
-  }
-
   String get home {
     return '$route/';
   }
