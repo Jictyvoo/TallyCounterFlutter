@@ -8,14 +8,15 @@ part of 'counter_register_collection.dart';
 
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
 
-extension GetTallyRegisterCollection on Isar {
-  IsarCollection<TallyRegister> get tallyRegisters => getCollection();
+extension GetTallyRegisterCollectionCollection on Isar {
+  IsarCollection<TallyRegisterCollection> get tallyRegisterCollections =>
+      getCollection();
 }
 
-const TallyRegisterSchema = CollectionSchema(
+const TallyRegisterCollectionSchema = CollectionSchema(
   name: 'TallyRegister',
   schema:
-      '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[]}',
+      '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDateCollection"}]}',
   idName: 'id',
   propertyIds: {
     'description': 0,
@@ -28,22 +29,22 @@ const TallyRegisterSchema = CollectionSchema(
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
-  linkIds: {},
+  linkIds: {'date': 0},
   backlinkLinkNames: {},
-  getId: _tallyRegisterGetId,
-  setId: _tallyRegisterSetId,
-  getLinks: _tallyRegisterGetLinks,
-  attachLinks: _tallyRegisterAttachLinks,
-  serializeNative: _tallyRegisterSerializeNative,
-  deserializeNative: _tallyRegisterDeserializeNative,
-  deserializePropNative: _tallyRegisterDeserializePropNative,
-  serializeWeb: _tallyRegisterSerializeWeb,
-  deserializeWeb: _tallyRegisterDeserializeWeb,
-  deserializePropWeb: _tallyRegisterDeserializePropWeb,
+  getId: _tallyRegisterCollectionGetId,
+  setId: _tallyRegisterCollectionSetId,
+  getLinks: _tallyRegisterCollectionGetLinks,
+  attachLinks: _tallyRegisterCollectionAttachLinks,
+  serializeNative: _tallyRegisterCollectionSerializeNative,
+  deserializeNative: _tallyRegisterCollectionDeserializeNative,
+  deserializePropNative: _tallyRegisterCollectionDeserializePropNative,
+  serializeWeb: _tallyRegisterCollectionSerializeWeb,
+  deserializeWeb: _tallyRegisterCollectionDeserializeWeb,
+  deserializePropWeb: _tallyRegisterCollectionDeserializePropWeb,
   version: 3,
 );
 
-int? _tallyRegisterGetId(TallyRegister object) {
+int? _tallyRegisterCollectionGetId(TallyRegisterCollection object) {
   if (object.id == Isar.autoIncrement) {
     return null;
   } else {
@@ -51,58 +52,59 @@ int? _tallyRegisterGetId(TallyRegister object) {
   }
 }
 
-void _tallyRegisterSetId(TallyRegister object, int id) {
+void _tallyRegisterCollectionSetId(TallyRegisterCollection object, int id) {
   object.id = id;
 }
 
-List<IsarLinkBase> _tallyRegisterGetLinks(TallyRegister object) {
-  return [];
+List<IsarLinkBase> _tallyRegisterCollectionGetLinks(
+    TallyRegisterCollection object) {
+  return [object.dateTimestamp];
 }
 
-void _tallyRegisterSerializeNative(
-    IsarCollection<TallyRegister> collection,
+void _tallyRegisterCollectionSerializeNative(
+    IsarCollection<TallyRegisterCollection> collection,
     IsarRawObject rawObj,
-    TallyRegister object,
+    TallyRegisterCollection object,
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
   var dynamicSize = 0;
   final value0 = object.description;
-  IsarUint8List? description;
+  IsarUint8List? _description;
   if (value0 != null) {
-    description = IsarBinaryWriter.utf8Encoder.convert(value0);
+    _description = IsarBinaryWriter.utf8Encoder.convert(value0);
   }
-  dynamicSize += (description?.length ?? 0) as int;
+  dynamicSize += (_description?.length ?? 0) as int;
   final value1 = object.duration;
-  final duration = value1;
+  final _duration = value1;
   final value2 = object.endAt;
-  final endAt = value2;
+  final _endAt = value2;
   final value3 = object.newValue;
-  final newValue = value3;
+  final _newValue = value3;
   final value4 = object.oldValue;
-  final oldValue = value4;
+  final _oldValue = value4;
   final value5 = object.startAt;
-  final startAt = value5;
+  final _startAt = value5;
   final size = staticSize + dynamicSize;
 
   rawObj.buffer = alloc(size);
   rawObj.buffer_length = size;
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeBytes(offsets[0], description);
-  writer.writeLong(offsets[1], duration);
-  writer.writeDateTime(offsets[2], endAt);
-  writer.writeLong(offsets[3], newValue);
-  writer.writeLong(offsets[4], oldValue);
-  writer.writeDateTime(offsets[5], startAt);
+  writer.writeBytes(offsets[0], _description);
+  writer.writeLong(offsets[1], _duration);
+  writer.writeDateTime(offsets[2], _endAt);
+  writer.writeLong(offsets[3], _newValue);
+  writer.writeLong(offsets[4], _oldValue);
+  writer.writeDateTime(offsets[5], _startAt);
 }
 
-TallyRegister _tallyRegisterDeserializeNative(
-    IsarCollection<TallyRegister> collection,
+TallyRegisterCollection _tallyRegisterCollectionDeserializeNative(
+    IsarCollection<TallyRegisterCollection> collection,
     int id,
     IsarBinaryReader reader,
     List<int> offsets) {
-  final object = TallyRegister(
+  final object = TallyRegisterCollection(
     duration: reader.readLongOrNull(offsets[1]),
     newValue: reader.readLong(offsets[3]),
     oldValue: reader.readLong(offsets[4]),
@@ -111,10 +113,11 @@ TallyRegister _tallyRegisterDeserializeNative(
   object.endAt = reader.readDateTime(offsets[2]);
   object.id = id;
   object.startAt = reader.readDateTime(offsets[5]);
+  _tallyRegisterCollectionAttachLinks(collection, id, object);
   return object;
 }
 
-P _tallyRegisterDeserializePropNative<P>(
+P _tallyRegisterCollectionDeserializePropNative<P>(
     int id, IsarBinaryReader reader, int propertyIndex, int offset) {
   switch (propertyIndex) {
     case -1:
@@ -136,8 +139,9 @@ P _tallyRegisterDeserializePropNative<P>(
   }
 }
 
-dynamic _tallyRegisterSerializeWeb(
-    IsarCollection<TallyRegister> collection, TallyRegister object) {
+dynamic _tallyRegisterCollectionSerializeWeb(
+    IsarCollection<TallyRegisterCollection> collection,
+    TallyRegisterCollection object) {
   final jsObj = IsarNative.newJsObject();
   IsarNative.jsObjectSet(jsObj, 'description', object.description);
   IsarNative.jsObjectSet(jsObj, 'duration', object.duration);
@@ -151,9 +155,9 @@ dynamic _tallyRegisterSerializeWeb(
   return jsObj;
 }
 
-TallyRegister _tallyRegisterDeserializeWeb(
-    IsarCollection<TallyRegister> collection, dynamic jsObj) {
-  final object = TallyRegister(
+TallyRegisterCollection _tallyRegisterCollectionDeserializeWeb(
+    IsarCollection<TallyRegisterCollection> collection, dynamic jsObj) {
+  final object = TallyRegisterCollection(
     duration: IsarNative.jsObjectGet(jsObj, 'duration'),
     newValue:
         IsarNative.jsObjectGet(jsObj, 'newValue') ?? double.negativeInfinity,
@@ -174,10 +178,13 @@ TallyRegister _tallyRegisterDeserializeWeb(
               isUtc: true)
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
+  _tallyRegisterCollectionAttachLinks(collection,
+      IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity, object);
   return object;
 }
 
-P _tallyRegisterDeserializePropWeb<P>(Object jsObj, String propertyName) {
+P _tallyRegisterCollectionDeserializePropWeb<P>(
+    Object jsObj, String propertyName) {
   switch (propertyName) {
     case 'description':
       return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
@@ -211,20 +218,24 @@ P _tallyRegisterDeserializePropWeb<P>(Object jsObj, String propertyName) {
   }
 }
 
-void _tallyRegisterAttachLinks(
-    IsarCollection col, int id, TallyRegister object) {}
+void _tallyRegisterCollectionAttachLinks(
+    IsarCollection col, int id, TallyRegisterCollection object) {
+  object.dateTimestamp
+      .attach(col, col.isar.registerDateCollections, 'date', id);
+}
 
-extension TallyRegisterQueryWhereSort
-    on QueryBuilder<TallyRegister, TallyRegister, QWhere> {
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhere> anyId() {
+extension TallyRegisterCollectionQueryWhereSort
+    on QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QWhere> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterWhere>
+      anyId() {
     return addWhereClauseInternal(const IdWhereClause.any());
   }
 }
 
-extension TallyRegisterQueryWhere
-    on QueryBuilder<TallyRegister, TallyRegister, QWhereClause> {
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idEqualTo(
-      int id) {
+extension TallyRegisterCollectionQueryWhere on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QWhereClause> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterWhereClause> idEqualTo(int id) {
     return addWhereClauseInternal(IdWhereClause.between(
       lower: id,
       includeLower: true,
@@ -233,8 +244,8 @@ extension TallyRegisterQueryWhere
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idNotEqualTo(
-      int id) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterWhereClause> idNotEqualTo(int id) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(
         IdWhereClause.lessThan(upper: id, includeUpper: false),
@@ -250,23 +261,22 @@ extension TallyRegisterQueryWhere
     }
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idGreaterThan(
-      int id,
-      {bool include = false}) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
     return addWhereClauseInternal(
       IdWhereClause.greaterThan(lower: id, includeLower: include),
     );
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idLessThan(
-      int id,
-      {bool include = false}) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterWhereClause> idLessThan(int id, {bool include = false}) {
     return addWhereClauseInternal(
       IdWhereClause.lessThan(upper: id, includeUpper: include),
     );
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterWhereClause> idBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterWhereClause> idBetween(
     int lowerId,
     int upperId, {
     bool includeLower = true,
@@ -281,10 +291,10 @@ extension TallyRegisterQueryWhere
   }
 }
 
-extension TallyRegisterQueryFilter
-    on QueryBuilder<TallyRegister, TallyRegister, QFilterCondition> {
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionIsNull() {
+extension TallyRegisterCollectionQueryFilter on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QFilterCondition> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionIsNull() {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.isNull,
       property: 'description',
@@ -292,8 +302,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionEqualTo(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -305,8 +315,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionGreaterThan(
     String? value, {
     bool caseSensitive = true,
     bool include = false,
@@ -320,8 +330,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionLessThan(
     String? value, {
     bool caseSensitive = true,
     bool include = false,
@@ -335,8 +345,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionBetween(
     String? lower,
     String? upper, {
     bool caseSensitive = true,
@@ -353,8 +363,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionStartsWith(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -366,8 +376,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      descriptionEndsWith(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -379,7 +389,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+          QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
@@ -389,7 +400,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+          QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
@@ -399,8 +411,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      durationIsNull() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> durationIsNull() {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.isNull,
       property: 'duration',
@@ -408,8 +420,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      durationEqualTo(int? value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> durationEqualTo(int? value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'duration',
@@ -417,8 +429,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      durationGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> durationGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -430,8 +442,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      durationLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> durationLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -443,8 +455,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      durationBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> durationBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -459,8 +471,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      endAtEqualTo(DateTime value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> endAtEqualTo(DateTime value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'endAt',
@@ -468,8 +480,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      endAtGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> endAtGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -481,8 +493,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      endAtLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> endAtLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -494,8 +506,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      endAtBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> endAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -510,8 +522,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition> idEqualTo(
-      int value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> idEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'id',
@@ -519,8 +531,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      idGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> idGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -532,7 +544,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition> idLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> idLessThan(
     int value, {
     bool include = false,
   }) {
@@ -544,7 +557,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition> idBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> idBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -559,8 +573,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      newValueEqualTo(int value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> newValueEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'newValue',
@@ -568,8 +582,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      newValueGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> newValueGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -581,8 +595,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      newValueLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> newValueLessThan(
     int value, {
     bool include = false,
   }) {
@@ -594,8 +608,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      newValueBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> newValueBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -610,8 +624,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      oldValueEqualTo(int value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> oldValueEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'oldValue',
@@ -619,8 +633,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      oldValueGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> oldValueGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -632,8 +646,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      oldValueLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> oldValueLessThan(
     int value, {
     bool include = false,
   }) {
@@ -645,8 +659,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      oldValueBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> oldValueBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -661,8 +675,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      startAtEqualTo(DateTime value) {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> startAtEqualTo(DateTime value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'startAt',
@@ -670,8 +684,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      startAtGreaterThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> startAtGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -683,8 +697,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      startAtLessThan(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> startAtLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -696,8 +710,8 @@ extension TallyRegisterQueryFilter
     ));
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterFilterCondition>
-      startAtBetween(
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> startAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -713,194 +727,236 @@ extension TallyRegisterQueryFilter
   }
 }
 
-extension TallyRegisterQueryLinks
-    on QueryBuilder<TallyRegister, TallyRegister, QFilterCondition> {}
+extension TallyRegisterCollectionQueryLinks on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QFilterCondition> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+          QAfterFilterCondition>
+      dateTimestamp(FilterQuery<RegisterDateCollection> q) {
+    return linkInternal(
+      isar.registerDateCollections,
+      q,
+      'date',
+    );
+  }
+}
 
-extension TallyRegisterQueryWhereSortBy
-    on QueryBuilder<TallyRegister, TallyRegister, QSortBy> {
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByDescription() {
+extension TallyRegisterCollectionQueryWhereSortBy
+    on QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QSortBy> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByDescription() {
     return addSortByInternal('description', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDescriptionDesc() {
     return addSortByInternal('description', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByDuration() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByDuration() {
     return addSortByInternal('duration', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDurationDesc() {
     return addSortByInternal('duration', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByEndAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByEndAt() {
     return addSortByInternal('endAt', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByEndAtDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByEndAtDesc() {
     return addSortByInternal('endAt', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortById() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByIdDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByNewValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByNewValue() {
     return addSortByInternal('newValue', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByNewValueDesc() {
     return addSortByInternal('newValue', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByOldValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByOldValue() {
     return addSortByInternal('oldValue', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByOldValueDesc() {
     return addSortByInternal('oldValue', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByStartAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByStartAt() {
     return addSortByInternal('startAt', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> sortByStartAtDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      sortByStartAtDesc() {
     return addSortByInternal('startAt', Sort.desc);
   }
 }
 
-extension TallyRegisterQueryWhereSortThenBy
-    on QueryBuilder<TallyRegister, TallyRegister, QSortThenBy> {
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByDescription() {
+extension TallyRegisterCollectionQueryWhereSortThenBy on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QSortThenBy> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByDescription() {
     return addSortByInternal('description', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDescriptionDesc() {
     return addSortByInternal('description', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByDuration() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByDuration() {
     return addSortByInternal('duration', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDurationDesc() {
     return addSortByInternal('duration', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByEndAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByEndAt() {
     return addSortByInternal('endAt', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByEndAtDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByEndAtDesc() {
     return addSortByInternal('endAt', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenById() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByNewValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByNewValue() {
     return addSortByInternal('newValue', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByNewValueDesc() {
     return addSortByInternal('newValue', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByOldValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByOldValue() {
     return addSortByInternal('oldValue', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy>
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByOldValueDesc() {
     return addSortByInternal('oldValue', Sort.desc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByStartAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByStartAt() {
     return addSortByInternal('startAt', Sort.asc);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QAfterSortBy> thenByStartAtDesc() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
+      thenByStartAtDesc() {
     return addSortByInternal('startAt', Sort.desc);
   }
 }
 
-extension TallyRegisterQueryWhereDistinct
-    on QueryBuilder<TallyRegister, TallyRegister, QDistinct> {
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByDescription(
-      {bool caseSensitive = true}) {
+extension TallyRegisterCollectionQueryWhereDistinct on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QDistinct> {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByDescription({bool caseSensitive = true}) {
     return addDistinctByInternal('description', caseSensitive: caseSensitive);
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByDuration() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByDuration() {
     return addDistinctByInternal('duration');
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByEndAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByEndAt() {
     return addDistinctByInternal('endAt');
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctById() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctById() {
     return addDistinctByInternal('id');
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByNewValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByNewValue() {
     return addDistinctByInternal('newValue');
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByOldValue() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByOldValue() {
     return addDistinctByInternal('oldValue');
   }
 
-  QueryBuilder<TallyRegister, TallyRegister, QDistinct> distinctByStartAt() {
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
+      distinctByStartAt() {
     return addDistinctByInternal('startAt');
   }
 }
 
-extension TallyRegisterQueryProperty
-    on QueryBuilder<TallyRegister, TallyRegister, QQueryProperty> {
-  QueryBuilder<TallyRegister, String?, QQueryOperations> descriptionProperty() {
+extension TallyRegisterCollectionQueryProperty on QueryBuilder<
+    TallyRegisterCollection, TallyRegisterCollection, QQueryProperty> {
+  QueryBuilder<TallyRegisterCollection, String?, QQueryOperations>
+      descriptionProperty() {
     return addPropertyNameInternal('description');
   }
 
-  QueryBuilder<TallyRegister, int?, QQueryOperations> durationProperty() {
+  QueryBuilder<TallyRegisterCollection, int?, QQueryOperations>
+      durationProperty() {
     return addPropertyNameInternal('duration');
   }
 
-  QueryBuilder<TallyRegister, DateTime, QQueryOperations> endAtProperty() {
+  QueryBuilder<TallyRegisterCollection, DateTime, QQueryOperations>
+      endAtProperty() {
     return addPropertyNameInternal('endAt');
   }
 
-  QueryBuilder<TallyRegister, int, QQueryOperations> idProperty() {
+  QueryBuilder<TallyRegisterCollection, int, QQueryOperations> idProperty() {
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<TallyRegister, int, QQueryOperations> newValueProperty() {
+  QueryBuilder<TallyRegisterCollection, int, QQueryOperations>
+      newValueProperty() {
     return addPropertyNameInternal('newValue');
   }
 
-  QueryBuilder<TallyRegister, int, QQueryOperations> oldValueProperty() {
+  QueryBuilder<TallyRegisterCollection, int, QQueryOperations>
+      oldValueProperty() {
     return addPropertyNameInternal('oldValue');
   }
 
-  QueryBuilder<TallyRegister, DateTime, QQueryOperations> startAtProperty() {
+  QueryBuilder<TallyRegisterCollection, DateTime, QQueryOperations>
+      startAtProperty() {
     return addPropertyNameInternal('startAt');
   }
 }
