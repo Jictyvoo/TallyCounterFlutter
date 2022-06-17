@@ -12,7 +12,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
     return _isar!;
   }
 
-  List<CounterRegister> _parseRows(List<TallyRegister> rowsList) {
+  List<CounterRegister> _parseRows(List<TallyRegisterCollection> rowsList) {
     final resultList = <CounterRegister>[];
     for (final row in rowsList) {
       if (row.duration == Isar.autoIncrement || row.duration == null) {
@@ -58,7 +58,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       0,
     );
     final connection = await _conn;
-    final query = connection.tallyRegisters
+    final query = connection.tallyRegisterCollections
         .filter()
         .endAtBetween(dayBegin, dayEnd)
         .and()
@@ -70,7 +70,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   @override
   Future<List<CounterRegister>> loadAll() async {
     final connection = await _conn;
-    final query = connection.tallyRegisters.where();
+    final query = connection.tallyRegisterCollections.where();
     return _parseRows(await query.findAll());
   }
 
@@ -78,7 +78,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   Future<void> save(CounterRegister newCounter) async {
     final connection = await _conn;
     connection.writeTxn((isar) async {
-      isar.tallyRegisters.put(TallyRegister(
+      isar.tallyRegisterCollections.put(TallyRegisterCollection(
         startedAt: newCounter.startTime,
         endedAt: newCounter.endTime,
         duration: newCounter.duration.inMicroseconds,
@@ -92,7 +92,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   Future<bool> delete(CounterRegister register) async {
     final connection = await _conn;
     final result = await connection.writeTxn((isar) {
-      return isar.tallyRegisters.delete(register.id);
+      return isar.tallyRegisterCollections.delete(register.id);
     });
     return result;
   }
