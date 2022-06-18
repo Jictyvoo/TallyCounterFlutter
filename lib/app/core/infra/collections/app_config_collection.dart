@@ -10,6 +10,7 @@ class AppConfigCollection {
   int id = Isar.autoIncrement;
 
   @Name("key")
+  @Index(unique: true)
   String key;
 
   @Name("value")

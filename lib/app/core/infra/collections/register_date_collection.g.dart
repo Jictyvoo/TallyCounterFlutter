@@ -16,12 +16,16 @@ extension GetRegisterDateCollectionCollection on Isar {
 const RegisterDateCollectionSchema = CollectionSchema(
   name: 'RegisterDateCollection',
   schema:
-      '{"name":"RegisterDateCollection","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[],"links":[]}',
+      '{"name":"RegisterDateCollection","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'date': 0},
   listProperties: {},
-  indexIds: {},
-  indexValueTypes: {},
+  indexIds: {'date': 0},
+  indexValueTypes: {
+    'date': [
+      IndexValueType.long,
+    ]
+  },
   linkIds: {},
   backlinkLinkNames: {},
   getId: _registerDateCollectionGetId,
@@ -140,11 +144,57 @@ P _registerDateCollectionDeserializePropWeb<P>(
 void _registerDateCollectionAttachLinks(
     IsarCollection col, int id, RegisterDateCollection object) {}
 
+extension RegisterDateCollectionByIndex
+    on IsarCollection<RegisterDateCollection> {
+  Future<RegisterDateCollection?> getByDate(DateTime date) {
+    return getByIndex('date', [date]);
+  }
+
+  RegisterDateCollection? getByDateSync(DateTime date) {
+    return getByIndexSync('date', [date]);
+  }
+
+  Future<bool> deleteByDate(DateTime date) {
+    return deleteByIndex('date', [date]);
+  }
+
+  bool deleteByDateSync(DateTime date) {
+    return deleteByIndexSync('date', [date]);
+  }
+
+  Future<List<RegisterDateCollection?>> getAllByDate(
+      List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return getAllByIndex('date', values);
+  }
+
+  List<RegisterDateCollection?> getAllByDateSync(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return getAllByIndexSync('date', values);
+  }
+
+  Future<int> deleteAllByDate(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return deleteAllByIndex('date', values);
+  }
+
+  int deleteAllByDateSync(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync('date', values);
+  }
+}
+
 extension RegisterDateCollectionQueryWhereSort
     on QueryBuilder<RegisterDateCollection, RegisterDateCollection, QWhere> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterWhere>
       anyId() {
     return addWhereClauseInternal(const IdWhereClause.any());
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterWhere>
+      anyDate() {
+    return addWhereClauseInternal(
+        const IndexWhereClause.any(indexName: 'date'));
   }
 }
 
@@ -202,6 +252,79 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
       lower: lowerId,
       includeLower: includeLower,
       upper: upperId,
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection,
+      QAfterWhereClause> dateEqualTo(DateTime date) {
+    return addWhereClauseInternal(IndexWhereClause.equalTo(
+      indexName: 'date',
+      value: [date],
+    ));
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection,
+      QAfterWhereClause> dateNotEqualTo(DateTime date) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      )).addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      ));
+    }
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection,
+      QAfterWhereClause> dateGreaterThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.greaterThan(
+      indexName: 'date',
+      lower: [date],
+      includeLower: include,
+    ));
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection,
+      QAfterWhereClause> dateLessThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.lessThan(
+      indexName: 'date',
+      upper: [date],
+      includeUpper: include,
+    ));
+  }
+
+  QueryBuilder<RegisterDateCollection, RegisterDateCollection,
+      QAfterWhereClause> dateBetween(
+    DateTime lowerDate,
+    DateTime upperDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.between(
+      indexName: 'date',
+      lower: [lowerDate],
+      includeLower: includeLower,
+      upper: [upperDate],
       includeUpper: includeUpper,
     ));
   }

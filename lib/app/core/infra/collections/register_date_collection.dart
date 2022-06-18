@@ -10,6 +10,7 @@ class RegisterDateCollection {
   int id = Isar.autoIncrement;
 
   @Name("date")
+  @Index(unique: true)
   DateTime date;
 
   RegisterDateCollection({DateTime? dateTimestamp})

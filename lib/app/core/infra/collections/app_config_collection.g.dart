@@ -16,12 +16,16 @@ extension GetAppConfigCollectionCollection on Isar {
 const AppConfigCollectionSchema = CollectionSchema(
   name: 'AppConfigCollection',
   schema:
-      '{"name":"AppConfigCollection","idName":"id","properties":[{"name":"key","type":"String"},{"name":"value","type":"String"}],"indexes":[],"links":[]}',
+      '{"name":"AppConfigCollection","idName":"id","properties":[{"name":"key","type":"String"},{"name":"value","type":"String"}],"indexes":[{"name":"key","unique":true,"properties":[{"name":"key","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'key': 0, 'value': 1},
   listProperties: {},
-  indexIds: {},
-  indexValueTypes: {},
+  indexIds: {'key': 0},
+  indexValueTypes: {
+    'key': [
+      IndexValueType.stringHash,
+    ]
+  },
   linkIds: {},
   backlinkLinkNames: {},
   getId: _appConfigCollectionGetId,
@@ -141,10 +145,52 @@ P _appConfigCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
 void _appConfigCollectionAttachLinks(
     IsarCollection col, int id, AppConfigCollection object) {}
 
+extension AppConfigCollectionByIndex on IsarCollection<AppConfigCollection> {
+  Future<AppConfigCollection?> getByKey(String key) {
+    return getByIndex('key', [key]);
+  }
+
+  AppConfigCollection? getByKeySync(String key) {
+    return getByIndexSync('key', [key]);
+  }
+
+  Future<bool> deleteByKey(String key) {
+    return deleteByIndex('key', [key]);
+  }
+
+  bool deleteByKeySync(String key) {
+    return deleteByIndexSync('key', [key]);
+  }
+
+  Future<List<AppConfigCollection?>> getAllByKey(List<String> keyValues) {
+    final values = keyValues.map((e) => [e]).toList();
+    return getAllByIndex('key', values);
+  }
+
+  List<AppConfigCollection?> getAllByKeySync(List<String> keyValues) {
+    final values = keyValues.map((e) => [e]).toList();
+    return getAllByIndexSync('key', values);
+  }
+
+  Future<int> deleteAllByKey(List<String> keyValues) {
+    final values = keyValues.map((e) => [e]).toList();
+    return deleteAllByIndex('key', values);
+  }
+
+  int deleteAllByKeySync(List<String> keyValues) {
+    final values = keyValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync('key', values);
+  }
+}
+
 extension AppConfigCollectionQueryWhereSort
     on QueryBuilder<AppConfigCollection, AppConfigCollection, QWhere> {
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhere> anyId() {
     return addWhereClauseInternal(const IdWhereClause.any());
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhere> anyKey() {
+    return addWhereClauseInternal(const IndexWhereClause.any(indexName: 'key'));
   }
 }
 
@@ -204,6 +250,39 @@ extension AppConfigCollectionQueryWhere
       upper: upperId,
       includeUpper: includeUpper,
     ));
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
+      keyEqualTo(String key) {
+    return addWhereClauseInternal(IndexWhereClause.equalTo(
+      indexName: 'key',
+      value: [key],
+    ));
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
+      keyNotEqualTo(String key) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'key',
+        upper: [key],
+        includeUpper: false,
+      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'key',
+        lower: [key],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'key',
+        lower: [key],
+        includeLower: false,
+      )).addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'key',
+        upper: [key],
+        includeUpper: false,
+      ));
+    }
   }
 }
 
