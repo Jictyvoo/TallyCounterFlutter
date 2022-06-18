@@ -8,16 +8,27 @@ class InfraInit with IsarProvider, AppConfigProvider {
     if (!isIsarInit) {
       await initIsar();
     }
+    if (!isAppConfigInit) {
+      await initConfig();
+    }
 
     final migrationsManager = DatabaseMigrationsManager(IsarProvider.isar);
-    final futures = <Future>[
-      initConfig(),
-      migrationsManager(
-        [
-          OrganizeByDatetimeMigration(),
-        ],
-      ),
-    ];
+
+    final newDbVersion = await migrationsManager(
+      AppConfigProvider.appConfig.databaseVersion,
+      [
+        OrganizeByDatetimeMigration(),
+      ],
+    );
+
+    final futures = <Future<bool>>[];
+    if (newDbVersion != null) {
+      final updatedConfig = AppConfigProvider.appConfig.copyWith(
+        databaseVersion: newDbVersion,
+      );
+      futures.add(AppConfigProvider.updateConfig(updatedConfig));
+    }
+
     await Future.wait(futures);
   }
 }

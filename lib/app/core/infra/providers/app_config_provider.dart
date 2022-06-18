@@ -6,7 +6,7 @@ mixin AppConfigProvider {
   static AppConfig _configInstance = const AppConfig(VersionLabel());
   static bool _isInitialized = false;
 
-  bool get isIsarInit => _isInitialized;
+  bool get isAppConfigInit => _isInitialized;
 
   static AppConfig get appConfig => _configInstance;
 
@@ -19,5 +19,10 @@ mixin AppConfigProvider {
 
   Future<void> initConfig() async {
     return reloadConfig();
+  }
+
+  static Future<bool> updateConfig(AppConfig updatedConfig) {
+    _configInstance = updatedConfig;
+    return AppConfigRepositoryIsar().save(updatedConfig.toJson());
   }
 }

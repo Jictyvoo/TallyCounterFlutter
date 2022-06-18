@@ -42,30 +42,6 @@ class VersionLabel {
     );
   }
 
-  @override
-  String toString() {
-    return "v$major.$mid.$minor";
-  }
-
-  Uint8List asArray() {
-    return Uint8List.fromList([major, mid, minor]);
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is VersionLabel &&
-          runtimeType == other.runtimeType &&
-          major == other.major &&
-          mid == other.mid &&
-          minor == other.minor;
-
-  bool operator >(Object other) => other is VersionLabel && compare(other) > 0;
-  bool operator <(Object other) => other is VersionLabel && compare(other) < 0;
-
-  @override
-  int get hashCode => major.hashCode ^ mid.hashCode ^ minor.hashCode;
-
   int compare(VersionLabel other) {
     final sArr = asArray();
     final oArr = other.asArray();
@@ -81,4 +57,35 @@ class VersionLabel {
 
     return 0;
   }
+
+  Uint8List asArray() {
+    return Uint8List.fromList([major, mid, minor]);
+  }
+
+  @override
+  String toString() {
+    return "v$major.$mid.$minor";
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is VersionLabel &&
+          runtimeType == other.runtimeType &&
+          major == other.major &&
+          mid == other.mid &&
+          minor == other.minor;
+
+  bool operator >(Object other) => other is VersionLabel && compare(other) > 0;
+
+  bool operator >=(Object other) =>
+      other is VersionLabel && compare(other) >= 0;
+
+  bool operator <(Object other) => other is VersionLabel && compare(other) < 0;
+
+  bool operator <=(Object other) =>
+      other is VersionLabel && compare(other) <= 0;
+
+  @override
+  int get hashCode => major.hashCode ^ mid.hashCode ^ minor.hashCode;
 }

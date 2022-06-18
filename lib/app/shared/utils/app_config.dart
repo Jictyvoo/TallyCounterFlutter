@@ -43,4 +43,16 @@ class AppConfig {
       theme: theme,
     );
   }
+
+  AppConfig copyWith({
+    ThemeMode? theme,
+    VersionLabel? databaseVersion,
+    Duration? multiClickDuration,
+  }) {
+    return AppConfig(
+      databaseVersion ?? this.databaseVersion,
+      theme: theme ?? this.theme,
+      multiClickDuration: multiClickDuration ?? this.multiClickDuration,
+    );
+  }
 }
