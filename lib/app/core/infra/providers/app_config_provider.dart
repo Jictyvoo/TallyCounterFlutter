@@ -8,12 +8,16 @@ mixin AppConfigProvider {
 
   bool get isIsarInit => _isInitialized;
 
-  Future<void> initConfig() async {
+  static AppConfig get appConfig => _configInstance;
+
+  static Future<void> reloadConfig() async {
     _isInitialized = false;
     final configMap = await AppConfigRepositoryIsar().load();
     _configInstance = AppConfig.fromMap(configMap);
     _isInitialized = true;
   }
 
-  static AppConfig get appConfig => _configInstance;
+  Future<void> initConfig() async {
+    return reloadConfig();
+  }
 }

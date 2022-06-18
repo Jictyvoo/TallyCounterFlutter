@@ -2,6 +2,8 @@ import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/dtos/migration_list_dto.dart';
 import 'package:tally_counter/app/core/infra/repositories/database_migration_history_repository_isar.dart';
 
+import 'migrations_contract.dart';
+
 class DatabaseMigrationsManager {
   final Isar _isarConnection;
 
@@ -14,20 +16,26 @@ class DatabaseMigrationsManager {
     return await repo.loadAll();
   }
 
-  Future<bool> call(
-      List<MapEntry<String, Future<bool> Function(Isar)>> migrations) async {
+  static int orderByVersion(MigrationsContract a, MigrationsContract b) {
+    return a.runBeforeVersion.compare(b.runBeforeVersion);
+  }
+
+  Future<bool> call(final List<MigrationsContract> migrations) async {
     final migrationList = await loadAppMigrations();
     final futures = <Future<bool>>[];
 
-    for (final migration in migrations) {
-      if (!migrationList.hasMigration(migration.key)) {
+    // Sort migrations by version
+    final sortedMigrations = migrations.toList()..sort(orderByVersion);
+
+    for (final migration in sortedMigrations) {
+      if (!migrationList.hasMigration(migration.name)) {
         futures.add(
           () async {
-            final success = await migration.value(_isarConnection);
+            final success = await migration(_isarConnection);
             if (success) {
               return repo.add(MigrationInfoDTO(
-                name: migration.key,
-                description: 'temp description',
+                name: migration.name,
+                description: migration.description,
                 timestamp: DateTime.now().millisecondsSinceEpoch,
               ));
             }
