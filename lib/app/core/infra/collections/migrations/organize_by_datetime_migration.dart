@@ -7,8 +7,9 @@ class OrganizeByDatetimeMigration extends MigrationsContract {
   OrganizeByDatetimeMigration();
 
   @override
-  // TODO: implement description
-  String get description => throw UnimplementedError();
+  String get description =>
+      'Update all tallyRegister collections to have a link to "datetime" field. '
+      'This is useful to sort the collections by datetime.';
 
   @override
   String get name => 'Organize by datetime';
@@ -23,6 +24,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract {
     if (migrationList.hasMigration('01_organize_by_datetime_migration')) {
       return true;
     }*/
+    throw UnimplementedError();
     return false;
   }
 }

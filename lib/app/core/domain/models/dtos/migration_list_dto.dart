@@ -21,6 +21,14 @@ class MigrationInfoDTO {
   @override
   int get hashCode => name.hashCode;
 
+  @override
+  String toString() {
+    return 'MigrationInfoDTO{'
+        'id: $id, name: $name, description: $description, '
+        '_millisecondsSinceEpoch: $_millisecondsSinceEpoch'
+        '}';
+  }
+
   DateTime get timestamp {
     return DateTime.fromMillisecondsSinceEpoch(_millisecondsSinceEpoch);
   }
