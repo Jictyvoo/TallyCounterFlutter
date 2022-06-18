@@ -7,7 +7,7 @@ import 'package:tally_counter/app/core/infra/providers/isar_provider.dart';
 class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   Isar? _isar;
 
-  Future<Isar> get _conn async {
+  Isar get _conn {
     _isar ??= IsarProvider.isar;
     return _isar!;
   }
@@ -57,8 +57,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
       0,
       0,
     );
-    final connection = await _conn;
-    final query = connection.tallyRegisterCollections
+    final query = _conn.tallyRegisterCollections
         .filter()
         .endAtBetween(dayBegin, dayEnd)
         .and()
@@ -69,15 +68,13 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
 
   @override
   Future<List<CounterRegister>> loadAll() async {
-    final connection = await _conn;
-    final query = connection.tallyRegisterCollections.where();
+    final query = _conn.tallyRegisterCollections.where();
     return _parseRows(await query.findAll());
   }
 
   @override
   Future<void> save(CounterRegister newCounter) async {
-    final connection = await _conn;
-    connection.writeTxn((isar) async {
+    _conn.writeTxn((isar) async {
       isar.tallyRegisterCollections.put(TallyRegisterCollection(
         startedAt: newCounter.startTime,
         endedAt: newCounter.endTime,
@@ -90,8 +87,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
 
   @override
   Future<bool> delete(CounterRegister register) async {
-    final connection = await _conn;
-    final result = await connection.writeTxn((isar) {
+    final result = await _conn.writeTxn((isar) {
       return isar.tallyRegisterCollections.delete(register.id);
     });
     return result;
