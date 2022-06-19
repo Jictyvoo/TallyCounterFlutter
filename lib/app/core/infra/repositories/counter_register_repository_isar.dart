@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
 import 'package:tally_counter/app/core/infra/collections/counter_register_collection.dart';
+import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
 import 'package:tally_counter/app/core/infra/providers/isar_provider.dart';
 
 class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
@@ -75,13 +76,28 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
   @override
   Future<void> save(CounterRegister newCounter) async {
     _conn.writeTxn((isar) async {
-      isar.tallyRegisterCollections.put(TallyRegisterCollection(
+      final newRegister = TallyRegisterCollection(
         startedAt: newCounter.startTime,
         endedAt: newCounter.endTime,
         duration: newCounter.duration.inMicroseconds,
         oldValue: newCounter.oldValue,
         newValue: newCounter.newValue,
-      ));
+      );
+      await isar.tallyRegisterCollections.put(newRegister);
+
+      final dateTimestamp = RegisterDateCollection(
+        dateTimestamp: newCounter.endTime,
+      );
+      // load date from database to update the register date collection
+      final registerDate = await isar.registerDateCollections
+          .where(
+            distinct: true,
+          )
+          .dateEqualTo(dateTimestamp.date)
+          .findFirst();
+      newRegister.dateTimestamp.value = registerDate ?? dateTimestamp;
+
+      await newRegister.dateTimestamp.save();
     });
   }
 
