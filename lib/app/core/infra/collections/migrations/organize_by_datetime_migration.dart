@@ -44,7 +44,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract {
           final newDate = RegisterDateCollection(dateTimestamp: register.endAt);
 
           await isar.writeTxn(
-            (conn) => conn.registerDateCollections.put(newDate),
+            () => isar.registerDateCollections.put(newDate),
           );
           dates[dateKey] = newDate;
         }
@@ -57,7 +57,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract {
 
     if (updateList.isNotEmpty) {
       final resultIds = await isar.writeTxn(
-        (conn) async {
+        () async {
           final updatedIds = <int>[];
           final updateFutures = <Future<void>>[];
           for (final register in updateList) {

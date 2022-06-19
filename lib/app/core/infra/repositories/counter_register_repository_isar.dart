@@ -75,7 +75,8 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
 
   @override
   Future<void> save(CounterRegister newCounter) async {
-    _conn.writeTxn((isar) async {
+    final isar = _conn;
+    isar.writeTxn(() async {
       final newRegister = TallyRegisterCollection(
         startedAt: newCounter.startTime,
         endedAt: newCounter.endTime,
@@ -103,7 +104,8 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
 
   @override
   Future<bool> delete(CounterRegister register) async {
-    final result = await _conn.writeTxn((isar) {
+    final isar = _conn;
+    final result = await isar.writeTxn(() {
       return isar.tallyRegisterCollections.delete(register.id);
     });
     return result;

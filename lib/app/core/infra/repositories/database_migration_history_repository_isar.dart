@@ -32,8 +32,9 @@ class DatabaseMigrationHistoryRepositoryIsar {
   }
 
   Future<bool> add(MigrationInfoDTO migrationInfo) async {
-    final result = await _conn.writeTxn(
-      (isar) => isar.migrationCollections.put(
+    final isar = _conn;
+    final result = await isar.writeTxn(
+      () => isar.migrationCollections.put(
         MigrationCollection(
           name: migrationInfo.name,
           description: migrationInfo.description,

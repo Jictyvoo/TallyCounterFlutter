@@ -32,11 +32,27 @@ class AppConfigRepositoryIsar {
       ));
     }
 
-    final result = await _conn.writeTxn(
-      (isar) => isar.appConfigCollections.putAll(
-        configList,
-        replaceOnConflict: true,
-      ),
+    // save the instances to the database to improve performance
+    final isar = _conn;
+    final result = await isar.writeTxn(
+      () async {
+        // find all existing configs and update them
+        final savedConfigs = await isar.appConfigCollections.getAllByKey(
+          config.keys.toList(),
+        );
+        final updatedConfigs = <AppConfigCollection>[];
+        for (final conf in savedConfigs) {
+          if (conf != null) {
+            final newValue = config[conf.key] ?? conf.value;
+            if (newValue != conf.value) {
+              conf.value = newValue;
+              updatedConfigs.add(conf);
+            }
+          }
+        }
+
+        return await isar.appConfigCollections.putAll(updatedConfigs);
+      },
     );
     return result.every((element) => element > 0);
   }

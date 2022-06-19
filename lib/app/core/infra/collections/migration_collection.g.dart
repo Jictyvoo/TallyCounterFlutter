@@ -6,7 +6,8 @@ part of 'migration_collection.dart';
 // IsarCollectionGenerator
 // **************************************************************************
 
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable, no_leading_underscores_for_local_identifiers, inference_failure_on_function_invocation
 
 extension GetMigrationCollectionCollection on Isar {
   IsarCollection<MigrationCollection> get migrationCollections =>
@@ -34,7 +35,7 @@ const MigrationCollectionSchema = CollectionSchema(
   serializeWeb: _migrationCollectionSerializeWeb,
   deserializeWeb: _migrationCollectionDeserializeWeb,
   deserializePropWeb: _migrationCollectionDeserializePropWeb,
-  version: 3,
+  version: 4,
 );
 
 int? _migrationCollectionGetId(MigrationCollection object) {
@@ -49,45 +50,41 @@ void _migrationCollectionSetId(MigrationCollection object, int id) {
   object.id = id;
 }
 
-List<IsarLinkBase> _migrationCollectionGetLinks(MigrationCollection object) {
+List<IsarLinkBase<dynamic>> _migrationCollectionGetLinks(
+    MigrationCollection object) {
   return [];
 }
 
 void _migrationCollectionSerializeNative(
     IsarCollection<MigrationCollection> collection,
-    IsarRawObject rawObj,
+    IsarCObject cObj,
     MigrationCollection object,
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
-  var dynamicSize = 0;
-  final value0 = object.description;
-  final _description = IsarBinaryWriter.utf8Encoder.convert(value0);
-  dynamicSize += (_description.length) as int;
-  final value1 = object.log;
-  dynamicSize += (value1.length) * 8;
-  final bytesList1 = <IsarUint8List>[];
-  for (var str in value1) {
+  final description$Bytes =
+      IsarBinaryWriter.utf8Encoder.convert(object.description);
+  var log$BytesCount = (object.log.length) * 8;
+  final log$BytesList = <IsarUint8List>[];
+  for (var str in object.log) {
     final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
-    bytesList1.add(bytes);
-    dynamicSize += bytes.length as int;
+    log$BytesList.add(bytes);
+    log$BytesCount += bytes.length;
   }
-  final _log = bytesList1;
-  final value2 = object.name;
-  final _name = IsarBinaryWriter.utf8Encoder.convert(value2);
-  dynamicSize += (_name.length) as int;
-  final value3 = object.ranAt;
-  final _timestamp = value3;
-  final size = staticSize + dynamicSize;
+  final name$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.name);
+  final size = staticSize +
+      (description$Bytes.length) +
+      log$BytesCount +
+      (name$Bytes.length);
+  cObj.buffer = alloc(size);
+  cObj.buffer_length = size;
 
-  rawObj.buffer = alloc(size);
-  rawObj.buffer_length = size;
-  final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+  final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeBytes(offsets[0], _description);
-  writer.writeStringList(offsets[1], _log);
-  writer.writeBytes(offsets[2], _name);
-  writer.writeDateTime(offsets[3], _timestamp);
+  writer.writeBytes(offsets[0], description$Bytes);
+  writer.writeStringList(offsets[1], log$BytesList);
+  writer.writeBytes(offsets[2], name$Bytes);
+  writer.writeDateTime(offsets[3], object.ranAt);
 }
 
 MigrationCollection _migrationCollectionDeserializeNative(
@@ -123,7 +120,7 @@ P _migrationCollectionDeserializePropNative<P>(
   }
 }
 
-dynamic _migrationCollectionSerializeWeb(
+Object _migrationCollectionSerializeWeb(
     IsarCollection<MigrationCollection> collection,
     MigrationCollection object) {
   final jsObj = IsarNative.newJsObject();
@@ -137,7 +134,7 @@ dynamic _migrationCollectionSerializeWeb(
 }
 
 MigrationCollection _migrationCollectionDeserializeWeb(
-    IsarCollection<MigrationCollection> collection, dynamic jsObj) {
+    IsarCollection<MigrationCollection> collection, Object jsObj) {
   final object = MigrationCollection(
     description: IsarNative.jsObjectGet(jsObj, 'description') ?? '',
     log: (IsarNative.jsObjectGet(jsObj, 'log') as List?)
@@ -148,12 +145,13 @@ MigrationCollection _migrationCollectionDeserializeWeb(
     name: IsarNative.jsObjectGet(jsObj, 'name') ?? '',
     ranAt: IsarNative.jsObjectGet(jsObj, 'timestamp') != null
         ? DateTime.fromMillisecondsSinceEpoch(
-                IsarNative.jsObjectGet(jsObj, 'timestamp'),
+                IsarNative.jsObjectGet(jsObj, 'timestamp') as int,
                 isUtc: true)
             .toLocal()
         : DateTime.fromMillisecondsSinceEpoch(0),
   );
-  object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
+  object.id =
+      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int);
   return object;
 }
 
@@ -162,8 +160,8 @@ P _migrationCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
     case 'description':
       return (IsarNative.jsObjectGet(jsObj, 'description') ?? '') as P;
     case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
-          as P;
+      return (IsarNative.jsObjectGet(jsObj, 'id') ??
+          (double.negativeInfinity as int)) as P;
     case 'log':
       return ((IsarNative.jsObjectGet(jsObj, 'log') as List?)
               ?.map((e) => e ?? '')
@@ -175,7 +173,7 @@ P _migrationCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
     case 'timestamp':
       return (IsarNative.jsObjectGet(jsObj, 'timestamp') != null
           ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, 'timestamp'),
+                  IsarNative.jsObjectGet(jsObj, 'timestamp') as int,
                   isUtc: true)
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
@@ -185,7 +183,7 @@ P _migrationCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
 }
 
 void _migrationCollectionAttachLinks(
-    IsarCollection col, int id, MigrationCollection object) {}
+    IsarCollection<dynamic> col, int id, MigrationCollection object) {}
 
 extension MigrationCollectionQueryWhereSort
     on QueryBuilder<MigrationCollection, MigrationCollection, QWhere> {
@@ -260,8 +258,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
+    return addFilterConditionInternal(FilterCondition.equalTo(
       property: 'description',
       value: value,
       caseSensitive: caseSensitive,
@@ -274,8 +271,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
+    return addFilterConditionInternal(FilterCondition.greaterThan(
       include: include,
       property: 'description',
       value: value,
@@ -289,8 +285,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
+    return addFilterConditionInternal(FilterCondition.lessThan(
       include: include,
       property: 'description',
       value: value,
@@ -321,8 +316,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
+    return addFilterConditionInternal(FilterCondition.startsWith(
       property: 'description',
       value: value,
       caseSensitive: caseSensitive,
@@ -334,8 +328,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
+    return addFilterConditionInternal(FilterCondition.endsWith(
       property: 'description',
       value: value,
       caseSensitive: caseSensitive,
@@ -344,8 +337,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
+    return addFilterConditionInternal(FilterCondition.contains(
       property: 'description',
       value: value,
       caseSensitive: caseSensitive,
@@ -354,18 +346,16 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
+    return addFilterConditionInternal(FilterCondition.matches(
       property: 'description',
-      value: pattern,
+      wildcard: pattern,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
+    return addFilterConditionInternal(FilterCondition.equalTo(
       property: 'id',
       value: value,
     ));
@@ -376,8 +366,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
+    return addFilterConditionInternal(FilterCondition.greaterThan(
       include: include,
       property: 'id',
       value: value,
@@ -389,8 +378,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
+    return addFilterConditionInternal(FilterCondition.lessThan(
       include: include,
       property: 'id',
       value: value,
@@ -418,8 +406,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
+    return addFilterConditionInternal(FilterCondition.equalTo(
       property: 'log',
       value: value,
       caseSensitive: caseSensitive,
@@ -432,8 +419,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
+    return addFilterConditionInternal(FilterCondition.greaterThan(
       include: include,
       property: 'log',
       value: value,
@@ -447,8 +433,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
+    return addFilterConditionInternal(FilterCondition.lessThan(
       include: include,
       property: 'log',
       value: value,
@@ -479,8 +464,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
+    return addFilterConditionInternal(FilterCondition.startsWith(
       property: 'log',
       value: value,
       caseSensitive: caseSensitive,
@@ -492,8 +476,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
+    return addFilterConditionInternal(FilterCondition.endsWith(
       property: 'log',
       value: value,
       caseSensitive: caseSensitive,
@@ -502,8 +485,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       logAnyContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
+    return addFilterConditionInternal(FilterCondition.contains(
       property: 'log',
       value: value,
       caseSensitive: caseSensitive,
@@ -512,10 +494,9 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       logAnyMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
+    return addFilterConditionInternal(FilterCondition.matches(
       property: 'log',
-      value: pattern,
+      wildcard: pattern,
       caseSensitive: caseSensitive,
     ));
   }
@@ -525,8 +506,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
+    return addFilterConditionInternal(FilterCondition.equalTo(
       property: 'name',
       value: value,
       caseSensitive: caseSensitive,
@@ -539,8 +519,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
+    return addFilterConditionInternal(FilterCondition.greaterThan(
       include: include,
       property: 'name',
       value: value,
@@ -554,8 +533,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
+    return addFilterConditionInternal(FilterCondition.lessThan(
       include: include,
       property: 'name',
       value: value,
@@ -586,8 +564,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.startsWith,
+    return addFilterConditionInternal(FilterCondition.startsWith(
       property: 'name',
       value: value,
       caseSensitive: caseSensitive,
@@ -599,8 +576,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.endsWith,
+    return addFilterConditionInternal(FilterCondition.endsWith(
       property: 'name',
       value: value,
       caseSensitive: caseSensitive,
@@ -609,8 +585,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       nameContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.contains,
+    return addFilterConditionInternal(FilterCondition.contains(
       property: 'name',
       value: value,
       caseSensitive: caseSensitive,
@@ -619,18 +594,16 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       nameMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.matches,
+    return addFilterConditionInternal(FilterCondition.matches(
       property: 'name',
-      value: pattern,
+      wildcard: pattern,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       ranAtEqualTo(DateTime value) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.eq,
+    return addFilterConditionInternal(FilterCondition.equalTo(
       property: 'timestamp',
       value: value,
     ));
@@ -641,8 +614,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.gt,
+    return addFilterConditionInternal(FilterCondition.greaterThan(
       include: include,
       property: 'timestamp',
       value: value,
@@ -654,8 +626,7 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition(
-      type: ConditionType.lt,
+    return addFilterConditionInternal(FilterCondition.lessThan(
       include: include,
       property: 'timestamp',
       value: value,
@@ -692,16 +663,6 @@ extension MigrationCollectionQueryWhereSortBy
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByDescriptionDesc() {
     return addSortByInternal('description', Sort.desc);
-  }
-
-  QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
-      sortById() {
-    return addSortByInternal('id', Sort.asc);
-  }
-
-  QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
-      sortByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
@@ -773,11 +734,6 @@ extension MigrationCollectionQueryWhereDistinct
   QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
       distinctByDescription({bool caseSensitive = true}) {
     return addDistinctByInternal('description', caseSensitive: caseSensitive);
-  }
-
-  QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
-      distinctById() {
-    return addDistinctByInternal('id');
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
