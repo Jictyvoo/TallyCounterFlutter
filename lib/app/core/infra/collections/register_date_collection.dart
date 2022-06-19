@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'register_date_collection.g.dart';
 
 @Collection()
-@Name("RegisterDateCollection")
+@Name("RegisterDates")
 class RegisterDateCollection {
   @Id()
   @Name("id")

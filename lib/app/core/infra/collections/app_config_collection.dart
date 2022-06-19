@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'app_config_collection.g.dart';
 
 @Collection()
-@Name("AppConfigCollection")
+@Name("AppConfigs")
 class AppConfigCollection {
   @Id()
   @Name("id")

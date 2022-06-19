@@ -5,7 +5,7 @@ import 'package:tally_counter/app/core/infra/collections/register_date_collectio
 part 'counter_register_collection.g.dart';
 
 @Collection()
-@Name("TallyRegister")
+@Name("TallyRegisters")
 class TallyRegisterCollection {
   @Id()
   @Name("id")

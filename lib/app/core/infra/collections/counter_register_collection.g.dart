@@ -14,9 +14,9 @@ extension GetTallyRegisterCollectionCollection on Isar {
 }
 
 const TallyRegisterCollectionSchema = CollectionSchema(
-  name: 'TallyRegister',
+  name: 'TallyRegisters',
   schema:
-      '{"name":"TallyRegister","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDateCollection"}]}',
+      '{"name":"TallyRegisters","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDates"}]}',
   idName: 'id',
   propertyIds: {
     'description': 0,

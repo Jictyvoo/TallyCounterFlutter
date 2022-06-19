@@ -14,9 +14,9 @@ extension GetMigrationCollectionCollection on Isar {
 }
 
 const MigrationCollectionSchema = CollectionSchema(
-  name: 'MigrationCollection',
+  name: 'Migrations',
   schema:
-      '{"name":"MigrationCollection","idName":"id","properties":[{"name":"description","type":"String"},{"name":"log","type":"StringList"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
+      '{"name":"Migrations","idName":"id","properties":[{"name":"description","type":"String"},{"name":"log","type":"StringList"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
   idName: 'id',
   propertyIds: {'description': 0, 'log': 1, 'name': 2, 'timestamp': 3},
   listProperties: {'log'},

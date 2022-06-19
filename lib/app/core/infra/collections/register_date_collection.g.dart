@@ -14,9 +14,9 @@ extension GetRegisterDateCollectionCollection on Isar {
 }
 
 const RegisterDateCollectionSchema = CollectionSchema(
-  name: 'RegisterDateCollection',
+  name: 'RegisterDates',
   schema:
-      '{"name":"RegisterDateCollection","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
+      '{"name":"RegisterDates","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'date': 0},
   listProperties: {},

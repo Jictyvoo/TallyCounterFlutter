@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'migration_collection.g.dart';
 
 @Collection()
-@Name("MigrationCollection")
+@Name("Migrations")
 class MigrationCollection {
   @Id()
   @Name("id")

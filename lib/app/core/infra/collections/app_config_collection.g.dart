@@ -14,9 +14,9 @@ extension GetAppConfigCollectionCollection on Isar {
 }
 
 const AppConfigCollectionSchema = CollectionSchema(
-  name: 'AppConfigCollection',
+  name: 'AppConfigs',
   schema:
-      '{"name":"AppConfigCollection","idName":"id","properties":[{"name":"key","type":"String"},{"name":"value","type":"String"}],"indexes":[{"name":"key","unique":true,"properties":[{"name":"key","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"AppConfigs","idName":"id","properties":[{"name":"key","type":"String"},{"name":"value","type":"String"}],"indexes":[{"name":"key","unique":true,"properties":[{"name":"key","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'key': 0, 'value': 1},
   listProperties: {},
