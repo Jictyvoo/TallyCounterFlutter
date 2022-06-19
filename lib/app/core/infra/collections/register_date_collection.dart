@@ -13,6 +13,13 @@ class RegisterDateCollection {
   @Index(unique: true)
   DateTime date;
 
+  static _onlyDate(DateTime date) => DateTime(date.year, date.month, date.day);
+
   RegisterDateCollection({DateTime? dateTimestamp})
-      : date = dateTimestamp ?? DateTime.now();
+      : date = _onlyDate(dateTimestamp ?? DateTime.now());
+
+  @override
+  String toString() {
+    return 'RegisterDateCollection{id: $id, date: $date}';
+  }
 }
