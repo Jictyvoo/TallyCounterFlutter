@@ -44,6 +44,7 @@ class DatabaseMigrationsManager {
                 name: migration.name,
                 description: migration.description,
                 timestamp: DateTime.now().millisecondsSinceEpoch,
+                migrationLog: migration.migrationLog,
               ));
             }
             return false;

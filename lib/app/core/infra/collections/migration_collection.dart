@@ -18,9 +18,13 @@ class MigrationCollection {
   @Name("timestamp")
   DateTime ranAt;
 
+  @Name("log")
+  List<String> log;
+
   MigrationCollection({
     required this.name,
     this.description = '',
     required this.ranAt,
+    this.log = const <String>[],
   });
 }

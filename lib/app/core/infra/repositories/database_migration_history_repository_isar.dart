@@ -24,6 +24,7 @@ class DatabaseMigrationHistoryRepositoryIsar {
         name: row.name,
         description: row.description,
         timestamp: row.ranAt.millisecondsSinceEpoch,
+        migrationLog: row.log,
       ));
     }
 
@@ -37,6 +38,7 @@ class DatabaseMigrationHistoryRepositoryIsar {
           name: migrationInfo.name,
           description: migrationInfo.description,
           ranAt: migrationInfo.timestamp,
+          log: migrationInfo.migrationLog,
         ),
       ),
     );

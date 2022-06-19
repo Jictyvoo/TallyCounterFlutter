@@ -3,12 +3,14 @@ class MigrationInfoDTO {
   final String name;
   final String description;
   final int _millisecondsSinceEpoch;
+  final List<String> migrationLog;
 
   const MigrationInfoDTO({
     this.id = 0,
     required this.name,
     this.description = '',
     int timestamp = 0,
+    this.migrationLog = const <String>[],
   }) : _millisecondsSinceEpoch = timestamp;
 
   @override
@@ -25,7 +27,8 @@ class MigrationInfoDTO {
   String toString() {
     return 'MigrationInfoDTO{'
         'id: $id, name: $name, description: $description, '
-        '_millisecondsSinceEpoch: $_millisecondsSinceEpoch'
+        '_millisecondsSinceEpoch: $_millisecondsSinceEpoch,'
+        ' migrationLog: $migrationLog'
         '}';
   }
 
@@ -54,5 +57,10 @@ class MigrationListDTO {
 
   DateTime getTimestamp(String name) {
     return getMigration(name).timestamp;
+  }
+
+  @override
+  String toString() {
+    return 'MigrationListDTO{migrations: $migrations}';
   }
 }

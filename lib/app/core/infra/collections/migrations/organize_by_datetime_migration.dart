@@ -1,14 +1,12 @@
 import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/infra/collections/counter_register_collection.dart';
 import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
-import 'package:tally_counter/app/shared/utils/debug_print.dart';
 import 'package:tally_counter/app/shared/utils/version_label.dart';
 
 import 'migrations_contract.dart';
 
-class OrganizeByDatetimeMigration extends MigrationsContract
-    with DebuggablePrint {
-  OrganizeByDatetimeMigration();
+class OrganizeByDatetimeMigration extends MigrationsContract {
+  OrganizeByDatetimeMigration() : super();
 
   @override
   String get description =>
@@ -37,7 +35,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract
     final updateList = <TallyRegisterCollection>[];
     for (final register in allRegisters) {
       await register.dateTimestamp.load();
-      debugPrint(
+      log(
         'Register ${register.id} has date ${register.dateTimestamp.value}',
       );
       if (register.dateTimestamp.value == null) {
@@ -70,7 +68,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract
           return updatedIds;
         },
       );
-      debugPrint('Updated ${resultIds.length} registers');
+      log('Updated ${resultIds.length} registers');
       return true;
     }
     return false;

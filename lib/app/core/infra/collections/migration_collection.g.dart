@@ -16,10 +16,10 @@ extension GetMigrationCollectionCollection on Isar {
 const MigrationCollectionSchema = CollectionSchema(
   name: 'MigrationCollection',
   schema:
-      '{"name":"MigrationCollection","idName":"id","properties":[{"name":"description","type":"String"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
+      '{"name":"MigrationCollection","idName":"id","properties":[{"name":"description","type":"String"},{"name":"log","type":"StringList"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
   idName: 'id',
-  propertyIds: {'description': 0, 'name': 1, 'timestamp': 2},
-  listProperties: {},
+  propertyIds: {'description': 0, 'log': 1, 'name': 2, 'timestamp': 3},
+  listProperties: {'log'},
   indexIds: {},
   indexValueTypes: {},
   linkIds: {},
@@ -64,11 +64,20 @@ void _migrationCollectionSerializeNative(
   final value0 = object.description;
   final _description = IsarBinaryWriter.utf8Encoder.convert(value0);
   dynamicSize += (_description.length) as int;
-  final value1 = object.name;
-  final _name = IsarBinaryWriter.utf8Encoder.convert(value1);
+  final value1 = object.log;
+  dynamicSize += (value1.length) * 8;
+  final bytesList1 = <IsarUint8List>[];
+  for (var str in value1) {
+    final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
+    bytesList1.add(bytes);
+    dynamicSize += bytes.length as int;
+  }
+  final _log = bytesList1;
+  final value2 = object.name;
+  final _name = IsarBinaryWriter.utf8Encoder.convert(value2);
   dynamicSize += (_name.length) as int;
-  final value2 = object.ranAt;
-  final _timestamp = value2;
+  final value3 = object.ranAt;
+  final _timestamp = value3;
   final size = staticSize + dynamicSize;
 
   rawObj.buffer = alloc(size);
@@ -76,8 +85,9 @@ void _migrationCollectionSerializeNative(
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
   writer.writeBytes(offsets[0], _description);
-  writer.writeBytes(offsets[1], _name);
-  writer.writeDateTime(offsets[2], _timestamp);
+  writer.writeStringList(offsets[1], _log);
+  writer.writeBytes(offsets[2], _name);
+  writer.writeDateTime(offsets[3], _timestamp);
 }
 
 MigrationCollection _migrationCollectionDeserializeNative(
@@ -87,8 +97,9 @@ MigrationCollection _migrationCollectionDeserializeNative(
     List<int> offsets) {
   final object = MigrationCollection(
     description: reader.readString(offsets[0]),
-    name: reader.readString(offsets[1]),
-    ranAt: reader.readDateTime(offsets[2]),
+    log: reader.readStringList(offsets[1]) ?? [],
+    name: reader.readString(offsets[2]),
+    ranAt: reader.readDateTime(offsets[3]),
   );
   object.id = id;
   return object;
@@ -102,8 +113,10 @@ P _migrationCollectionDeserializePropNative<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readDateTime(offset)) as P;
     default:
       throw 'Illegal propertyIndex';
@@ -116,6 +129,7 @@ dynamic _migrationCollectionSerializeWeb(
   final jsObj = IsarNative.newJsObject();
   IsarNative.jsObjectSet(jsObj, 'description', object.description);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
+  IsarNative.jsObjectSet(jsObj, 'log', object.log);
   IsarNative.jsObjectSet(jsObj, 'name', object.name);
   IsarNative.jsObjectSet(
       jsObj, 'timestamp', object.ranAt.toUtc().millisecondsSinceEpoch);
@@ -126,6 +140,11 @@ MigrationCollection _migrationCollectionDeserializeWeb(
     IsarCollection<MigrationCollection> collection, dynamic jsObj) {
   final object = MigrationCollection(
     description: IsarNative.jsObjectGet(jsObj, 'description') ?? '',
+    log: (IsarNative.jsObjectGet(jsObj, 'log') as List?)
+            ?.map((e) => e ?? '')
+            .toList()
+            .cast<String>() ??
+        [],
     name: IsarNative.jsObjectGet(jsObj, 'name') ?? '',
     ranAt: IsarNative.jsObjectGet(jsObj, 'timestamp') != null
         ? DateTime.fromMillisecondsSinceEpoch(
@@ -145,6 +164,12 @@ P _migrationCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
     case 'id':
       return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
           as P;
+    case 'log':
+      return ((IsarNative.jsObjectGet(jsObj, 'log') as List?)
+              ?.map((e) => e ?? '')
+              .toList()
+              .cast<String>() ??
+          []) as P;
     case 'name':
       return (IsarNative.jsObjectGet(jsObj, 'name') ?? '') as P;
     case 'timestamp':
@@ -385,6 +410,113 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
       includeLower: includeLower,
       upper: upper,
       includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'log',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'log',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logAnyMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'log',
+      value: pattern,
+      caseSensitive: caseSensitive,
     ));
   }
 
@@ -668,6 +800,11 @@ extension MigrationCollectionQueryProperty
 
   QueryBuilder<MigrationCollection, int, QQueryOperations> idProperty() {
     return addPropertyNameInternal('id');
+  }
+
+  QueryBuilder<MigrationCollection, List<String>, QQueryOperations>
+      logProperty() {
+    return addPropertyNameInternal('log');
   }
 
   QueryBuilder<MigrationCollection, String, QQueryOperations> nameProperty() {
