@@ -57,6 +57,10 @@ class _RegisterListPageState extends State<RegisterListPage>
     ];
   }
 
+  void _onTabSelected(index) {
+    _selectedTabIndex = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     final tabController = TabController(
@@ -71,9 +75,7 @@ class _RegisterListPageState extends State<RegisterListPage>
           isScrollable: _availableDates.length > 1,
           controller: tabController,
           tabs: _buildDateTabs(_availableDates),
-          onTap: (index) {
-            _selectedTabIndex = index;
-          },
+          onTap: _availableDates.length > 1 ? _onTabSelected : null,
         ),
       ),
       body: TabBarView(
