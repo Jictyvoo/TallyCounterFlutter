@@ -20,6 +20,7 @@ class RegisterListWidget extends StatefulWidget {
 
 class _RegisterListWidgetState extends State<RegisterListWidget> {
   var _registerList = const <CounterRegister>[];
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -91,9 +92,11 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
   Widget build(BuildContext context) {
     return Scrollbar(
       thumbVisibility: true,
+      controller: scrollController,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 600),
         child: ListView.builder(
+          controller: scrollController,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           itemCount: _registerList.length,
           itemBuilder: (context, index) {

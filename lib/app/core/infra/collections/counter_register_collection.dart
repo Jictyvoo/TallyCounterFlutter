@@ -1,14 +1,18 @@
 import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
 
 part 'counter_register_collection.g.dart';
 
 @Collection()
-@Name("TallyRegister")
-class TallyRegister {
+@Name("TallyRegisters")
+class TallyRegisterCollection {
   @Id()
   @Name("id")
   int id = Isar.autoIncrement;
+
+  @Name("date")
+  final dateTimestamp = IsarLink<RegisterDateCollection>();
 
   @Name("startAt")
   DateTime startAt;
@@ -29,7 +33,7 @@ class TallyRegister {
   @Name("newValue")
   int newValue;
 
-  TallyRegister({
+  TallyRegisterCollection({
     this.oldValue = 0,
     this.newValue = 0,
     DateTime? startedAt,
@@ -38,7 +42,7 @@ class TallyRegister {
   })  : startAt = startedAt ?? DateTime(0),
         endAt = endedAt ?? DateTime(0);
 
-  TallyRegister.fromCounter(CounterRegister register)
+  TallyRegisterCollection.fromCounter(CounterRegister register)
       : startAt = register.startTime,
         endAt = register.endTime,
         duration = register.duration.inMicroseconds,

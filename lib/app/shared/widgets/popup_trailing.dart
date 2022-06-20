@@ -16,14 +16,21 @@ class PopupTrailing extends StatelessWidget {
           PopupMenuItem(
             value: PopupOptions.showAll,
             child: Row(
-              children: const [Icon(Icons.list), Text("Show all registers")],
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(Icons.list),
+                SizedBox(width: 6),
+                Text("Show all registers"),
+              ],
             ),
           ),
           PopupMenuItem(
             value: PopupOptions.showToday,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: const [
                 Icon(Icons.calendar_today),
+                SizedBox(width: 6),
                 Text("Show today registers")
               ],
             ),
