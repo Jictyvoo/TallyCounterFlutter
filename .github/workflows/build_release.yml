@@ -69,4 +69,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            ild/windows/runner/Release/tally_counter.msix
+            build/windows/runner/Release/tally_counter.msix
