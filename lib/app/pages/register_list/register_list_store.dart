@@ -15,6 +15,9 @@ class RegisterListStore {
     return _repository.loadAll();
   }
 
+  Future<List<DateTime>> loadAllDates() async {
+    final results = <DateTime>[];
+    return results;
   Future<bool> delete(CounterRegister register) {
     return _repository.delete(register);
   }

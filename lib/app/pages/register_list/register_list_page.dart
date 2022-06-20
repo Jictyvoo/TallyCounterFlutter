@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
-import 'package:tally_counter/app/pages/register_list/widgets/register_list_widget.dart';
+import 'package:intl/intl.dart';
 
 import 'register_list_store.dart';
+import 'widgets/register_list_loader_widget.dart';
 
 class RegisterListPage extends StatefulWidget {
   final RegisterListStore? store;
@@ -17,51 +15,74 @@ class RegisterListPage extends StatefulWidget {
   State<RegisterListPage> createState() => _RegisterListPageState();
 }
 
-class _RegisterListPageState extends State<RegisterListPage> {
-  Future<List<CounterRegister>> _future = Future.value([]);
+class _RegisterListPageState extends State<RegisterListPage>
+    with TickerProviderStateMixin {
+  int _selectedTabIndex = 0;
+  List<DateTime> _availableDates = const [];
+
+  DateTime? get _selectedDate {
+    if (widget.fromDate != null) {
+      return widget.fromDate;
+    }
+    if (_selectedTabIndex < _availableDates.length) {
+      return _availableDates[_selectedTabIndex];
+    }
+    return null;
+  }
 
   @override
   void initState() {
     if (widget.store != null) {
-      _future = widget.store!.load(widget.fromDate);
+      if (widget.fromDate != null) {
+        _availableDates = [widget.fromDate!];
+      } else {
+        widget.store!.loadAllDates().then((value) {
+          setState(() {
+            _availableDates = value;
+          });
+        });
+      }
     }
     super.initState();
   }
 
+  List<Tab> _buildDateTabs(List<DateTime> dateList) {
+    return [
+      for (final date in dateList)
+        Tab(
+          child: Text(
+            DateFormat.yMd().format(date),
+          ),
+        )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final tabController = TabController(
+      initialIndex: _selectedTabIndex,
+      length: _availableDates.length,
+      vsync: this,
+    );
     return Scaffold(
-      appBar: AppBar(title: const Text('List of registers')),
-      body: FutureBuilder<List<CounterRegister>>(
-        future: _future,
-        builder: (context, snapshot) {
-          final result = snapshot.data ?? [];
-          if (result.isEmpty) {
-            return const Center(
-              child: Text(
-                'There is no registers saved',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Error when loading registers'),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-              child: RegisterListWidget(
-                registers: result,
-                onDeleteCallback: widget.store?.delete,
-              ),
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+      appBar: AppBar(
+        title: const Text('List of registers'),
+        bottom: TabBar(
+          isScrollable: _availableDates.length > 1,
+          controller: tabController,
+          tabs: _buildDateTabs(_availableDates),
+          onTap: (index) {
+            _selectedTabIndex = index;
+          },
+        ),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          for (final date in _availableDates)
+            RegisterListLoader(store: widget.store, fromDate: date),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'increment_button@HERO',
@@ -71,7 +92,8 @@ class _RegisterListPageState extends State<RegisterListPage> {
             builder: (subContext) {
               return AlertDialog(
                 title: const Text('Alert'),
-                content: const Text(
+                content: Text(
+                  'Cant export registers from `$_selectedDate`\n'
                   'Method Unimplemented, check for new versions',
                 ),
                 actions: [

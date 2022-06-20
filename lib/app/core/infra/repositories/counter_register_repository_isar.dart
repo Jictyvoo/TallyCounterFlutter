@@ -61,8 +61,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
     final query = _conn.tallyRegisterCollections
         .filter()
         .endAtBetween(dayBegin, dayEnd)
-        .and()
-        .startAtBetween(dayBegin, dayEnd)
+        /*.dateTimestamp((q) => q.dateBetween(dayBegin, dayEnd))*/
         .sortByStartAt();
     return _parseRows(await query.build().findAll());
   }
@@ -96,6 +95,9 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
           )
           .dateEqualTo(dateTimestamp.date)
           .findFirst();
+      if (registerDate == null) {
+        isar.registerDateCollections.put(dateTimestamp);
+      }
       newRegister.dateTimestamp.value = registerDate ?? dateTimestamp;
 
       await newRegister.dateTimestamp.save();
