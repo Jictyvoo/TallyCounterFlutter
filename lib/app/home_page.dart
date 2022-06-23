@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
+import 'pages/counter/widgets/purpose_selector.dart';
 import 'shared/widgets/popup_trailing.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,8 +36,21 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: const Center(
-        child: CounterPage(),
+      body: Row(
+        children: const [
+          Expanded(
+            flex: 1,
+            child: PurposeSelector(),
+          ),
+          VerticalDivider(
+            indent: 10,
+            endIndent: 10,
+          ),
+          Expanded(
+            flex: 2,
+            child: CounterPage(),
+          ),
+        ],
       ),
     );
   }
