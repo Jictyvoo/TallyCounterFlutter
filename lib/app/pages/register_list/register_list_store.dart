@@ -30,7 +30,11 @@ class RegisterListStore {
     return _repository.delete(register);
   }
 
-  Future<bool> exportCSV(DateTime fromDate, [DateTime? toDate]) async {
+  Future<bool> exportCSV(
+    DateTime fromDate, {
+    DateTime? toDate,
+    String outputFolder = '',
+  }) async {
     final csvBuilder = CSVBuilder();
     final fileData = csvBuilder.build(
       TallyRegisterExporter.call(await load(fromDate)),
@@ -40,6 +44,7 @@ class RegisterListStore {
     final result = await FileSaveProvider.writeToFile(
       'date_export#${dateFormatter.format(fromDate).replaceAll("/", "-")}.csv',
       fileData,
+      outputFolder: outputFolder,
     );
     return result;
   }

@@ -27,14 +27,21 @@ abstract class FileSaveProvider {
     return outputDir;
   }
 
-  static Future<File> getFile(String filename) async {
-    final path = await directoryPath;
+  static Future<File> getFile(
+    String filename, [
+    String outputFolder = '',
+  ]) async {
+    final path = outputFolder.isEmpty ? await directoryPath : outputFolder;
     return File('$path/${DateTime.now().millisecondsSinceEpoch}__$filename');
   }
 
-  static Future<bool> writeToFile(String filename, Uint8List data) async {
+  static Future<bool> writeToFile(
+    String filename,
+    Uint8List data, {
+    String outputFolder = '',
+  }) async {
     final startTime = DateTime.now();
-    final file = await getFile(filename);
+    final file = await getFile(filename, outputFolder);
     final result = await file.writeAsBytes(
       data,
       flush: true,

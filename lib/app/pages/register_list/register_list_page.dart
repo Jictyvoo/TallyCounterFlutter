@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tally_counter/app/core/infra/providers/file_save_provider.dart';
 
 import 'register_list_store.dart';
 import 'widgets/register_list_loader_widget.dart';
@@ -89,8 +94,23 @@ class _RegisterListPageState extends State<RegisterListPage>
       floatingActionButton: FloatingActionButton(
         heroTag: 'increment_button@HERO',
         onPressed: () async {
+          String? path;
+
+          if (!kIsWeb) {
+            path = await FilesystemPicker.open(
+              title: 'Save to folder',
+              context: context,
+              rootDirectory: Directory(await FileSaveProvider.directoryPath),
+              fsType: FilesystemType.folder,
+              pickText: 'Save file to this folder',
+              fileTileSelectMode: FileTileSelectMode.wholeTile,
+              folderIconColor: Colors.teal,
+            );
+          }
+
           final result = await widget.store?.exportCSV(
             _selectedDate ?? DateTime.now(),
+            outputFolder: path ?? '',
           );
 
           if (result == false) {
