@@ -86,6 +86,31 @@ class VersionLabel {
   bool operator <=(Object other) =>
       other is VersionLabel && compare(other) <= 0;
 
+  VersionLabel operator +(Object other) {
+    if (other is double) {
+      if (other < 0.1) {
+        return VersionLabel(
+          major: major,
+          minor: minor,
+          patch: patch + (other * 100).toInt(),
+        );
+      } else if (other < 1) {
+        return VersionLabel(
+          major: major,
+          minor: minor + (other * 10).toInt(),
+          patch: patch,
+        );
+      } else {
+        return VersionLabel(
+          major: major + other.toInt(),
+          minor: minor,
+          patch: patch,
+        );
+      }
+    }
+    return this;
+  }
+
   @override
   int get hashCode => major.hashCode ^ minor.hashCode ^ patch.hashCode;
 }

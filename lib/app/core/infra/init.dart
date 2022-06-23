@@ -1,5 +1,3 @@
-import 'package:tally_counter/app/shared/utils/version_label.dart';
-
 import 'collections/migrations/add_miscellaneous_purpose_migration.dart';
 import 'collections/migrations/database_migrations_manager.dart';
 import 'collections/migrations/organize_by_datetime_migration.dart';
@@ -24,11 +22,7 @@ class InfraInit with IsarProvider, AppConfigProvider {
     }).runBeforeVersion;
 
     if (!isAppConfigInit) {
-      await initConfig(VersionLabel(
-        major: freshDbVersion.major,
-        minor: freshDbVersion.minor,
-        patch: freshDbVersion.patch + 1,
-      ));
+      await initConfig(freshDbVersion + 0.01);
     }
 
     final migrationsManager = DatabaseMigrationsManager(IsarProvider.isar);
