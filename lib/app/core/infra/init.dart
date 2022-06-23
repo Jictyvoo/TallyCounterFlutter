@@ -1,3 +1,4 @@
+import 'collections/migrations/add_miscellaneous_purpose_migration.dart';
 import 'collections/migrations/database_migrations_manager.dart';
 import 'collections/migrations/organize_by_datetime_migration.dart';
 import 'providers/app_config_provider.dart';
@@ -18,6 +19,7 @@ class InfraInit with IsarProvider, AppConfigProvider {
       AppConfigProvider.appConfig.databaseVersion,
       [
         OrganizeByDatetimeMigration(),
+        AddMiscellaneousPurposeMigration(),
       ],
     );
 
