@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tally_counter/app/core/infra/providers/file_save_provider.dart';
 
 import 'register_list_store.dart';
 import 'widgets/register_list_loader_widget.dart';
@@ -61,6 +66,26 @@ class _RegisterListPageState extends State<RegisterListPage>
     _selectedTabIndex = index;
   }
 
+  Widget _buildExportFailDialog(subContext) {
+    return AlertDialog(
+      title: const Text('Alert'),
+      content: Text(
+        'Failed to export registers from '
+        '`${DateFormat.yMMMEd().format(
+          _selectedDate!,
+        )}`\n',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Ok'),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tabController = TabController(
@@ -88,27 +113,63 @@ class _RegisterListPageState extends State<RegisterListPage>
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'increment_button@HERO',
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (subContext) {
-              return AlertDialog(
-                title: const Text('Alert'),
-                content: Text(
-                  'Cant export registers from `$_selectedDate`\n'
-                  'Method Unimplemented, check for new versions',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Ok'),
-                  )
-                ],
+        onPressed: () async {
+          String? path = '';
+
+          if (!kIsWeb) {
+            path = await FilesystemPicker.open(
+              title: 'Save to folder',
+              context: context,
+              rootDirectory: Directory(await FileSaveProvider.directoryPath),
+              fsType: FilesystemType.folder,
+              pickText: 'Save file to this folder',
+              fileTileSelectMode: FileTileSelectMode.wholeTile,
+              folderIconColor: Colors.teal,
+            );
+          }
+
+          var result = '';
+          if (path != null) {
+            result = await widget.store?.exportCSV(
+                  _selectedDate ?? DateTime.now(),
+                  outputFolder: path,
+                ) ??
+                '';
+            if (result.isEmpty) {
+              showDialog(
+                context: context,
+                builder: _buildExportFailDialog,
               );
-            },
-          );
+            } else {
+              showDialog(
+                context: context,
+                builder: (subContext) {
+                  return AlertDialog(
+                    title: const Text('Success!'),
+                    content: SelectableText.rich(
+                      TextSpan(
+                        text: 'Registers exported successfully to:\n\n',
+                        children: [
+                          TextSpan(
+                            text: '`$result`',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Ok'),
+                      )
+                    ],
+                  );
+                },
+              );
+            }
+          }
         },
         tooltip: 'Save register list to a csv file',
         child: const Icon(Icons.save),
