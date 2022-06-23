@@ -97,7 +97,7 @@ class RegisterCardWidget extends StatelessWidget {
                     Expanded(
                       child: _buildValueContainer(
                         counterRegister.newValue,
-                        color: const Color(0xfa69d455),
+                        color: const Color(0xfa39802c),
                       ),
                     ),
                   ],
