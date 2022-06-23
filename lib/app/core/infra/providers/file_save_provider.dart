@@ -22,6 +22,9 @@ abstract class FileSaveProvider {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       final downloadDir = await path_provider.getDownloadsDirectory();
       outputDir = downloadDir?.path ?? '';
+    } else if (Platform.isAndroid) {
+      final externalDir = await path_provider.getExternalStorageDirectory();
+      outputDir = externalDir?.path ?? '';
     }
 
     return outputDir;
@@ -35,12 +38,11 @@ abstract class FileSaveProvider {
     return File('$path/${DateTime.now().millisecondsSinceEpoch}__$filename');
   }
 
-  static Future<bool> writeToFile(
+  static Future<String> writeToFile(
     String filename,
     Uint8List data, {
     String outputFolder = '',
   }) async {
-    final startTime = DateTime.now();
     final file = await getFile(filename, outputFolder);
     final result = await file.writeAsBytes(
       data,
@@ -49,6 +51,10 @@ abstract class FileSaveProvider {
     );
 
     final fileStatus = await result.stat();
-    return fileStatus.size > 0 && fileStatus.modified.isAfter(startTime);
+    if (fileStatus.size >= data.length &&
+        fileStatus.modified.compareTo(fileStatus.accessed) >= 0) {
+      return file.path;
+    }
+    return '';
   }
 }

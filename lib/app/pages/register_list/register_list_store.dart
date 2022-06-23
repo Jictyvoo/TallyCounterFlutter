@@ -30,7 +30,7 @@ class RegisterListStore {
     return _repository.delete(register);
   }
 
-  Future<bool> exportCSV(
+  Future<String> exportCSV(
     DateTime fromDate, {
     DateTime? toDate,
     String outputFolder = '',
