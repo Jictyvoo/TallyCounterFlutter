@@ -18,7 +18,7 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
 
   @override
   VersionLabel get runBeforeVersion =>
-      const VersionLabel(major: 1, mid: 2, minor: 0);
+      const VersionLabel(major: 1, minor: 2, patch: 0);
 
   @override
   Future<bool> call(Isar isar) async {
