@@ -51,6 +51,10 @@ class CounterRegister extends TimeIntersection {
 
   @override
   String toString() {
-    return 'CounterRegister{duration: $duration, startTime: $startTime, endTime: $endTime, oldValue: $oldValue, newValue: $newValue}';
+    return 'CounterRegister{'
+        'id: $id, endTime: $endTime, '
+        'oldValue: $oldValue, newValue: $newValue, '
+        'purpose: $purpose'
+        '}';
   }
 }
