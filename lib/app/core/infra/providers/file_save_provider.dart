@@ -4,9 +4,7 @@ import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:permission_handler/permission_handler.dart';
 
-class FileSaveProvider {
-  FileSaveProvider();
-
+abstract class FileSaveProvider {
   static Future<String> get directoryPath async {
     if (Platform.isAndroid || Platform.isIOS || Platform.isWindows) {
       var permissionStatus = await Permission.storage.status;
