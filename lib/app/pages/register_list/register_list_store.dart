@@ -36,13 +36,11 @@ class RegisterListStore {
       TallyRegisterExporter.call(await load(fromDate)),
     );
 
-    print(String.fromCharCodes(fileData));
     final dateFormatter = intl.DateFormat.yMd();
     final result = await FileSaveProvider.writeToFile(
       'date_export#${dateFormatter.format(fromDate).replaceAll("/", "-")}.csv',
       fileData,
     );
-    print(result);
     return result;
   }
 }

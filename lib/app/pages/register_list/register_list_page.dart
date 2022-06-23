@@ -88,27 +88,51 @@ class _RegisterListPageState extends State<RegisterListPage>
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'increment_button@HERO',
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (subContext) {
-              return AlertDialog(
-                title: const Text('Alert'),
-                content: Text(
-                  'Cant export registers from `$_selectedDate`\n'
-                  'Method Unimplemented, check for new versions',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Ok'),
-                  )
-                ],
-              );
-            },
+        onPressed: () async {
+          final result = await widget.store?.exportCSV(
+            _selectedDate ?? DateTime.now(),
           );
+
+          if (result == false) {
+            showDialog(
+              context: context,
+              builder: (subContext) {
+                return AlertDialog(
+                  title: const Text('Alert'),
+                  content: Text(
+                    'Cant export registers from `$_selectedDate`\n'
+                    'Method Unimplemented, check for new versions',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Ok'),
+                    )
+                  ],
+                );
+              },
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (subContext) {
+                return AlertDialog(
+                  title: const Text('Alert'),
+                  content: const Text('Registers exported successfully'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Ok'),
+                    )
+                  ],
+                );
+              },
+            );
+          }
         },
         tooltip: 'Save register list to a csv file',
         child: const Icon(Icons.save),
