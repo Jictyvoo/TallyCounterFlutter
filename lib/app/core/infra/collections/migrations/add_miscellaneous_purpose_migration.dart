@@ -11,7 +11,7 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
   @override
   String get description =>
       'Add the `Miscellaneous` purpose to the list of purposes, and then add it'
-      'to all tally registers that do not have a purpose.';
+      ' to all tally registers that do not have a purpose.';
 
   @override
   String get name => '02_add_miscellaneous_purpose';

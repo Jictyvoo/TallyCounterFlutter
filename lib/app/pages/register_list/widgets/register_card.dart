@@ -50,6 +50,19 @@ class RegisterCardWidget extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Stack(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Row(
+                children: [
+                  const Text(
+                    'Purpose: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(counterRegister.purpose.name),
+                ],
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/core/domain/models/entities/register_purpose.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
 import 'package:tally_counter/app/core/infra/collections/counter_register_collection.dart';
 import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
@@ -13,9 +14,17 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
     return _isar!;
   }
 
-  List<CounterRegister> _parseRows(List<TallyRegisterCollection> rowsList) {
+  Future<List<CounterRegister>> _parseRows(
+    List<TallyRegisterCollection> rowsList,
+  ) async {
     final resultList = <CounterRegister>[];
     for (final row in rowsList) {
+      await row.purpose.load();
+      final purpose = RegisterPurpose(
+        name: row.purpose.value?.name ?? '',
+        description: row.purpose.value?.description ?? '',
+        limit: Duration(milliseconds: row.purpose.value?.limit ?? 0),
+      );
       if (row.duration == Isar.autoIncrement || row.duration == null) {
         resultList.add(
           CounterRegister(
@@ -24,6 +33,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
             endTime: row.endAt,
             newValue: row.newValue,
             oldValue: row.oldValue,
+            purpose: purpose,
           ),
         );
       } else {
@@ -35,6 +45,7 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
             duration: Duration(microseconds: row.duration!),
             newValue: row.newValue,
             oldValue: row.oldValue,
+            purpose: purpose,
           ),
         );
       }

@@ -36,6 +36,7 @@ class _RegisterListLoaderState extends State<RegisterListLoader>
       builder: (context, snapshot) {
         final result = snapshot.data ?? [];
         if (snapshot.hasError) {
+          debugPrintStack(stackTrace: snapshot.stackTrace);
           return const Center(
             child: Text('Error when loading registers'),
           );
