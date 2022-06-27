@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
 import 'pages/counter/widgets/purpose_selector.dart';
+import 'tally_routes.dart';
 import 'widgets/popup_trailing.dart';
 
 class TallyPage extends StatelessWidget {
@@ -75,10 +75,10 @@ class TallyPage extends StatelessWidget {
           PopupTrailing(
             onTap: (options) {
               if (options == PopupOptions.showAll) {
-                Modular.to.pushNamed(AppRoutes.REGISTER_LIST.route);
+                Modular.to.pushNamed(TallyRoutes.registerList.absoluteRoute);
               } else {
                 Modular.to.pushNamed(
-                  AppRoutes.REGISTER_LIST.route,
+                  TallyRoutes.registerList.absoluteRoute,
                   arguments: DateTime.now(),
                 );
               }

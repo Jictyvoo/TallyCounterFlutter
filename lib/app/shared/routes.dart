@@ -1,7 +1,6 @@
 enum AppRoutes {
-  DEFAULT('/'),
-  HOME('/home'),
-  REGISTER_LIST('/register-list');
+  default_('/'),
+  tallyCounter('/home');
 
   final String route;
 

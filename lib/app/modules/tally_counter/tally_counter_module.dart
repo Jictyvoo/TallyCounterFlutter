@@ -1,11 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_store.dart';
 import 'pages/counter/purpose_store.dart';
 import 'pages/register_list/register_list_page.dart';
 import 'pages/register_list/register_list_store.dart';
 import 'tally_counter_page.dart';
+import 'tally_routes.dart';
 
 class TallyCounterModule extends Module {
   @override
@@ -21,7 +21,7 @@ class TallyCounterModule extends Module {
           child: (context, args) => const TallyPage(title: 'Tally Counter App'),
         ),
         ChildRoute(
-          AppRoutes.REGISTER_LIST.route,
+          TallyRoutes.registerList.route,
           child: (context, args) => RegisterListPage(
             store: RegisterListStore(),
             fromDate: args.data,

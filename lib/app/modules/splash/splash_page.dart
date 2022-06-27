@@ -65,7 +65,7 @@ class _SplashPageState extends State<SplashPage> {
       Modular.isModuleReady<AppModule>(),
       Future.delayed(const Duration(seconds: 2)),
     ]).then((value) {
-      Modular.to.navigate(AppRoutes.HOME.route);
+      Modular.to.navigate(AppRoutes.tallyCounter.route);
       // ignore: invalid_return_type_for_catch_error
     }).catchError(onStartupError);
   }

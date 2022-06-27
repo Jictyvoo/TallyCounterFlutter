@@ -25,12 +25,12 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ModuleRoute(
-          AppRoutes.DEFAULT.route,
+          AppRoutes.default_.route,
           module: SplashModule(),
           transition: TransitionType.fadeIn,
         ),
         ModuleRoute(
-          AppRoutes.HOME.route,
+          AppRoutes.tallyCounter.route,
           module: TallyCounterModule(),
         ),
       ];
