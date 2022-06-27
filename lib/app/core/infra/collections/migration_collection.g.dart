@@ -7,7 +7,7 @@ part of 'migration_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable, no_leading_underscores_for_local_identifiers, inference_failure_on_function_invocation
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
 
 extension GetMigrationCollectionCollection on Isar {
   IsarCollection<MigrationCollection> get migrationCollections =>
@@ -15,12 +15,12 @@ extension GetMigrationCollectionCollection on Isar {
 }
 
 const MigrationCollectionSchema = CollectionSchema(
-  name: 'Migrations',
+  name: r'Migrations',
   schema:
-      '{"name":"Migrations","idName":"id","properties":[{"name":"description","type":"String"},{"name":"log","type":"StringList"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
-  idName: 'id',
-  propertyIds: {'description': 0, 'log': 1, 'name': 2, 'timestamp': 3},
-  listProperties: {'log'},
+      r'{"name":"Migrations","idName":"id","properties":[{"name":"description","type":"String"},{"name":"log","type":"StringList"},{"name":"name","type":"String"},{"name":"timestamp","type":"Long"}],"indexes":[],"links":[]}',
+  idName: r'id',
+  propertyIds: {r'description': 0, r'log': 1, r'name': 2, r'timestamp': 3},
+  listProperties: {r'log'},
   indexIds: {},
   indexValueTypes: {},
   linkIds: {},
@@ -66,21 +66,22 @@ void _migrationCollectionSerializeNative(
       IsarBinaryWriter.utf8Encoder.convert(object.description);
   var log$BytesCount = (object.log.length) * 8;
   final log$BytesList = <IsarUint8List>[];
-  for (var str in object.log) {
+  for (final str in object.log) {
     final bytes = IsarBinaryWriter.utf8Encoder.convert(str);
     log$BytesList.add(bytes);
-    log$BytesCount += bytes.length;
+    log$BytesCount += bytes.length as int;
   }
   final name$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.name);
-  final size = staticSize +
+  final size = (staticSize +
       (description$Bytes.length) +
       log$BytesCount +
-      (name$Bytes.length);
+      (name$Bytes.length)) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
   final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeHeader();
   writer.writeBytes(offsets[0], description$Bytes);
   writer.writeStringList(offsets[1], log$BytesList);
   writer.writeBytes(offsets[2], name$Bytes);
@@ -116,7 +117,7 @@ P _migrationCollectionDeserializePropNative<P>(
     case 3:
       return (reader.readDateTime(offset)) as P;
     default:
-      throw 'Illegal propertyIndex';
+      throw IsarError('Illegal propertyIndex');
   }
 }
 
@@ -124,61 +125,61 @@ Object _migrationCollectionSerializeWeb(
     IsarCollection<MigrationCollection> collection,
     MigrationCollection object) {
   final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, 'description', object.description);
-  IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'log', object.log);
-  IsarNative.jsObjectSet(jsObj, 'name', object.name);
+  IsarNative.jsObjectSet(jsObj, r'description', object.description);
+  IsarNative.jsObjectSet(jsObj, r'id', object.id);
+  IsarNative.jsObjectSet(jsObj, r'log', object.log);
+  IsarNative.jsObjectSet(jsObj, r'name', object.name);
   IsarNative.jsObjectSet(
-      jsObj, 'timestamp', object.ranAt.toUtc().millisecondsSinceEpoch);
+      jsObj, r'timestamp', object.ranAt.toUtc().millisecondsSinceEpoch);
   return jsObj;
 }
 
 MigrationCollection _migrationCollectionDeserializeWeb(
     IsarCollection<MigrationCollection> collection, Object jsObj) {
   final object = MigrationCollection(
-    description: IsarNative.jsObjectGet(jsObj, 'description') ?? '',
-    log: (IsarNative.jsObjectGet(jsObj, 'log') as List?)
+    description: IsarNative.jsObjectGet(jsObj, r'description') ?? '',
+    log: (IsarNative.jsObjectGet(jsObj, r'log') as List?)
             ?.map((e) => e ?? '')
             .toList()
             .cast<String>() ??
         [],
-    name: IsarNative.jsObjectGet(jsObj, 'name') ?? '',
-    ranAt: IsarNative.jsObjectGet(jsObj, 'timestamp') != null
+    name: IsarNative.jsObjectGet(jsObj, r'name') ?? '',
+    ranAt: IsarNative.jsObjectGet(jsObj, r'timestamp') != null
         ? DateTime.fromMillisecondsSinceEpoch(
-                IsarNative.jsObjectGet(jsObj, 'timestamp') as int,
+                IsarNative.jsObjectGet(jsObj, r'timestamp') as int,
                 isUtc: true)
             .toLocal()
         : DateTime.fromMillisecondsSinceEpoch(0),
   );
   object.id =
-      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int);
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   return object;
 }
 
 P _migrationCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
   switch (propertyName) {
-    case 'description':
-      return (IsarNative.jsObjectGet(jsObj, 'description') ?? '') as P;
-    case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ??
+    case r'description':
+      return (IsarNative.jsObjectGet(jsObj, r'description') ?? '') as P;
+    case r'id':
+      return (IsarNative.jsObjectGet(jsObj, r'id') ??
           (double.negativeInfinity as int)) as P;
-    case 'log':
-      return ((IsarNative.jsObjectGet(jsObj, 'log') as List?)
+    case r'log':
+      return ((IsarNative.jsObjectGet(jsObj, r'log') as List?)
               ?.map((e) => e ?? '')
               .toList()
               .cast<String>() ??
           []) as P;
-    case 'name':
-      return (IsarNative.jsObjectGet(jsObj, 'name') ?? '') as P;
-    case 'timestamp':
-      return (IsarNative.jsObjectGet(jsObj, 'timestamp') != null
+    case r'name':
+      return (IsarNative.jsObjectGet(jsObj, r'name') ?? '') as P;
+    case r'timestamp':
+      return (IsarNative.jsObjectGet(jsObj, r'timestamp') != null
           ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, 'timestamp') as int,
+                  IsarNative.jsObjectGet(jsObj, r'timestamp') as int,
                   isUtc: true)
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
     default:
-      throw 'Illegal propertyName';
+      throw IsarError('Illegal propertyName');
   }
 }
 
@@ -188,7 +189,9 @@ void _migrationCollectionAttachLinks(
 extension MigrationCollectionQueryWhereSort
     on QueryBuilder<MigrationCollection, MigrationCollection, QWhere> {
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhere> anyId() {
-    return addWhereClauseInternal(const IdWhereClause.any());
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
   }
 }
 
@@ -196,43 +199,53 @@ extension MigrationCollectionQueryWhere
     on QueryBuilder<MigrationCollection, MigrationCollection, QWhereClause> {
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhereClause>
       idEqualTo(int id) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: id,
-      includeLower: true,
-      upper: id,
-      includeUpper: true,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhereClause>
       idNotEqualTo(int id) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      );
-    } else {
-      return addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      );
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhereClause>
       idGreaterThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.greaterThan(lower: id, includeLower: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhereClause>
       idLessThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.lessThan(upper: id, includeUpper: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterWhereClause>
@@ -242,12 +255,14 @@ extension MigrationCollectionQueryWhere
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: lowerId,
-      includeLower: includeLower,
-      upper: upperId,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -258,11 +273,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -271,12 +288,14 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -285,12 +304,14 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -301,14 +322,16 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'description',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -316,11 +339,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -328,37 +353,45 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'description',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -366,11 +399,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -378,11 +413,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -392,113 +429,131 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'id',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyEqualTo(
+      logElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyGreaterThan(
-    String value, {
-    bool caseSensitive = true,
-    bool include = false,
-  }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
-  }
-
-  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyLessThan(
+      logElementGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyBetween(
+      logElementLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
+      logElementBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'log',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'log',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyStartsWith(
+      logElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyEndsWith(
+      logElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'log',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+      logElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'log',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
-      logAnyMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'log',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+      logElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'log',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -506,11 +561,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -519,12 +576,14 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -533,12 +592,14 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -549,14 +610,16 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'name',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -564,11 +627,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -576,37 +641,45 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       nameContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       nameMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'name',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
       ranAtEqualTo(DateTime value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'timestamp',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'timestamp',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -614,11 +687,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'timestamp',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'timestamp',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -626,11 +701,13 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'timestamp',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'timestamp',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterFilterCondition>
@@ -640,13 +717,15 @@ extension MigrationCollectionQueryFilter on QueryBuilder<MigrationCollection,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'timestamp',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'timestamp',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -657,32 +736,44 @@ extension MigrationCollectionQueryWhereSortBy
     on QueryBuilder<MigrationCollection, MigrationCollection, QSortBy> {
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByName() {
-    return addSortByInternal('name', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByRanAt() {
-    return addSortByInternal('timestamp', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'timestamp', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       sortByRanAtDesc() {
-    return addSortByInternal('timestamp', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'timestamp', Sort.desc);
+    });
   }
 }
 
@@ -690,42 +781,58 @@ extension MigrationCollectionQueryWhereSortThenBy
     on QueryBuilder<MigrationCollection, MigrationCollection, QSortThenBy> {
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenById() {
-    return addSortByInternal('id', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByName() {
-    return addSortByInternal('name', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByRanAt() {
-    return addSortByInternal('timestamp', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'timestamp', Sort.asc);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QAfterSortBy>
       thenByRanAtDesc() {
-    return addSortByInternal('timestamp', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'timestamp', Sort.desc);
+    });
   }
 }
 
@@ -733,17 +840,30 @@ extension MigrationCollectionQueryWhereDistinct
     on QueryBuilder<MigrationCollection, MigrationCollection, QDistinct> {
   QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
       distinctByDescription({bool caseSensitive = true}) {
-    return addDistinctByInternal('description', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
+      distinctByLog() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'log');
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
       distinctByName({bool caseSensitive = true}) {
-    return addDistinctByInternal('name', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<MigrationCollection, MigrationCollection, QDistinct>
       distinctByRanAt() {
-    return addDistinctByInternal('timestamp');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'timestamp');
+    });
   }
 }
 
@@ -751,24 +871,34 @@ extension MigrationCollectionQueryProperty
     on QueryBuilder<MigrationCollection, MigrationCollection, QQueryProperty> {
   QueryBuilder<MigrationCollection, String, QQueryOperations>
       descriptionProperty() {
-    return addPropertyNameInternal('description');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
   }
 
   QueryBuilder<MigrationCollection, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
   }
 
   QueryBuilder<MigrationCollection, List<String>, QQueryOperations>
       logProperty() {
-    return addPropertyNameInternal('log');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'log');
+    });
   }
 
   QueryBuilder<MigrationCollection, String, QQueryOperations> nameProperty() {
-    return addPropertyNameInternal('name');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'name');
+    });
   }
 
   QueryBuilder<MigrationCollection, DateTime, QQueryOperations>
       ranAtProperty() {
-    return addPropertyNameInternal('timestamp');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'timestamp');
+    });
   }
 }

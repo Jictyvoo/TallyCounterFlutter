@@ -7,7 +7,7 @@ part of 'tally_purpose_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable, no_leading_underscores_for_local_identifiers, inference_failure_on_function_invocation
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
 
 extension GetTallyPurposeCollectionCollection on Isar {
   IsarCollection<TallyPurposeCollection> get tallyPurposeCollections =>
@@ -15,15 +15,15 @@ extension GetTallyPurposeCollectionCollection on Isar {
 }
 
 const TallyPurposeCollectionSchema = CollectionSchema(
-  name: 'TallyPurposes',
+  name: r'TallyPurposes',
   schema:
-      '{"name":"TallyPurposes","idName":"id","properties":[{"name":"description","type":"String"},{"name":"limit","type":"Long"},{"name":"name","type":"String"}],"indexes":[{"name":"name","unique":true,"replace":false,"properties":[{"name":"name","type":"Hash","caseSensitive":true}]}],"links":[]}',
-  idName: 'id',
-  propertyIds: {'description': 0, 'limit': 1, 'name': 2},
+      r'{"name":"TallyPurposes","idName":"id","properties":[{"name":"description","type":"String"},{"name":"limit","type":"Long"},{"name":"name","type":"String"}],"indexes":[{"name":"name","unique":true,"replace":false,"properties":[{"name":"name","type":"Hash","caseSensitive":true}]}],"links":[]}',
+  idName: r'id',
+  propertyIds: {r'description': 0, r'limit': 1, r'name': 2},
   listProperties: {},
-  indexIds: {'name': 0},
+  indexIds: {r'name': 0},
   indexValueTypes: {
-    'name': [
+    r'name': [
       IndexValueType.stringHash,
     ]
   },
@@ -69,12 +69,14 @@ void _tallyPurposeCollectionSerializeNative(
   final description$Bytes =
       IsarBinaryWriter.utf8Encoder.convert(object.description);
   final name$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.name);
-  final size = staticSize + (description$Bytes.length) + (name$Bytes.length);
+  final size =
+      (staticSize + (description$Bytes.length) + (name$Bytes.length)) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
   final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeHeader();
   writer.writeBytes(offsets[0], description$Bytes);
   writer.writeLong(offsets[1], object.limit);
   writer.writeBytes(offsets[2], name$Bytes);
@@ -106,7 +108,7 @@ P _tallyPurposeCollectionDeserializePropNative<P>(
     case 2:
       return (reader.readString(offset)) as P;
     default:
-      throw 'Illegal propertyIndex';
+      throw IsarError('Illegal propertyIndex');
   }
 }
 
@@ -114,39 +116,39 @@ Object _tallyPurposeCollectionSerializeWeb(
     IsarCollection<TallyPurposeCollection> collection,
     TallyPurposeCollection object) {
   final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, 'description', object.description);
-  IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'limit', object.limit);
-  IsarNative.jsObjectSet(jsObj, 'name', object.name);
+  IsarNative.jsObjectSet(jsObj, r'description', object.description);
+  IsarNative.jsObjectSet(jsObj, r'id', object.id);
+  IsarNative.jsObjectSet(jsObj, r'limit', object.limit);
+  IsarNative.jsObjectSet(jsObj, r'name', object.name);
   return jsObj;
 }
 
 TallyPurposeCollection _tallyPurposeCollectionDeserializeWeb(
     IsarCollection<TallyPurposeCollection> collection, Object jsObj) {
   final object = TallyPurposeCollection(
-    description: IsarNative.jsObjectGet(jsObj, 'description') ?? '',
-    limit: IsarNative.jsObjectGet(jsObj, 'limit'),
-    name: IsarNative.jsObjectGet(jsObj, 'name') ?? '',
+    description: IsarNative.jsObjectGet(jsObj, r'description') ?? '',
+    limit: IsarNative.jsObjectGet(jsObj, r'limit'),
+    name: IsarNative.jsObjectGet(jsObj, r'name') ?? '',
   );
   object.id =
-      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int);
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   return object;
 }
 
 P _tallyPurposeCollectionDeserializePropWeb<P>(
     Object jsObj, String propertyName) {
   switch (propertyName) {
-    case 'description':
-      return (IsarNative.jsObjectGet(jsObj, 'description') ?? '') as P;
-    case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ??
+    case r'description':
+      return (IsarNative.jsObjectGet(jsObj, r'description') ?? '') as P;
+    case r'id':
+      return (IsarNative.jsObjectGet(jsObj, r'id') ??
           (double.negativeInfinity as int)) as P;
-    case 'limit':
-      return (IsarNative.jsObjectGet(jsObj, 'limit')) as P;
-    case 'name':
-      return (IsarNative.jsObjectGet(jsObj, 'name') ?? '') as P;
+    case r'limit':
+      return (IsarNative.jsObjectGet(jsObj, r'limit')) as P;
+    case r'name':
+      return (IsarNative.jsObjectGet(jsObj, r'name') ?? '') as P;
     default:
-      throw 'Illegal propertyName';
+      throw IsarError('Illegal propertyName');
   }
 }
 
@@ -156,39 +158,56 @@ void _tallyPurposeCollectionAttachLinks(
 extension TallyPurposeCollectionByIndex
     on IsarCollection<TallyPurposeCollection> {
   Future<TallyPurposeCollection?> getByName(String name) {
-    return getByIndex('name', [name]);
+    return getByIndex(r'name', [name]);
   }
 
   TallyPurposeCollection? getByNameSync(String name) {
-    return getByIndexSync('name', [name]);
+    return getByIndexSync(r'name', [name]);
   }
 
   Future<bool> deleteByName(String name) {
-    return deleteByIndex('name', [name]);
+    return deleteByIndex(r'name', [name]);
   }
 
   bool deleteByNameSync(String name) {
-    return deleteByIndexSync('name', [name]);
+    return deleteByIndexSync(r'name', [name]);
   }
 
   Future<List<TallyPurposeCollection?>> getAllByName(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
-    return getAllByIndex('name', values);
+    return getAllByIndex(r'name', values);
   }
 
   List<TallyPurposeCollection?> getAllByNameSync(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
-    return getAllByIndexSync('name', values);
+    return getAllByIndexSync(r'name', values);
   }
 
   Future<int> deleteAllByName(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
-    return deleteAllByIndex('name', values);
+    return deleteAllByIndex(r'name', values);
   }
 
   int deleteAllByNameSync(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync('name', values);
+    return deleteAllByIndexSync(r'name', values);
+  }
+
+  Future<int> putByName(TallyPurposeCollection object) {
+    return putByIndex(r'name', object);
+  }
+
+  int putByNameSync(TallyPurposeCollection object, {bool saveLinks = false}) {
+    return putByIndexSync(r'name', object, saveLinks: saveLinks);
+  }
+
+  Future<List<int>> putAllByName(List<TallyPurposeCollection> objects) {
+    return putAllByIndex(r'name', objects);
+  }
+
+  List<int> putAllByNameSync(List<TallyPurposeCollection> objects,
+      {bool saveLinks = false}) {
+    return putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
   }
 }
 
@@ -196,13 +215,18 @@ extension TallyPurposeCollectionQueryWhereSort
     on QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QWhere> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterWhere>
       anyId() {
-    return addWhereClauseInternal(const IdWhereClause.any());
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterWhere>
       anyName() {
-    return addWhereClauseInternal(
-        const IndexWhereClause.any(indexName: 'name'));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'name'),
+      );
+    });
   }
 }
 
@@ -210,43 +234,53 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QWhereClause> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> idEqualTo(int id) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: id,
-      includeLower: true,
-      upper: id,
-      includeUpper: true,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> idNotEqualTo(int id) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      );
-    } else {
-      return addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      );
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.greaterThan(lower: id, includeLower: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> idLessThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.lessThan(upper: id, includeUpper: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -256,45 +290,59 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: lowerId,
-      includeLower: includeLower,
-      upper: upperId,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> nameEqualTo(String name) {
-    return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'name',
-      value: [name],
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'name',
+        value: [name],
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> nameNotEqualTo(String name) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'name',
-        upper: [name],
-        includeUpper: false,
-      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'name',
-        lower: [name],
-        includeLower: false,
-      ));
-    } else {
-      return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'name',
-        lower: [name],
-        includeLower: false,
-      )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'name',
-        upper: [name],
-        includeUpper: false,
-      ));
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ));
+      }
+    });
   }
 }
 
@@ -305,11 +353,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -318,12 +368,14 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -332,12 +384,14 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -348,14 +402,16 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'description',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -363,11 +419,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -375,39 +433,47 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
           QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
           QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'description',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -415,11 +481,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -427,11 +495,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -441,28 +511,34 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'id',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> limitIsNull() {
-    return addFilterConditionInternal(const FilterCondition.isNull(
-      property: 'limit',
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'limit',
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> limitEqualTo(int? value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'limit',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'limit',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -470,11 +546,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     int? value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'limit',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'limit',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -482,11 +560,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     int? value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'limit',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'limit',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -496,13 +576,15 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'limit',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'limit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -510,11 +592,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -523,12 +607,14 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -537,12 +623,14 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -553,14 +641,16 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'name',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -568,11 +658,13 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
@@ -580,31 +672,37 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
           QAfterFilterCondition>
       nameContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'name',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
           QAfterFilterCondition>
       nameMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'name',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 }
 
@@ -615,32 +713,44 @@ extension TallyPurposeCollectionQueryWhereSortBy
     on QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QSortBy> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByLimit() {
-    return addSortByInternal('limit', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'limit', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByLimitDesc() {
-    return addSortByInternal('limit', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'limit', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByName() {
-    return addSortByInternal('name', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
   }
 }
 
@@ -648,42 +758,58 @@ extension TallyPurposeCollectionQueryWhereSortThenBy on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QSortThenBy> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenById() {
-    return addSortByInternal('id', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByLimit() {
-    return addSortByInternal('limit', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'limit', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByLimitDesc() {
-    return addSortByInternal('limit', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'limit', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByName() {
-    return addSortByInternal('name', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
   }
 }
 
@@ -691,17 +817,23 @@ extension TallyPurposeCollectionQueryWhereDistinct
     on QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QDistinct> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QDistinct>
       distinctByDescription({bool caseSensitive = true}) {
-    return addDistinctByInternal('description', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QDistinct>
       distinctByLimit() {
-    return addDistinctByInternal('limit');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'limit');
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QDistinct>
       distinctByName({bool caseSensitive = true}) {
-    return addDistinctByInternal('name', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
   }
 }
 
@@ -709,19 +841,27 @@ extension TallyPurposeCollectionQueryProperty on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QQueryProperty> {
   QueryBuilder<TallyPurposeCollection, String, QQueryOperations>
       descriptionProperty() {
-    return addPropertyNameInternal('description');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, int?, QQueryOperations> limitProperty() {
-    return addPropertyNameInternal('limit');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'limit');
+    });
   }
 
   QueryBuilder<TallyPurposeCollection, String, QQueryOperations>
       nameProperty() {
-    return addPropertyNameInternal('name');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'name');
+    });
   }
 }

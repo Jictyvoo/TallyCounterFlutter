@@ -15,7 +15,7 @@ mixin IsarProvider {
   Future<void> initIsar() async {
     final path = await PathUtils.databaseDirectory;
     _isarInstance = await Isar.open(
-      schemas: [
+      [
         AppConfigCollectionSchema,
         MigrationCollectionSchema,
         RegisterDateCollectionSchema,

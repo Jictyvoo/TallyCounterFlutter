@@ -20,4 +20,9 @@ class AppConfigCollection {
     required this.key,
     required this.value,
   });
+
+  @override
+  String toString() {
+    return 'AppConfigCollection{id: $id, key: $key, value: $value}';
+  }
 }

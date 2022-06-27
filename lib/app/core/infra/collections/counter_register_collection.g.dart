@@ -7,7 +7,7 @@ part of 'counter_register_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable, no_leading_underscores_for_local_identifiers, inference_failure_on_function_invocation
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
 
 extension GetTallyRegisterCollectionCollection on Isar {
   IsarCollection<TallyRegisterCollection> get tallyRegisterCollections =>
@@ -15,22 +15,22 @@ extension GetTallyRegisterCollectionCollection on Isar {
 }
 
 const TallyRegisterCollectionSchema = CollectionSchema(
-  name: 'TallyRegisters',
+  name: r'TallyRegisters',
   schema:
-      '{"name":"TallyRegisters","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDates"},{"name":"purpose","target":"TallyPurposes"}]}',
-  idName: 'id',
+      r'{"name":"TallyRegisters","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDates"},{"name":"purpose","target":"TallyPurposes"}]}',
+  idName: r'id',
   propertyIds: {
-    'description': 0,
-    'duration': 1,
-    'endAt': 2,
-    'newValue': 3,
-    'oldValue': 4,
-    'startAt': 5
+    r'description': 0,
+    r'duration': 1,
+    r'endAt': 2,
+    r'newValue': 3,
+    r'oldValue': 4,
+    r'startAt': 5
   },
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
-  linkIds: {'date': 0, 'purpose': 1},
+  linkIds: {r'date': 0, r'purpose': 1},
   backlinkLinkNames: {},
   getId: _tallyRegisterCollectionGetId,
   setId: _tallyRegisterCollectionSetId,
@@ -74,12 +74,13 @@ void _tallyRegisterCollectionSerializeNative(
   if (description$Value != null) {
     description$Bytes = IsarBinaryWriter.utf8Encoder.convert(description$Value);
   }
-  final size = staticSize + (description$Bytes?.length ?? 0);
+  final size = (staticSize + (description$Bytes?.length ?? 0)) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
   final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeHeader();
   writer.writeBytes(offsets[0], description$Bytes);
   writer.writeLong(offsets[1], object.duration);
   writer.writeDateTime(offsets[2], object.endAt);
@@ -124,7 +125,7 @@ P _tallyRegisterCollectionDeserializePropNative<P>(
     case 5:
       return (reader.readDateTime(offset)) as P;
     default:
-      throw 'Illegal propertyIndex';
+      throw IsarError('Illegal propertyIndex');
   }
 }
 
@@ -132,45 +133,45 @@ Object _tallyRegisterCollectionSerializeWeb(
     IsarCollection<TallyRegisterCollection> collection,
     TallyRegisterCollection object) {
   final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, 'description', object.description);
-  IsarNative.jsObjectSet(jsObj, 'duration', object.duration);
+  IsarNative.jsObjectSet(jsObj, r'description', object.description);
+  IsarNative.jsObjectSet(jsObj, r'duration', object.duration);
   IsarNative.jsObjectSet(
-      jsObj, 'endAt', object.endAt.toUtc().millisecondsSinceEpoch);
-  IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'newValue', object.newValue);
-  IsarNative.jsObjectSet(jsObj, 'oldValue', object.oldValue);
+      jsObj, r'endAt', object.endAt.toUtc().millisecondsSinceEpoch);
+  IsarNative.jsObjectSet(jsObj, r'id', object.id);
+  IsarNative.jsObjectSet(jsObj, r'newValue', object.newValue);
+  IsarNative.jsObjectSet(jsObj, r'oldValue', object.oldValue);
   IsarNative.jsObjectSet(
-      jsObj, 'startAt', object.startAt.toUtc().millisecondsSinceEpoch);
+      jsObj, r'startAt', object.startAt.toUtc().millisecondsSinceEpoch);
   return jsObj;
 }
 
 TallyRegisterCollection _tallyRegisterCollectionDeserializeWeb(
     IsarCollection<TallyRegisterCollection> collection, Object jsObj) {
   final object = TallyRegisterCollection(
-    duration: IsarNative.jsObjectGet(jsObj, 'duration'),
-    newValue: IsarNative.jsObjectGet(jsObj, 'newValue') ??
+    duration: IsarNative.jsObjectGet(jsObj, r'duration'),
+    newValue: IsarNative.jsObjectGet(jsObj, r'newValue') ??
         (double.negativeInfinity as int),
-    oldValue: IsarNative.jsObjectGet(jsObj, 'oldValue') ??
+    oldValue: IsarNative.jsObjectGet(jsObj, r'oldValue') ??
         (double.negativeInfinity as int),
   );
-  object.description = IsarNative.jsObjectGet(jsObj, 'description');
-  object.endAt = IsarNative.jsObjectGet(jsObj, 'endAt') != null
+  object.description = IsarNative.jsObjectGet(jsObj, r'description');
+  object.endAt = IsarNative.jsObjectGet(jsObj, r'endAt') != null
       ? DateTime.fromMillisecondsSinceEpoch(
-              IsarNative.jsObjectGet(jsObj, 'endAt') as int,
+              IsarNative.jsObjectGet(jsObj, r'endAt') as int,
               isUtc: true)
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.id =
-      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int);
-  object.startAt = IsarNative.jsObjectGet(jsObj, 'startAt') != null
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
+  object.startAt = IsarNative.jsObjectGet(jsObj, r'startAt') != null
       ? DateTime.fromMillisecondsSinceEpoch(
-              IsarNative.jsObjectGet(jsObj, 'startAt') as int,
+              IsarNative.jsObjectGet(jsObj, r'startAt') as int,
               isUtc: true)
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   _tallyRegisterCollectionAttachLinks(
       collection,
-      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int),
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int),
       object);
   return object;
 }
@@ -178,50 +179,52 @@ TallyRegisterCollection _tallyRegisterCollectionDeserializeWeb(
 P _tallyRegisterCollectionDeserializePropWeb<P>(
     Object jsObj, String propertyName) {
   switch (propertyName) {
-    case 'description':
-      return (IsarNative.jsObjectGet(jsObj, 'description')) as P;
-    case 'duration':
-      return (IsarNative.jsObjectGet(jsObj, 'duration')) as P;
-    case 'endAt':
-      return (IsarNative.jsObjectGet(jsObj, 'endAt') != null
+    case r'description':
+      return (IsarNative.jsObjectGet(jsObj, r'description')) as P;
+    case r'duration':
+      return (IsarNative.jsObjectGet(jsObj, r'duration')) as P;
+    case r'endAt':
+      return (IsarNative.jsObjectGet(jsObj, r'endAt') != null
           ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, 'endAt') as int,
+                  IsarNative.jsObjectGet(jsObj, r'endAt') as int,
                   isUtc: true)
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
-    case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ??
+    case r'id':
+      return (IsarNative.jsObjectGet(jsObj, r'id') ??
           (double.negativeInfinity as int)) as P;
-    case 'newValue':
-      return (IsarNative.jsObjectGet(jsObj, 'newValue') ??
+    case r'newValue':
+      return (IsarNative.jsObjectGet(jsObj, r'newValue') ??
           (double.negativeInfinity as int)) as P;
-    case 'oldValue':
-      return (IsarNative.jsObjectGet(jsObj, 'oldValue') ??
+    case r'oldValue':
+      return (IsarNative.jsObjectGet(jsObj, r'oldValue') ??
           (double.negativeInfinity as int)) as P;
-    case 'startAt':
-      return (IsarNative.jsObjectGet(jsObj, 'startAt') != null
+    case r'startAt':
+      return (IsarNative.jsObjectGet(jsObj, r'startAt') != null
           ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, 'startAt') as int,
+                  IsarNative.jsObjectGet(jsObj, r'startAt') as int,
                   isUtc: true)
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
     default:
-      throw 'Illegal propertyName';
+      throw IsarError('Illegal propertyName');
   }
 }
 
 void _tallyRegisterCollectionAttachLinks(
     IsarCollection<dynamic> col, int id, TallyRegisterCollection object) {
   object.dateTimestamp
-      .attach(col, col.isar.registerDateCollections, 'date', id);
-  object.purpose.attach(col, col.isar.tallyPurposeCollections, 'purpose', id);
+      .attach(col, col.isar.registerDateCollections, r'date', id);
+  object.purpose.attach(col, col.isar.tallyPurposeCollections, r'purpose', id);
 }
 
 extension TallyRegisterCollectionQueryWhereSort
     on QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QWhere> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterWhere>
       anyId() {
-    return addWhereClauseInternal(const IdWhereClause.any());
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
   }
 }
 
@@ -229,43 +232,53 @@ extension TallyRegisterCollectionQueryWhere on QueryBuilder<
     TallyRegisterCollection, TallyRegisterCollection, QWhereClause> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterWhereClause> idEqualTo(int id) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: id,
-      includeLower: true,
-      upper: id,
-      includeUpper: true,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterWhereClause> idNotEqualTo(int id) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      );
-    } else {
-      return addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      );
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.greaterThan(lower: id, includeLower: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterWhereClause> idLessThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.lessThan(upper: id, includeUpper: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -275,12 +288,14 @@ extension TallyRegisterCollectionQueryWhere on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: lowerId,
-      includeLower: includeLower,
-      upper: upperId,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -288,9 +303,11 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     TallyRegisterCollection, TallyRegisterCollection, QFilterCondition> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> descriptionIsNull() {
-    return addFilterConditionInternal(const FilterCondition.isNull(
-      property: 'description',
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'description',
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -298,11 +315,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     String? value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -311,12 +330,14 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -325,12 +346,14 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool caseSensitive = true,
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -341,14 +364,16 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'description',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -356,11 +381,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.startsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -368,46 +395,56 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     String value, {
     bool caseSensitive = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.endsWith(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
           QAfterFilterCondition>
       descriptionContains(String value, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.contains(
-      property: 'description',
-      value: value,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
           QAfterFilterCondition>
       descriptionMatches(String pattern, {bool caseSensitive = true}) {
-    return addFilterConditionInternal(FilterCondition.matches(
-      property: 'description',
-      wildcard: pattern,
-      caseSensitive: caseSensitive,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> durationIsNull() {
-    return addFilterConditionInternal(const FilterCondition.isNull(
-      property: 'duration',
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'duration',
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> durationEqualTo(int? value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'duration',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'duration',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -415,11 +452,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int? value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'duration',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -427,11 +466,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int? value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'duration',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -441,21 +482,25 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'duration',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'duration',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> endAtEqualTo(DateTime value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'endAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'endAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -463,11 +508,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'endAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -475,11 +522,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'endAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -489,21 +538,25 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'endAt',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'endAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -511,11 +564,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -523,11 +578,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -537,21 +594,25 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'id',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> newValueEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'newValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'newValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -559,11 +620,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'newValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'newValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -571,11 +634,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'newValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'newValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -585,21 +650,25 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'newValue',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'newValue',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> oldValueEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'oldValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'oldValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -607,11 +676,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'oldValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'oldValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -619,11 +690,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'oldValue',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'oldValue',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -633,21 +706,25 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'oldValue',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'oldValue',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> startAtEqualTo(DateTime value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'startAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -655,11 +732,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'startAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'startAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -667,11 +746,13 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'startAt',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'startAt',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
@@ -681,13 +762,15 @@ extension TallyRegisterCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'startAt',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'startAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -696,20 +779,24 @@ extension TallyRegisterCollectionQueryLinks on QueryBuilder<
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
           QAfterFilterCondition>
       dateTimestamp(FilterQuery<RegisterDateCollection> q) {
-    return linkInternal(
-      isar.registerDateCollections,
-      q,
-      'date',
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.link(
+        query.collection.isar.registerDateCollections,
+        q,
+        r'date',
+      );
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
       QAfterFilterCondition> purpose(FilterQuery<TallyPurposeCollection> q) {
-    return linkInternal(
-      isar.tallyPurposeCollections,
-      q,
-      'purpose',
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.link(
+        query.collection.isar.tallyPurposeCollections,
+        q,
+        r'purpose',
+      );
+    });
   }
 }
 
@@ -717,62 +804,86 @@ extension TallyRegisterCollectionQueryWhereSortBy
     on QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QSortBy> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDuration() {
-    return addSortByInternal('duration', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByDurationDesc() {
-    return addSortByInternal('duration', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByEndAt() {
-    return addSortByInternal('endAt', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByEndAtDesc() {
-    return addSortByInternal('endAt', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByNewValue() {
-    return addSortByInternal('newValue', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'newValue', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByNewValueDesc() {
-    return addSortByInternal('newValue', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'newValue', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByOldValue() {
-    return addSortByInternal('oldValue', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'oldValue', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByOldValueDesc() {
-    return addSortByInternal('oldValue', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'oldValue', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByStartAt() {
-    return addSortByInternal('startAt', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startAt', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       sortByStartAtDesc() {
-    return addSortByInternal('startAt', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startAt', Sort.desc);
+    });
   }
 }
 
@@ -780,72 +891,100 @@ extension TallyRegisterCollectionQueryWhereSortThenBy on QueryBuilder<
     TallyRegisterCollection, TallyRegisterCollection, QSortThenBy> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDescription() {
-    return addSortByInternal('description', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDescriptionDesc() {
-    return addSortByInternal('description', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDuration() {
-    return addSortByInternal('duration', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByDurationDesc() {
-    return addSortByInternal('duration', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByEndAt() {
-    return addSortByInternal('endAt', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByEndAtDesc() {
-    return addSortByInternal('endAt', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenById() {
-    return addSortByInternal('id', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByNewValue() {
-    return addSortByInternal('newValue', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'newValue', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByNewValueDesc() {
-    return addSortByInternal('newValue', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'newValue', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByOldValue() {
-    return addSortByInternal('oldValue', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'oldValue', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByOldValueDesc() {
-    return addSortByInternal('oldValue', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'oldValue', Sort.desc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByStartAt() {
-    return addSortByInternal('startAt', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startAt', Sort.asc);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QAfterSortBy>
       thenByStartAtDesc() {
-    return addSortByInternal('startAt', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'startAt', Sort.desc);
+    });
   }
 }
 
@@ -853,32 +992,44 @@ extension TallyRegisterCollectionQueryWhereDistinct on QueryBuilder<
     TallyRegisterCollection, TallyRegisterCollection, QDistinct> {
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByDescription({bool caseSensitive = true}) {
-    return addDistinctByInternal('description', caseSensitive: caseSensitive);
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByDuration() {
-    return addDistinctByInternal('duration');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'duration');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByEndAt() {
-    return addDistinctByInternal('endAt');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'endAt');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByNewValue() {
-    return addDistinctByInternal('newValue');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'newValue');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByOldValue() {
-    return addDistinctByInternal('oldValue');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'oldValue');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, TallyRegisterCollection, QDistinct>
       distinctByStartAt() {
-    return addDistinctByInternal('startAt');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'startAt');
+    });
   }
 }
 
@@ -886,35 +1037,49 @@ extension TallyRegisterCollectionQueryProperty on QueryBuilder<
     TallyRegisterCollection, TallyRegisterCollection, QQueryProperty> {
   QueryBuilder<TallyRegisterCollection, String?, QQueryOperations>
       descriptionProperty() {
-    return addPropertyNameInternal('description');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, int?, QQueryOperations>
       durationProperty() {
-    return addPropertyNameInternal('duration');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'duration');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, DateTime, QQueryOperations>
       endAtProperty() {
-    return addPropertyNameInternal('endAt');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'endAt');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, int, QQueryOperations>
       newValueProperty() {
-    return addPropertyNameInternal('newValue');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'newValue');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, int, QQueryOperations>
       oldValueProperty() {
-    return addPropertyNameInternal('oldValue');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'oldValue');
+    });
   }
 
   QueryBuilder<TallyRegisterCollection, DateTime, QQueryOperations>
       startAtProperty() {
-    return addPropertyNameInternal('startAt');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'startAt');
+    });
   }
 }
