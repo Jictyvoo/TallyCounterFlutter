@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
-import 'package:tally_counter/app/pages/counter/purpose_store.dart';
 
 import '../dialogs/create_purpose_dialog.dart';
+import '../purpose_store.dart';
 
 class PurposeSelector extends StatefulWidget {
   final void Function(PurposeDTO)? onPurposeSelected;

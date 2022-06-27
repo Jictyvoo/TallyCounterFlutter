@@ -6,12 +6,8 @@ import 'core/domain/repositories/purpose_repository.dart';
 import 'core/infra/repositories/counter_register_repository_isar.dart';
 import 'core/infra/repositories/date_register_repository_isar.dart';
 import 'core/infra/repositories/purpose_repository_isar.dart';
-import 'home_page.dart';
 import 'modules/splash/splash_module.dart';
-import 'pages/counter/counter_store.dart';
-import 'pages/counter/purpose_store.dart';
-import 'pages/register_list/register_list_page.dart';
-import 'pages/register_list/register_list_store.dart';
+import 'modules/tally_counter/tally_counter_module.dart';
 import 'shared/routes.dart';
 
 class AppModule extends Module {
@@ -24,8 +20,6 @@ class AppModule extends Module {
           (i) => DateRegisterRepositoryIsar(),
         ),
         Bind.factory<PurposeRepository>((i) => PurposeRepositoryIsar()),
-        Bind.singleton<CounterStore>((i) => CounterStore()),
-        Bind.factory<PurposeStore>((i) => i<CounterStore>()),
       ];
 
   @override
@@ -35,18 +29,9 @@ class AppModule extends Module {
           module: SplashModule(),
           transition: TransitionType.fadeIn,
         ),
-        ChildRoute(
+        ModuleRoute(
           AppRoutes.HOME.route,
-          child: (context, args) => const HomePage(
-            title: 'Tally Counter App',
-          ),
-        ),
-        ChildRoute(
-          AppRoutes.REGISTER_LIST.route,
-          child: (context, args) => RegisterListPage(
-            store: RegisterListStore(),
-            fromDate: args.data,
-          ),
+          module: TallyCounterModule(),
         ),
       ];
 }

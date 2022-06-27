@@ -4,12 +4,12 @@ import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
 import 'pages/counter/widgets/purpose_selector.dart';
-import 'shared/widgets/popup_trailing.dart';
+import 'widgets/popup_trailing.dart';
 
-class HomePage extends StatelessWidget {
+class TallyPage extends StatelessWidget {
   final String title;
 
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const TallyPage({Key? key, required this.title}) : super(key: key);
 
   Widget _buildHorizontalLayout() {
     return Row(
