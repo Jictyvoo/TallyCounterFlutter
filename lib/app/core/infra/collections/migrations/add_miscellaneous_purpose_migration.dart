@@ -18,7 +18,7 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
 
   @override
   VersionLabel get runBeforeVersion =>
-      const VersionLabel(major: 1, minor: 2, patch: 0);
+      const VersionLabel(major: 0, minor: 0, patch: 0);
 
   @override
   Future<bool> call(Isar isar) async {
@@ -30,6 +30,7 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
         .nameEqualTo('Miscellaneous')
         .findFirst();
 
+    var purposeCreated = false;
     if (miscellaneousPurpose == null) {
       // Create the `Miscellaneous` purpose.
       final newMiscellaneousPurpose = TallyPurposeCollection(
@@ -37,10 +38,13 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
         description: 'Miscellaneous purposes.',
         limit: null,
       );
-      await isar.writeTxn(() async {
-        await isar.tallyPurposeCollections.put(newMiscellaneousPurpose);
-      });
+      final purposeId = await isar.writeTxn(
+        () async => await isar.tallyPurposeCollections.put(
+          newMiscellaneousPurpose,
+        ),
+      );
       miscellaneousPurpose = newMiscellaneousPurpose;
+      purposeCreated = purposeId > 0;
     }
 
     var updatedRegisters = 0;
@@ -58,6 +62,6 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
 
     log('Updated "$updatedRegisters" tally registers.');
 
-    return updatedRegisters > 0;
+    return updatedRegisters > 0 || purposeCreated;
   }
 }
