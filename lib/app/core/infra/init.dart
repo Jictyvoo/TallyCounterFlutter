@@ -33,12 +33,13 @@ class InfraInit with IsarProvider, AppConfigProvider {
     );
 
     final futures = <Future<bool>>[];
+    var updatedConfig = AppConfigProvider.appConfig;
     if (newDbVersion != null) {
-      final updatedConfig = AppConfigProvider.appConfig.copyWith(
+      updatedConfig = AppConfigProvider.appConfig.copyWith(
         databaseVersion: newDbVersion,
       );
-      futures.add(AppConfigProvider.updateConfig(updatedConfig));
     }
+    futures.add(AppConfigProvider.updateConfig(updatedConfig));
 
     await Future.wait(futures);
   }
