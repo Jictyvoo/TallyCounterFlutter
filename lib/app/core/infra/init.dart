@@ -1,3 +1,5 @@
+import 'package:tally_counter/app/shared/utils/version_label.dart';
+
 import 'collections/migrations/add_miscellaneous_purpose_migration.dart';
 import 'collections/migrations/database_migrations_manager.dart';
 import 'collections/migrations/organize_by_datetime_migration.dart';
@@ -34,7 +36,8 @@ class InfraInit with IsarProvider, AppConfigProvider {
 
     final futures = <Future<bool>>[];
     var updatedConfig = AppConfigProvider.appConfig;
-    if (newDbVersion != null) {
+    if (newDbVersion != null &&
+        newDbVersion > const VersionLabel(major: 0, minor: 0, patch: 0)) {
       updatedConfig = AppConfigProvider.appConfig.copyWith(
         databaseVersion: newDbVersion,
       );
