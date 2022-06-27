@@ -3,23 +3,74 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
+import 'pages/counter/widgets/purpose_selector.dart';
 import 'shared/widgets/popup_trailing.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
+class HomePage extends StatelessWidget {
   final String title;
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
-class _HomePageState extends State<HomePage> {
+  Widget _buildHorizontalLayout() {
+    return Row(
+      children: const [
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+            child: PurposeSelector(),
+          ),
+        ),
+        VerticalDivider(
+          indent: 10,
+          endIndent: 10,
+        ),
+        Expanded(
+          flex: 2,
+          child: SingleChildScrollView(
+            child: CounterPage(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVerticalLayout() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      child: Column(
+        children: const [
+          Expanded(
+            flex: 1,
+            child: PurposeSelector(),
+          ),
+          Divider(indent: 10, endIndent: 10),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: SingleChildScrollView(
+                child: CounterPage(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLayout(BuildContext context, BoxConstraints constraints) {
+    if (constraints.maxWidth >= 540) {
+      return _buildHorizontalLayout();
+    }
+
+    return _buildVerticalLayout();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
         actions: [
           PopupTrailing(
             onTap: (options) {
@@ -35,8 +86,8 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: const Center(
-        child: CounterPage(),
+      body: LayoutBuilder(
+        builder: _buildLayout,
       ),
     );
   }

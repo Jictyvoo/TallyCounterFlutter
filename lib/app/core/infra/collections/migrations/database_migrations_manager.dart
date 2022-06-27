@@ -7,6 +7,7 @@ import 'migrations_contract.dart';
 
 class DatabaseMigrationsManager {
   final Isar _isarConnection;
+  static const alwaysRunAtVersion = VersionLabel(major: 0, minor: 0, patch: 0);
 
   DatabaseMigrationsManager(this._isarConnection);
 
@@ -34,7 +35,8 @@ class DatabaseMigrationsManager {
 
     for (final migration in sortedMigrations) {
       if (!migrationList.hasMigration(migration.name) &&
-          currentDBVersion <= migration.runBeforeVersion) {
+          (currentDBVersion <= migration.runBeforeVersion ||
+              migration.runBeforeVersion == alwaysRunAtVersion)) {
         currentDBVersion = migration.runBeforeVersion;
         futures.add(
           () async {

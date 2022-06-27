@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
+import 'package:tally_counter/app/core/infra/collections/tally_purpose_collection.dart';
 
 part 'counter_register_collection.g.dart';
 
@@ -13,6 +14,9 @@ class TallyRegisterCollection {
 
   @Name("date")
   final dateTimestamp = IsarLink<RegisterDateCollection>();
+
+  @Name("purpose")
+  final purpose = IsarLink<TallyPurposeCollection>();
 
   @Name("startAt")
   DateTime startAt;

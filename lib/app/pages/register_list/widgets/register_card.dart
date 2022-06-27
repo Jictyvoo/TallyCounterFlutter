@@ -18,8 +18,12 @@ class RegisterCardWidget extends StatelessWidget {
 
   String _formatDate(final DateTime dateTime) {
     final formatDate = DateFormat.yMd();
+    return formatDate.format(dateTime);
+  }
+
+  String _formatTime(final DateTime dateTime) {
     final formatTime = DateFormat.Hm();
-    return '${formatDate.format(dateTime)} - ${formatTime.format(dateTime)}';
+    return formatTime.format(dateTime);
   }
 
   String get _duration {
@@ -42,6 +46,17 @@ class RegisterCardWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildDateElement(final DateTime dateTime) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Text(_formatDate(dateTime)),
+        Text(_formatTime(dateTime)),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,20 +68,38 @@ class RegisterCardWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Purpose: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(counterRegister.purpose.name),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     const Icon(Icons.calendar_today_outlined),
-                    const SizedBox(width: 10),
-                    Column(
-                      children: [
-                        Text(_formatDate(counterRegister.startTime)),
-                        Text(_formatDate(counterRegister.endTime)),
-                      ],
+                    Expanded(
+                      child: Column(
+                        children: [
+                          _buildDateElement(counterRegister.startTime),
+                          _buildDateElement(counterRegister.endTime),
+                        ],
+                      ),
                     )
                   ],
                 ),
+                const SizedBox(height: 6),
                 Row(
                   children: [
                     const Text(

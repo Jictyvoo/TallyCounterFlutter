@@ -10,6 +10,7 @@ abstract class TallyRegisterExporter {
         'new-value': register.newValue.toString(),
         'old-value': register.oldValue.toString(),
         'duration': register.duration.toString(),
+        'purpose': register.purpose.name,
       });
     }
 

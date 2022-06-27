@@ -5,10 +5,10 @@ class VersionLabel {
   static final dotCharCode = '.'.codeUnitAt(0);
 
   final int major;
-  final int mid;
   final int minor;
+  final int patch;
 
-  const VersionLabel({this.major = 1, this.mid = 0, this.minor = 0});
+  const VersionLabel({this.major = 1, this.minor = 0, this.patch = 0});
 
   factory VersionLabel.fromString(String number) {
     var version = Uint8List(3);
@@ -37,8 +37,8 @@ class VersionLabel {
 
     return VersionLabel(
       major: version[0],
-      mid: version[1],
-      minor: version[2],
+      minor: version[1],
+      patch: version[2],
     );
   }
 
@@ -59,12 +59,12 @@ class VersionLabel {
   }
 
   Uint8List asArray() {
-    return Uint8List.fromList([major, mid, minor]);
+    return Uint8List.fromList([major, minor, patch]);
   }
 
   @override
   String toString() {
-    return "v$major.$mid.$minor";
+    return "v$major.$minor.$patch";
   }
 
   @override
@@ -73,8 +73,8 @@ class VersionLabel {
       other is VersionLabel &&
           runtimeType == other.runtimeType &&
           major == other.major &&
-          mid == other.mid &&
-          minor == other.minor;
+          minor == other.minor &&
+          patch == other.patch;
 
   bool operator >(Object other) => other is VersionLabel && compare(other) > 0;
 
@@ -86,6 +86,31 @@ class VersionLabel {
   bool operator <=(Object other) =>
       other is VersionLabel && compare(other) <= 0;
 
+  VersionLabel operator +(Object other) {
+    if (other is double) {
+      if (other < 0.1) {
+        return VersionLabel(
+          major: major,
+          minor: minor,
+          patch: patch + (other * 100).toInt(),
+        );
+      } else if (other < 1) {
+        return VersionLabel(
+          major: major,
+          minor: minor + (other * 10).toInt(),
+          patch: patch,
+        );
+      } else {
+        return VersionLabel(
+          major: major + other.toInt(),
+          minor: minor,
+          patch: patch,
+        );
+      }
+    }
+    return this;
+  }
+
   @override
-  int get hashCode => major.hashCode ^ mid.hashCode ^ minor.hashCode;
+  int get hashCode => major.hashCode ^ minor.hashCode ^ patch.hashCode;
 }

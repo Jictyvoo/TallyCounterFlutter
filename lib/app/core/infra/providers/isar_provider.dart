@@ -3,6 +3,7 @@ import 'package:tally_counter/app/core/infra/collections/app_config_collection.d
 import 'package:tally_counter/app/core/infra/collections/counter_register_collection.dart';
 import 'package:tally_counter/app/core/infra/collections/migration_collection.dart';
 import 'package:tally_counter/app/core/infra/collections/register_date_collection.dart';
+import 'package:tally_counter/app/core/infra/collections/tally_purpose_collection.dart';
 import 'package:tally_counter/app/core/infra/utils/path_utils.dart';
 
 mixin IsarProvider {
@@ -18,6 +19,7 @@ mixin IsarProvider {
         AppConfigCollectionSchema,
         MigrationCollectionSchema,
         RegisterDateCollectionSchema,
+        TallyPurposeCollectionSchema,
         TallyRegisterCollectionSchema,
       ],
       directory: path,
