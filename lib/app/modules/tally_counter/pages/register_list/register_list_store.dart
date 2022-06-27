@@ -1,7 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
 import 'package:tally_counter/app/core/domain/repositories/date_register_repository.dart';
+import 'package:tally_counter/app/core/infra/providers/file_save_provider.dart';
+import 'package:tally_counter/app/core/infra/utils/csv_builder.dart';
+import 'package:tally_counter/app/core/infra/utils/tally_register_exporter.dart';
 
 class RegisterListStore {
   final CounterRegisterRepository _repository;
@@ -24,5 +28,24 @@ class RegisterListStore {
 
   Future<bool> delete(CounterRegister register) {
     return _repository.delete(register);
+  }
+
+  Future<String> exportCSV(
+    DateTime fromDate, {
+    DateTime? toDate,
+    String outputFolder = '',
+  }) async {
+    final csvBuilder = CSVBuilder();
+    final fileData = csvBuilder.build(
+      TallyRegisterExporter.call(await load(fromDate)),
+    );
+
+    final dateFormatter = intl.DateFormat.yMd();
+    final result = await FileSaveProvider.writeToFile(
+      'date_export#${dateFormatter.format(fromDate).replaceAll("/", "-")}.csv',
+      fileData,
+      outputFolder: outputFolder,
+    );
+    return result;
   }
 }

@@ -10,15 +10,24 @@ mixin AppConfigProvider {
 
   static AppConfig get appConfig => _configInstance;
 
-  static Future<void> reloadConfig() async {
+  static Future<void> reloadConfig([
+    VersionLabel freshDbVersion = const VersionLabel(),
+  ]) async {
     _isInitialized = false;
     final configMap = await AppConfigRepositoryIsar().load();
     _configInstance = AppConfig.fromMap(configMap);
+    if (_configInstance.databaseVersion == const VersionLabel(major: 0)) {
+      _configInstance = _configInstance.copyWith(
+        databaseVersion: freshDbVersion,
+      );
+    }
     _isInitialized = true;
   }
 
-  Future<void> initConfig() async {
-    return reloadConfig();
+  Future<void> initConfig([
+    VersionLabel freshDbVersion = const VersionLabel(),
+  ]) async {
+    return reloadConfig(freshDbVersion);
   }
 
   static Future<bool> updateConfig(AppConfig updatedConfig) {

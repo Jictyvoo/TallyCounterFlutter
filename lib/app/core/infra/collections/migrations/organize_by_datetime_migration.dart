@@ -18,7 +18,7 @@ class OrganizeByDatetimeMigration extends MigrationsContract {
 
   @override
   VersionLabel get runBeforeVersion =>
-      const VersionLabel(major: 1, mid: 1, minor: 0);
+      const VersionLabel(major: 1, minor: 1, patch: 0);
 
   String _dateStr(DateTime date) => '${date.year}-${date.month}-${date.day}';
 

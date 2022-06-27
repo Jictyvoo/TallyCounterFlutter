@@ -1,3 +1,4 @@
+import 'register_purpose.dart';
 import 'timer_intersection.dart';
 
 class CounterRegister extends TimeIntersection {
@@ -5,6 +6,7 @@ class CounterRegister extends TimeIntersection {
   final DateTime endTime;
   final int oldValue;
   final int newValue;
+  RegisterPurpose purpose;
 
   CounterRegister({
     this.id = -1,
@@ -12,6 +14,7 @@ class CounterRegister extends TimeIntersection {
     required this.endTime,
     this.oldValue = 0,
     this.newValue = 0,
+    this.purpose = RegisterPurpose.empty,
   }) : super(startTime, endTime.difference(startTime));
 
   CounterRegister.duration({
@@ -21,6 +24,7 @@ class CounterRegister extends TimeIntersection {
     required Duration duration,
     this.oldValue = 0,
     this.newValue = 0,
+    this.purpose = RegisterPurpose.empty,
   })  : endTime = endTime ?? startTime.add(duration),
         super(startTime, duration);
 
@@ -47,6 +51,10 @@ class CounterRegister extends TimeIntersection {
 
   @override
   String toString() {
-    return 'CounterRegister{duration: $duration, startTime: $startTime, endTime: $endTime, oldValue: $oldValue, newValue: $newValue}';
+    return 'CounterRegister{'
+        'id: $id, endTime: $endTime, '
+        'oldValue: $oldValue, newValue: $newValue, '
+        'purpose: $purpose'
+        '}';
   }
 }

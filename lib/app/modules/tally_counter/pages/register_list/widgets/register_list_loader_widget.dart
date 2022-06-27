@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
-import 'package:tally_counter/app/pages/register_list/widgets/register_list_widget.dart';
 
 import '../register_list_store.dart';
+import 'register_list_widget.dart';
 
 class RegisterListLoader extends StatefulWidget {
   final RegisterListStore? store;
@@ -36,6 +36,7 @@ class _RegisterListLoaderState extends State<RegisterListLoader>
       builder: (context, snapshot) {
         final result = snapshot.data ?? [];
         if (snapshot.hasError) {
+          debugPrintStack(stackTrace: snapshot.stackTrace);
           return const Center(
             child: Text('Error when loading registers'),
           );

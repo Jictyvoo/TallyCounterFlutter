@@ -42,12 +42,14 @@ class RegisterCountPush {
                 pauseTime!.duration,
             oldValue: previousCounter.newValue,
             newValue: newValue,
+            purpose: previousCounter.purpose,
           )
         : CounterRegister(
             startTime: previousCounter.endTime,
             endTime: endTime,
             oldValue: previousCounter.newValue,
             newValue: newValue,
+            purpose: previousCounter.purpose,
           );
   }
 

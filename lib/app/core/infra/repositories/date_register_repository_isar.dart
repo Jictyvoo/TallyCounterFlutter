@@ -15,7 +15,8 @@ class DateRegisterRepositoryIsar implements DateRegisterRepository {
   Future<List<DateTime>> loadAll() async {
     final isar = _conn;
     final foundDates = await isar.writeTxn(
-      () async => await isar.registerDateCollections.where().findAll(),
+      () async =>
+          await isar.registerDateCollections.where().sortByDateDesc().findAll(),
     );
 
     final results = <DateTime>[];

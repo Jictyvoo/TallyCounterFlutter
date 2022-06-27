@@ -17,7 +17,7 @@ extension GetTallyRegisterCollectionCollection on Isar {
 const TallyRegisterCollectionSchema = CollectionSchema(
   name: 'TallyRegisters',
   schema:
-      '{"name":"TallyRegisters","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDates"}]}',
+      '{"name":"TallyRegisters","idName":"id","properties":[{"name":"description","type":"String"},{"name":"duration","type":"Long"},{"name":"endAt","type":"Long"},{"name":"newValue","type":"Long"},{"name":"oldValue","type":"Long"},{"name":"startAt","type":"Long"}],"indexes":[],"links":[{"name":"date","target":"RegisterDates"},{"name":"purpose","target":"TallyPurposes"}]}',
   idName: 'id',
   propertyIds: {
     'description': 0,
@@ -30,7 +30,7 @@ const TallyRegisterCollectionSchema = CollectionSchema(
   listProperties: {},
   indexIds: {},
   indexValueTypes: {},
-  linkIds: {'date': 0},
+  linkIds: {'date': 0, 'purpose': 1},
   backlinkLinkNames: {},
   getId: _tallyRegisterCollectionGetId,
   setId: _tallyRegisterCollectionSetId,
@@ -59,7 +59,7 @@ void _tallyRegisterCollectionSetId(TallyRegisterCollection object, int id) {
 
 List<IsarLinkBase<dynamic>> _tallyRegisterCollectionGetLinks(
     TallyRegisterCollection object) {
-  return [object.dateTimestamp];
+  return [object.dateTimestamp, object.purpose];
 }
 
 void _tallyRegisterCollectionSerializeNative(
@@ -214,6 +214,7 @@ void _tallyRegisterCollectionAttachLinks(
     IsarCollection<dynamic> col, int id, TallyRegisterCollection object) {
   object.dateTimestamp
       .attach(col, col.isar.registerDateCollections, 'date', id);
+  object.purpose.attach(col, col.isar.tallyPurposeCollections, 'purpose', id);
 }
 
 extension TallyRegisterCollectionQueryWhereSort
@@ -699,6 +700,15 @@ extension TallyRegisterCollectionQueryLinks on QueryBuilder<
       isar.registerDateCollections,
       q,
       'date',
+    );
+  }
+
+  QueryBuilder<TallyRegisterCollection, TallyRegisterCollection,
+      QAfterFilterCondition> purpose(FilterQuery<TallyPurposeCollection> q) {
+    return linkInternal(
+      isar.tallyPurposeCollections,
+      q,
+      'purpose',
     );
   }
 }
