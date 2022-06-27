@@ -1,29 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
+import 'package:tally_counter/app/pages/counter/purpose_store.dart';
 
 class PurposeSelector extends StatefulWidget {
-  const PurposeSelector({Key? key}) : super(key: key);
+  final void Function(PurposeDTO)? onPurposeSelected;
+
+  const PurposeSelector({Key? key, this.onPurposeSelected}) : super(key: key);
 
   @override
   State<PurposeSelector> createState() => _PurposeSelectorState();
 }
 
 class _PurposeSelectorState extends State<PurposeSelector> {
-  var _selectedPurpose = 0;
+  late final PurposeStore _purposeStore;
+
+  void _reloadPurposes() {
+    _purposeStore.loadPurposes().then((purposes) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _purposeStore = Modular.get<PurposeStore>();
+    _reloadPurposes();
+  }
+
+  void _addPurposeHandler() {
+    _purposeStore.addPurpose(PurposeDTO(name: 'OIIOadsOR'), true).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _handleSelection(int index) {
+    final selectedPurpose = _purposeStore.getPurposeAt(index);
+    widget.onPurposeSelected?.call(selectedPurpose);
+    _purposeStore.purpose = index;
+  }
 
   Widget _itemBuilder(BuildContext context, int index) {
     return ListTile(
-      title: Text('Purpose $index'),
+      title: Text(_purposeStore.getPurposeAt(index).name),
       leading: Checkbox(
-        onChanged: (bool? value) {
-          setState(() {
-            _selectedPurpose = index;
-          });
-        },
-        value: _selectedPurpose == index,
+        onChanged: null,
+        value: _purposeStore.purposeIndex == index,
       ),
       onTap: () {
         setState(() {
-          _selectedPurpose = index;
+          _handleSelection(index);
         });
       },
     );
@@ -34,14 +62,14 @@ class _PurposeSelectorState extends State<PurposeSelector> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
-        const Expanded(
+        Expanded(
           flex: 1,
           child: SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: null,
-              child: Text('Add Purpose'),
+              onPressed: _addPurposeHandler,
+              child: const Text('Add Purpose'),
             ),
           ),
         ),
@@ -54,7 +82,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
           child: Scrollbar(
             thumbVisibility: true,
             child: ListView.builder(
-              itemCount: 11,
+              itemCount: _purposeStore.size,
               controller: ScrollController(),
               physics: const BouncingScrollPhysics(),
               itemBuilder: _itemBuilder,
@@ -82,7 +110,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
                 SliverFixedExtentList(
                   delegate: SliverChildBuilderDelegate(
                     _itemBuilder,
-                    childCount: 10,
+                    childCount: _purposeStore.size,
                   ),
                   itemExtent: 50,
                 ),
@@ -90,17 +118,17 @@ class _PurposeSelectorState extends State<PurposeSelector> {
             ),
           ),
         ),
-        const Expanded(
+        Expanded(
           flex: 2,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Align(
               alignment: Alignment.center,
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
-                  onPressed: null,
-                  child: Text('Add Purpose'),
+                  onPressed: _addPurposeHandler,
+                  child: const Text('Add Purpose'),
                 ),
               ),
             ),
