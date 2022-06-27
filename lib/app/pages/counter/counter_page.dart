@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'counter_store.dart';
 import 'widgets/change_value_dialog.dart';
@@ -12,7 +13,13 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
-  final CounterStore _store = CounterStore();
+  late final CounterStore _store;
+
+  @override
+  void initState() {
+    super.initState();
+    _store = Modular.get<CounterStore>();
+  }
 
   Widget _buildPauseDuration() {
     return Row(

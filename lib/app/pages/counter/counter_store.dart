@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/core/domain/models/entities/register_purpose.dart';
 import 'package:tally_counter/app/core/domain/models/entities/timer_intersection.dart';
 import 'package:tally_counter/app/core/domain/models/enums/push_type_enum.dart';
 import 'package:tally_counter/app/core/domain/repositories/counter_register_repository.dart';
@@ -7,7 +8,9 @@ import 'package:tally_counter/app/core/domain/usecases/count_pause_time.dart';
 import 'package:tally_counter/app/core/domain/usecases/delay_provider.dart';
 import 'package:tally_counter/app/core/domain/usecases/register_count_push.dart';
 
-class CounterStore {
+import 'purpose_store.dart';
+
+class CounterStore with PurposeStore {
   static final DelayProvider<CounterRegister> _delayProvider = DelayProvider(
     duration: const Duration(milliseconds: 800),
     callback: (counterRegister) {
@@ -37,15 +40,6 @@ class CounterStore {
   static CounterRegisterRepository get _repository =>
       Modular.get<CounterRegisterRepository>();
 
-  RegisterCountPush get useCase {
-    return RegisterCountPush(
-      _lastRegister,
-      _pauseTime,
-      repository: _repository,
-      delayProvider: _delayProvider,
-    );
-  }
-
   static CountPauseTime get _pauseCase {
     return CountPauseTime();
   }
@@ -62,6 +56,15 @@ class CounterStore {
           oldValue: counter,
         ),
         _isPaused = true;
+
+  RegisterCountPush get useCase {
+    return RegisterCountPush(
+      _lastRegister,
+      _pauseTime,
+      repository: _repository,
+      delayProvider: _delayProvider,
+    );
+  }
 
   int get value => _lastRegister.newValue;
 
