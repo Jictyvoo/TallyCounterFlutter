@@ -45,6 +45,7 @@ class AddMiscellaneousPurposeMigration extends MigrationsContract {
       );
       miscellaneousPurpose = newMiscellaneousPurpose;
       purposeCreated = purposeId > 0;
+      log('Created new purpose: $miscellaneousPurpose');
     }
 
     var updatedRegisters = 0;
