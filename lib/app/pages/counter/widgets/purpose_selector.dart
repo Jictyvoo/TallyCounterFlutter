@@ -3,6 +3,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
 import 'package:tally_counter/app/pages/counter/purpose_store.dart';
 
+import '../dialogs/create_purpose_dialog.dart';
+
 class PurposeSelector extends StatefulWidget {
   final void Function(PurposeDTO)? onPurposeSelected;
 
@@ -31,9 +33,28 @@ class _PurposeSelectorState extends State<PurposeSelector> {
   }
 
   void _addPurposeHandler() {
-    _purposeStore.addPurpose(PurposeDTO(name: 'OIIOadsOR'), true).then((_) {
-      setState(() {});
-    });
+    showDialog(
+      context: context,
+      builder: (context) => CreatePurposeDialog(
+        onFormSubmit: (name, description) {
+          final newPurpose = PurposeDTO(
+            name: name,
+            description: description,
+          );
+          _purposeStore.addPurpose(newPurpose, true).then((success) {
+            if (success) {
+              setState(() {});
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Failed to add purpose'),
+                ),
+              );
+            }
+          });
+        },
+      ),
+    );
   }
 
   void _handleSelection(int index) {

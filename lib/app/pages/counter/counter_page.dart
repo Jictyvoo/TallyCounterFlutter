@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'counter_store.dart';
-import 'widgets/change_value_dialog.dart';
+import 'dialogs/change_value_dialog.dart';
 import 'widgets/pause_duration_timer_widget.dart';
 
 class CounterPage extends StatefulWidget {

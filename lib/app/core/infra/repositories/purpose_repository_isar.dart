@@ -3,8 +3,9 @@ import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
 import 'package:tally_counter/app/core/domain/repositories/purpose_repository.dart';
 import 'package:tally_counter/app/core/infra/collections/tally_purpose_collection.dart';
 import 'package:tally_counter/app/core/infra/providers/isar_provider.dart';
+import 'package:tally_counter/app/shared/utils/debug_print.dart';
 
-class PurposeRepositoryIsar implements PurposeRepository {
+class PurposeRepositoryIsar with DebuggablePrint implements PurposeRepository {
   Isar? _isarConnection;
 
   Isar get _conn {
@@ -35,15 +36,20 @@ class PurposeRepositoryIsar implements PurposeRepository {
   @override
   Future<bool> create(PurposeDTO purpose) async {
     final isar = _conn;
-    final id = await isar.writeTxn(
-      () => isar.tallyPurposeCollections.put(
-        TallyPurposeCollection(
-          name: purpose.name,
-          description: purpose.description,
+    try {
+      final id = await isar.writeTxn(
+        () => isar.tallyPurposeCollections.put(
+          TallyPurposeCollection(
+            name: purpose.name,
+            description: purpose.description,
+          ),
         ),
-      ),
-    );
-    return id > 0;
+      );
+      return id > 0;
+    } catch (e, stackTrace) {
+      debugPrint('Error: `$e`\n$stackTrace');
+      return false;
+    }
   }
 
   @override

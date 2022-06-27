@@ -16,6 +16,7 @@ class ChangeValueDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Change Counter value'),
       content: TextField(
+        keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         controller: _setValueController,
       ),
