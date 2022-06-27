@@ -33,6 +33,7 @@ class CounterStore with PurposeStore {
         duration: totalDuration,
         newValue: last.newValue,
         oldValue: first.oldValue,
+        purpose: last.purpose,
       );
     },
   );
@@ -79,6 +80,10 @@ class CounterStore with PurposeStore {
       endTime: now,
       oldValue: _lastRegister.oldValue,
       newValue: _lastRegister.newValue,
+      purpose: RegisterPurpose(
+        name: selectedPurpose.name,
+        description: selectedPurpose.description,
+      ),
     );
   }
 
@@ -105,7 +110,11 @@ class CounterStore with PurposeStore {
     if (_isPaused) {
       _executePause();
     }
-    _lastRegister = useCase(pushType);
+    _lastRegister = useCase(pushType)
+      ..purpose = RegisterPurpose(
+        name: selectedPurpose.name,
+        description: selectedPurpose.description,
+      );
     _pauseTime = null;
     _isPaused = false;
   }
@@ -123,7 +132,11 @@ class CounterStore with PurposeStore {
       _resetLastRegister();
     }
     final counter = int.tryParse(from) ?? value;
-    _lastRegister = useCase.setValue(counter);
+    _lastRegister = useCase.setValue(counter)
+      ..purpose = RegisterPurpose(
+        name: selectedPurpose.name,
+        description: selectedPurpose.description,
+      );
     _pauseTime = null;
     _isPaused = false;
   }

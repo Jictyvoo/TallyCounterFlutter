@@ -6,7 +6,7 @@ class CounterRegister extends TimeIntersection {
   final DateTime endTime;
   final int oldValue;
   final int newValue;
-  final RegisterPurpose purpose;
+  RegisterPurpose purpose;
 
   CounterRegister({
     this.id = -1,
