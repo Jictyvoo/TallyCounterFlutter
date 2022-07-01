@@ -16,6 +16,10 @@ class PurposeSelector extends StatefulWidget {
 
 class _PurposeSelectorState extends State<PurposeSelector> {
   late final PurposeStore _purposeStore;
+  late final ScrollController _scrollController;
+
+  // FIXME: When this is true, framework complain: thumbVisibility: true
+  bool get _showScrollThumb => false;
 
   void _reloadPurposes() {
     _purposeStore.loadPurposes().then((purposes) {
@@ -28,6 +32,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
   @override
   initState() {
     super.initState();
+    _scrollController = ScrollController();
     _purposeStore = Modular.get<PurposeStore>();
     _reloadPurposes();
   }
@@ -101,11 +106,15 @@ class _PurposeSelectorState extends State<PurposeSelector> {
         Expanded(
           flex: 2,
           child: Scrollbar(
-            thumbVisibility: true,
+            controller: _scrollController,
+            thumbVisibility: _showScrollThumb,
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: _purposeStore.size,
-              controller: ScrollController(),
-              physics: const BouncingScrollPhysics(),
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               itemBuilder: _itemBuilder,
             ),
           ),
@@ -120,10 +129,11 @@ class _PurposeSelectorState extends State<PurposeSelector> {
         Expanded(
           flex: 8,
           child: Scrollbar(
-            thumbVisibility: true,
+            controller: _scrollController,
+            thumbVisibility: _showScrollThumb,
             child: CustomScrollView(
               shrinkWrap: true,
-              controller: ScrollController(),
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
