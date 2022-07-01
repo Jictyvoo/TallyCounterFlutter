@@ -108,7 +108,9 @@ class CounterRegisterRepositoryIsar implements CounterRegisterRepository {
           .dateEqualTo(dateTimestamp.date)
           .findFirst();
       if (registerDate == null) {
-        isar.registerDateCollections.put(dateTimestamp);
+        dateTimestamp.id = await isar.registerDateCollections.put(
+          dateTimestamp,
+        );
       }
       newRegister.dateTimestamp.value = registerDate ?? dateTimestamp;
 

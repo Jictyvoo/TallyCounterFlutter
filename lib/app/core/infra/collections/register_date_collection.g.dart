@@ -7,7 +7,7 @@ part of 'register_date_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable, no_leading_underscores_for_local_identifiers, inference_failure_on_function_invocation
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
 
 extension GetRegisterDateCollectionCollection on Isar {
   IsarCollection<RegisterDateCollection> get registerDateCollections =>
@@ -15,15 +15,15 @@ extension GetRegisterDateCollectionCollection on Isar {
 }
 
 const RegisterDateCollectionSchema = CollectionSchema(
-  name: 'RegisterDates',
+  name: r'RegisterDates',
   schema:
-      '{"name":"RegisterDates","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"replace":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
-  idName: 'id',
-  propertyIds: {'date': 0},
+      r'{"name":"RegisterDates","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"replace":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
+  idName: r'id',
+  propertyIds: {r'date': 0},
   listProperties: {},
-  indexIds: {'date': 0},
+  indexIds: {r'date': 0},
   indexValueTypes: {
-    'date': [
+    r'date': [
       IndexValueType.long,
     ]
   },
@@ -66,12 +66,13 @@ void _registerDateCollectionSerializeNative(
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
-  final size = staticSize;
+  final size = (staticSize) as int;
   cObj.buffer = alloc(size);
   cObj.buffer_length = size;
 
   final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
+  writer.writeHeader();
   writer.writeDateTime(offsets[0], object.date);
 }
 
@@ -94,7 +95,7 @@ P _registerDateCollectionDeserializePropNative<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     default:
-      throw 'Illegal propertyIndex';
+      throw IsarError('Illegal propertyIndex');
   }
 }
 
@@ -103,40 +104,40 @@ Object _registerDateCollectionSerializeWeb(
     RegisterDateCollection object) {
   final jsObj = IsarNative.newJsObject();
   IsarNative.jsObjectSet(
-      jsObj, 'date', object.date.toUtc().millisecondsSinceEpoch);
-  IsarNative.jsObjectSet(jsObj, 'id', object.id);
+      jsObj, r'date', object.date.toUtc().millisecondsSinceEpoch);
+  IsarNative.jsObjectSet(jsObj, r'id', object.id);
   return jsObj;
 }
 
 RegisterDateCollection _registerDateCollectionDeserializeWeb(
     IsarCollection<RegisterDateCollection> collection, Object jsObj) {
   final object = RegisterDateCollection();
-  object.date = IsarNative.jsObjectGet(jsObj, 'date') != null
+  object.date = IsarNative.jsObjectGet(jsObj, r'date') != null
       ? DateTime.fromMillisecondsSinceEpoch(
-              IsarNative.jsObjectGet(jsObj, 'date') as int,
+              IsarNative.jsObjectGet(jsObj, r'date') as int,
               isUtc: true)
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.id =
-      IsarNative.jsObjectGet(jsObj, 'id') ?? (double.negativeInfinity as int);
+      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
   return object;
 }
 
 P _registerDateCollectionDeserializePropWeb<P>(
     Object jsObj, String propertyName) {
   switch (propertyName) {
-    case 'date':
-      return (IsarNative.jsObjectGet(jsObj, 'date') != null
+    case r'date':
+      return (IsarNative.jsObjectGet(jsObj, r'date') != null
           ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, 'date') as int,
+                  IsarNative.jsObjectGet(jsObj, r'date') as int,
                   isUtc: true)
               .toLocal()
           : DateTime.fromMillisecondsSinceEpoch(0)) as P;
-    case 'id':
-      return (IsarNative.jsObjectGet(jsObj, 'id') ??
+    case r'id':
+      return (IsarNative.jsObjectGet(jsObj, r'id') ??
           (double.negativeInfinity as int)) as P;
     default:
-      throw 'Illegal propertyName';
+      throw IsarError('Illegal propertyName');
   }
 }
 
@@ -146,40 +147,57 @@ void _registerDateCollectionAttachLinks(
 extension RegisterDateCollectionByIndex
     on IsarCollection<RegisterDateCollection> {
   Future<RegisterDateCollection?> getByDate(DateTime date) {
-    return getByIndex('date', [date]);
+    return getByIndex(r'date', [date]);
   }
 
   RegisterDateCollection? getByDateSync(DateTime date) {
-    return getByIndexSync('date', [date]);
+    return getByIndexSync(r'date', [date]);
   }
 
   Future<bool> deleteByDate(DateTime date) {
-    return deleteByIndex('date', [date]);
+    return deleteByIndex(r'date', [date]);
   }
 
   bool deleteByDateSync(DateTime date) {
-    return deleteByIndexSync('date', [date]);
+    return deleteByIndexSync(r'date', [date]);
   }
 
   Future<List<RegisterDateCollection?>> getAllByDate(
       List<DateTime> dateValues) {
     final values = dateValues.map((e) => [e]).toList();
-    return getAllByIndex('date', values);
+    return getAllByIndex(r'date', values);
   }
 
   List<RegisterDateCollection?> getAllByDateSync(List<DateTime> dateValues) {
     final values = dateValues.map((e) => [e]).toList();
-    return getAllByIndexSync('date', values);
+    return getAllByIndexSync(r'date', values);
   }
 
   Future<int> deleteAllByDate(List<DateTime> dateValues) {
     final values = dateValues.map((e) => [e]).toList();
-    return deleteAllByIndex('date', values);
+    return deleteAllByIndex(r'date', values);
   }
 
   int deleteAllByDateSync(List<DateTime> dateValues) {
     final values = dateValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync('date', values);
+    return deleteAllByIndexSync(r'date', values);
+  }
+
+  Future<int> putByDate(RegisterDateCollection object) {
+    return putByIndex(r'date', object);
+  }
+
+  int putByDateSync(RegisterDateCollection object, {bool saveLinks = false}) {
+    return putByIndexSync(r'date', object, saveLinks: saveLinks);
+  }
+
+  Future<List<int>> putAllByDate(List<RegisterDateCollection> objects) {
+    return putAllByIndex(r'date', objects);
+  }
+
+  List<int> putAllByDateSync(List<RegisterDateCollection> objects,
+      {bool saveLinks = false}) {
+    return putAllByIndexSync(r'date', objects, saveLinks: saveLinks);
   }
 }
 
@@ -187,13 +205,18 @@ extension RegisterDateCollectionQueryWhereSort
     on QueryBuilder<RegisterDateCollection, RegisterDateCollection, QWhere> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterWhere>
       anyId() {
-    return addWhereClauseInternal(const IdWhereClause.any());
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterWhere>
       anyDate() {
-    return addWhereClauseInternal(
-        const IndexWhereClause.any(indexName: 'date'));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'date'),
+      );
+    });
   }
 }
 
@@ -201,43 +224,53 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QWhereClause> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> idEqualTo(int id) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: id,
-      includeLower: true,
-      upper: id,
-      includeUpper: true,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> idNotEqualTo(int id) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      );
-    } else {
-      return addWhereClauseInternal(
-        IdWhereClause.greaterThan(lower: id, includeLower: false),
-      ).addWhereClauseInternal(
-        IdWhereClause.lessThan(upper: id, includeUpper: false),
-      );
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.greaterThan(lower: id, includeLower: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> idLessThan(int id, {bool include = false}) {
-    return addWhereClauseInternal(
-      IdWhereClause.lessThan(upper: id, includeUpper: include),
-    );
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -247,45 +280,59 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IdWhereClause.between(
-      lower: lowerId,
-      includeLower: includeLower,
-      upper: upperId,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> dateEqualTo(DateTime date) {
-    return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'date',
-      value: [date],
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'date',
+        value: [date],
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> dateNotEqualTo(DateTime date) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'date',
-        upper: [date],
-        includeUpper: false,
-      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'date',
-        lower: [date],
-        includeLower: false,
-      ));
-    } else {
-      return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'date',
-        lower: [date],
-        includeLower: false,
-      )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'date',
-        upper: [date],
-        includeUpper: false,
-      ));
-    }
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'date',
+              lower: [],
+              upper: [date],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'date',
+              lower: [date],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'date',
+              lower: [date],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'date',
+              lower: [],
+              upper: [date],
+              includeUpper: false,
+            ));
+      }
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -293,11 +340,14 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
     DateTime date, {
     bool include = false,
   }) {
-    return addWhereClauseInternal(IndexWhereClause.greaterThan(
-      indexName: 'date',
-      lower: [date],
-      includeLower: include,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'date',
+        lower: [date],
+        includeLower: include,
+        upper: [],
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -305,11 +355,14 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
     DateTime date, {
     bool include = false,
   }) {
-    return addWhereClauseInternal(IndexWhereClause.lessThan(
-      indexName: 'date',
-      upper: [date],
-      includeUpper: include,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'date',
+        lower: [],
+        upper: [date],
+        includeUpper: include,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -319,13 +372,15 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addWhereClauseInternal(IndexWhereClause.between(
-      indexName: 'date',
-      lower: [lowerDate],
-      includeLower: includeLower,
-      upper: [upperDate],
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'date',
+        lower: [lowerDate],
+        includeLower: includeLower,
+        upper: [upperDate],
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -333,10 +388,12 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QFilterCondition> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterFilterCondition> dateEqualTo(DateTime value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'date',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'date',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -344,11 +401,13 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'date',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'date',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -356,11 +415,13 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     DateTime value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'date',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'date',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -370,21 +431,25 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'date',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'date',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterFilterCondition> idEqualTo(int value) {
-    return addFilterConditionInternal(FilterCondition.equalTo(
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -392,11 +457,13 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.greaterThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -404,11 +471,13 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     int value, {
     bool include = false,
   }) {
-    return addFilterConditionInternal(FilterCondition.lessThan(
-      include: include,
-      property: 'id',
-      value: value,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
@@ -418,13 +487,15 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
     bool includeLower = true,
     bool includeUpper = true,
   }) {
-    return addFilterConditionInternal(FilterCondition.between(
-      property: 'id',
-      lower: lower,
-      includeLower: includeLower,
-      upper: upper,
-      includeUpper: includeUpper,
-    ));
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
   }
 }
 
@@ -435,12 +506,16 @@ extension RegisterDateCollectionQueryWhereSortBy
     on QueryBuilder<RegisterDateCollection, RegisterDateCollection, QSortBy> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       sortByDate() {
-    return addSortByInternal('date', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'date', Sort.asc);
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       sortByDateDesc() {
-    return addSortByInternal('date', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'date', Sort.desc);
+    });
   }
 }
 
@@ -448,22 +523,30 @@ extension RegisterDateCollectionQueryWhereSortThenBy on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QSortThenBy> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       thenByDate() {
-    return addSortByInternal('date', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'date', Sort.asc);
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       thenByDateDesc() {
-    return addSortByInternal('date', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'date', Sort.desc);
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       thenById() {
-    return addSortByInternal('id', Sort.asc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       thenByIdDesc() {
-    return addSortByInternal('id', Sort.desc);
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
   }
 }
 
@@ -471,7 +554,9 @@ extension RegisterDateCollectionQueryWhereDistinct
     on QueryBuilder<RegisterDateCollection, RegisterDateCollection, QDistinct> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QDistinct>
       distinctByDate() {
-    return addDistinctByInternal('date');
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'date');
+    });
   }
 }
 
@@ -479,10 +564,14 @@ extension RegisterDateCollectionQueryProperty on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QQueryProperty> {
   QueryBuilder<RegisterDateCollection, DateTime, QQueryOperations>
       dateProperty() {
-    return addPropertyNameInternal('date');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'date');
+    });
   }
 
   QueryBuilder<RegisterDateCollection, int, QQueryOperations> idProperty() {
-    return addPropertyNameInternal('id');
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
   }
 }

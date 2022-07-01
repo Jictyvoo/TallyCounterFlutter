@@ -40,14 +40,29 @@ class AppConfigRepositoryIsar {
         final savedConfigs = await isar.appConfigCollections.getAllByKey(
           config.keys.toList(),
         );
-        final updatedConfigs = <AppConfigCollection>[];
+
+        final existingConfigs = <String, AppConfigCollection>{};
         for (final conf in savedConfigs) {
           if (conf != null) {
-            final newValue = config[conf.key] ?? conf.value;
-            if (newValue != conf.value) {
-              conf.value = newValue;
-              updatedConfigs.add(conf);
+            existingConfigs[conf.key] = conf;
+          }
+        }
+
+        final updatedConfigs = <AppConfigCollection>[];
+        for (final key in config.keys) {
+          if (existingConfigs.containsKey(key)) {
+            final existingConfig = existingConfigs[key]!;
+            final newValue = config[key] ?? existingConfig.value;
+            if (newValue != existingConfig.value) {
+              existingConfig.value = newValue;
+              updatedConfigs.add(existingConfig);
             }
+          } else {
+            final newConfig = AppConfigCollection(
+              key: key,
+              value: config[key] ?? '',
+            );
+            updatedConfigs.add(newConfig);
           }
         }
 
