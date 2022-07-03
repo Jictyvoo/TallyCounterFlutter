@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'counter_store.dart';
@@ -25,9 +26,9 @@ class _CounterPageState extends State<CounterPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Paused for: ',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        Text(
+          '${TallyCounterLocalizations.of(context)?.counterPausedFor ?? "Paused for"}: ',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         PauseDurationTimerWidget(
           elapsedPauseTime: _store.pauseDuration,
@@ -41,8 +42,9 @@ class _CounterPageState extends State<CounterPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          'Current counter is on value:',
+        Text(
+          TallyCounterLocalizations.of(context)?.counterValueLabel ??
+              'Current counter is on value:',
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 100, minHeight: 100),
@@ -83,7 +85,9 @@ class _CounterPageState extends State<CounterPage> {
             Hero(
               tag: 'decrement_button@HERO',
               child: Tooltip(
-                message: 'Decrement',
+                message:
+                    TallyCounterLocalizations.of(context)?.decrementTooltip ??
+                        'Decrement',
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -107,7 +111,9 @@ class _CounterPageState extends State<CounterPage> {
             Hero(
               tag: 'increment_button@HERO',
               child: Tooltip(
-                message: 'Increment',
+                message:
+                    TallyCounterLocalizations.of(context)?.incrementTooltip ??
+                        'Increment',
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {

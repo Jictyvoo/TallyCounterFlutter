@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 
@@ -41,9 +42,12 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
   Future<bool?> _onDeleteSnackBar(final BuildContext context) async {
     var canDelete = true;
     final snackBar = SnackBar(
-      content: const Text('Register deleted!'),
+      content: Text(
+        TallyCounterLocalizations.of(context)?.tallyListRegisterDeleted ??
+            'Register deleted!',
+      ),
       action: SnackBarAction(
-        label: 'Undo',
+        label: TallyCounterLocalizations.of(context)?.undo ?? 'Undo',
         onPressed: () {
           canDelete = false;
         },
@@ -126,7 +130,8 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: 'Delete register from\n',
+                            text:
+                                '${TallyCounterLocalizations.of(context)?.tallyListDeleteRegisterHint ?? "Delete register from"}\n',
                             children: [
                               TextSpan(
                                 text: _formatDate(counterRegister.startTime),
@@ -134,7 +139,10 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const TextSpan(text: ' at '),
+                              TextSpan(
+                                text:
+                                    ' ${TallyCounterLocalizations.of(context)?.atTime ?? "at"} ',
+                              ),
                               TextSpan(
                                 text: _formatTime(counterRegister.startTime),
                                 style: const TextStyle(

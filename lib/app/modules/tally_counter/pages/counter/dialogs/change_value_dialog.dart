@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 
 class ChangeValueDialog extends StatelessWidget {
   final TextEditingController _setValueController;
@@ -14,7 +15,10 @@ class ChangeValueDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Change Counter value'),
+      title: Text(
+        TallyCounterLocalizations.of(context)?.counterChangeDialogTitle ??
+            'Change Counter value',
+      ),
       content: TextField(
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],

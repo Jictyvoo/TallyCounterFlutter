@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 
@@ -74,9 +75,10 @@ class RegisterCardWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Purpose: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        '${TallyCounterLocalizations.of(context)?.tallyCardPurposeLabel ?? "Purpose"}'
+                        ': ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: 10),
                       Text(counterRegister.purpose.name),
@@ -102,9 +104,10 @@ class RegisterCardWidget extends StatelessWidget {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Text(
-                      'Split Duration: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      '${TallyCounterLocalizations.of(context)?.tallyCardDurationLabel ?? 'Split Duration'}'
+                      ': ',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),
                     Text(_duration)
@@ -115,9 +118,10 @@ class RegisterCardWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Value Changes: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      '${TallyCounterLocalizations.of(context)?.tallyCardValuesLabel ?? 'Values'}'
+                      ': ',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),
                     Expanded(

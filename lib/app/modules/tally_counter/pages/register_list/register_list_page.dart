@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/infra/providers/file_save_provider.dart';
 
@@ -68,9 +69,13 @@ class _RegisterListPageState extends State<RegisterListPage>
 
   Widget _buildExportFailDialog(subContext) {
     return AlertDialog(
-      title: const Text('Alert'),
+      title: Text(
+        TallyCounterLocalizations.of(context)?.failure ?? 'Alert',
+      ),
       content: Text(
-        'Failed to export registers from '
+        '${TallyCounterLocalizations.of(
+              context,
+            )?.tallyRegistersExportError ?? "Failed to export registers from"} '
         '`${DateFormat.yMMMEd().format(
           _selectedDate!,
         )}`\n',
@@ -95,7 +100,10 @@ class _RegisterListPageState extends State<RegisterListPage>
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List of registers'),
+        title: Text(
+          TallyCounterLocalizations.of(context)?.tallyListTitle ??
+              'List of registers',
+        ),
         bottom: TabBar(
           isScrollable: _availableDates.length > 1,
           controller: tabController,
@@ -118,11 +126,14 @@ class _RegisterListPageState extends State<RegisterListPage>
 
           if (!kIsWeb) {
             path = await FilesystemPicker.open(
-              title: 'Save to folder',
+              title: TallyCounterLocalizations.of(context)?.tallySaveToFolder ??
+                  'Save to folder',
               context: context,
               rootDirectory: Directory(await FileSaveProvider.directoryPath),
               fsType: FilesystemType.folder,
-              pickText: 'Save file to this folder',
+              pickText:
+                  TallyCounterLocalizations.of(context)?.tallySavePickText ??
+                      'Save file to this folder',
               fileTileSelectMode: FileTileSelectMode.wholeTile,
               folderIconColor: Colors.teal,
             );
@@ -145,10 +156,15 @@ class _RegisterListPageState extends State<RegisterListPage>
                 context: context,
                 builder: (subContext) {
                   return AlertDialog(
-                    title: const Text('Success!'),
+                    title: Text(
+                      TallyCounterLocalizations.of(context)?.success ??
+                          'Success!',
+                    ),
                     content: SelectableText.rich(
                       TextSpan(
-                        text: 'Registers exported successfully to:\n\n',
+                        text: '${TallyCounterLocalizations.of(
+                              context,
+                            )?.tallyRegistersExported ?? "Export successfully to"}:\n\n',
                         children: [
                           TextSpan(
                             text: '`$result`',
@@ -171,7 +187,9 @@ class _RegisterListPageState extends State<RegisterListPage>
             }
           }
         },
-        tooltip: 'Save register list to a csv file',
+        tooltip:
+            TallyCounterLocalizations.of(context)?.tallyRegisterExportTooltip ??
+                'Save register list to a csv file',
         child: const Icon(Icons.save),
       ),
     );
