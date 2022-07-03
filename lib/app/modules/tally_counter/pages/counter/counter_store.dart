@@ -73,18 +73,24 @@ class CounterStore with PurposeStore {
 
   Duration get pauseDuration => _pauseTime?.duration ?? const Duration();
 
-  void _resetLastRegister() {
+  void _resetLastRegister({int? oldValue, int? newValue}) {
     final now = DateTime.now();
     _lastRegister = CounterRegister(
       startTime: now,
       endTime: now,
-      oldValue: _lastRegister.oldValue,
-      newValue: _lastRegister.newValue,
+      oldValue: oldValue ?? _lastRegister.oldValue,
+      newValue: newValue ?? _lastRegister.newValue,
       purpose: RegisterPurpose(
         name: selectedPurpose.name,
         description: selectedPurpose.description,
       ),
     );
+  }
+
+  void resetValue() {
+    _resetLastRegister(oldValue: 0, newValue: 0);
+    _isPaused = true;
+    _pauseTime = null;
   }
 
   void _executePause() {
