@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import 'register_card_options.dart';
 
@@ -76,8 +76,8 @@ class RegisterCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        '${TallyCounterLocalizations.of(context)?.tallyCardPurposeLabel ?? "Purpose"}'
-                        ': ',
+                        TallyCounterLocalizations.of(context)
+                            .tallyCardPurposeLabel,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: 10),
@@ -105,8 +105,8 @@ class RegisterCardWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '${TallyCounterLocalizations.of(context)?.tallyCardDurationLabel ?? 'Split Duration'}'
-                      ': ',
+                      TallyCounterLocalizations.of(context)
+                          .tallyCardDurationLabel,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),
@@ -119,8 +119,8 @@ class RegisterCardWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${TallyCounterLocalizations.of(context)?.tallyCardValuesLabel ?? 'Values'}'
-                      ': ',
+                      TallyCounterLocalizations.of(context)
+                          .tallyCardValuesLabel,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),

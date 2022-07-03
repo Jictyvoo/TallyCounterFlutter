@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -11,18 +11,15 @@ class TallyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Tally Counter',
       themeMode: ThemeMode.system,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light().copyWith(useMaterial3: true),
+      darkTheme: ThemeData.dark().copyWith(useMaterial3: true),
       localizationsDelegates: const [
-        TallyCounterLocalizations.delegate,
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: TallyCounterLocalizations.supportedLocales,
+      supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );

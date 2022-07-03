@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 class CreatePurposeDialog extends StatelessWidget {
   final TextEditingController _nameController;
@@ -15,8 +15,7 @@ class CreatePurposeDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        TallyCounterLocalizations.of(context)?.purposeDialogTitle ??
-            'New Purpose',
+        TallyCounterLocalizations.of(context).purposeDialogTitle,
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -26,8 +25,7 @@ class CreatePurposeDialog extends StatelessWidget {
               maxLength: 36,
               decoration: InputDecoration(
                 labelText: TallyCounterLocalizations.of(context)
-                        ?.purposeDialogNameLabel ??
-                    'Name',
+                    .purposeDialogNameLabel,
                 counterText: '',
               ),
               controller: _nameController,
@@ -37,8 +35,7 @@ class CreatePurposeDialog extends StatelessWidget {
               maxLines: 6,
               decoration: InputDecoration(
                 labelText: TallyCounterLocalizations.of(context)
-                        ?.purposeDialogDescriptionLabel ??
-                    'Description',
+                    .purposeDialogDescriptionLabel,
                 alignLabelWithHint: false, // true to put at the start
                 border: const OutlineInputBorder(),
               ),
@@ -55,9 +52,7 @@ class CreatePurposeDialog extends StatelessWidget {
           style: TextButton.styleFrom(
             primary: Colors.red,
           ),
-          child: Text(
-            TallyCounterLocalizations.of(context)?.cancel ?? 'Cancel',
-          ),
+          child: Text(TallyCounterLocalizations.of(context).cancel),
         ),
         TextButton(
           onPressed: () {
@@ -67,9 +62,7 @@ class CreatePurposeDialog extends StatelessWidget {
               _descriptionController.value.text,
             );
           },
-          child: Text(
-            TallyCounterLocalizations.of(context)?.create ?? 'Create',
-          ),
+          child: Text(TallyCounterLocalizations.of(context).create),
         )
       ],
     );
