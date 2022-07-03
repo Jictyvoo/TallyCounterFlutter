@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import 'counter_store.dart';
 import 'dialogs/change_value_dialog.dart';
@@ -27,7 +27,7 @@ class _CounterPageState extends State<CounterPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '${TallyCounterLocalizations.of(context)?.counterPausedFor ?? "Paused for"}: ',
+          '${TallyCounterLocalizations.of(context).counterPausedFor }: ',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         PauseDurationTimerWidget(
@@ -43,8 +43,8 @@ class _CounterPageState extends State<CounterPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          TallyCounterLocalizations.of(context)?.counterValueLabel ??
-              'Current counter is on value:',
+          TallyCounterLocalizations.of(context).counterValueLabel
+              ,
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 100, minHeight: 100),
@@ -86,8 +86,7 @@ class _CounterPageState extends State<CounterPage> {
               tag: 'decrement_button@HERO',
               child: Tooltip(
                 message:
-                    TallyCounterLocalizations.of(context)?.decrementTooltip ??
-                        'Decrement',
+                    TallyCounterLocalizations.of(context).decrementTooltip ,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -112,8 +111,7 @@ class _CounterPageState extends State<CounterPage> {
               tag: 'increment_button@HERO',
               child: Tooltip(
                 message:
-                    TallyCounterLocalizations.of(context)?.incrementTooltip ??
-                        'Increment',
+                    TallyCounterLocalizations.of(context).incrementTooltip ,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {

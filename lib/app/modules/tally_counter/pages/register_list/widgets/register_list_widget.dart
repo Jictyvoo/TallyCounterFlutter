@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import 'register_card.dart';
 
@@ -43,11 +43,10 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
     var canDelete = true;
     final snackBar = SnackBar(
       content: Text(
-        TallyCounterLocalizations.of(context)?.tallyListRegisterDeleted ??
-            'Register deleted!',
+        TallyCounterLocalizations.of(context).tallyListRegisterDeleted,
       ),
       action: SnackBarAction(
-        label: TallyCounterLocalizations.of(context)?.undo ?? 'Undo',
+        label: TallyCounterLocalizations.of(context).undo,
         onPressed: () {
           canDelete = false;
         },
@@ -130,8 +129,9 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text:
-                                '${TallyCounterLocalizations.of(context)?.tallyListDeleteRegisterHint ?? "Delete register from"}\n',
+                            text: '${TallyCounterLocalizations.of(
+                              context,
+                            ).tallyListDeleteRegisterHint}\n',
                             children: [
                               TextSpan(
                                 text: _formatDate(counterRegister.startTime),
@@ -140,8 +140,9 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                                 ),
                               ),
                               TextSpan(
-                                text:
-                                    ' ${TallyCounterLocalizations.of(context)?.atTime ?? "at"} ',
+                                text: ' ${TallyCounterLocalizations.of(
+                                  context,
+                                ).atTime} ',
                               ),
                               TextSpan(
                                 text: _formatTime(counterRegister.startTime),

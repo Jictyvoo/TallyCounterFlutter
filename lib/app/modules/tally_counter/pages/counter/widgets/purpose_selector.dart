@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import '../dialogs/create_purpose_dialog.dart';
 import '../purpose_store.dart';
@@ -54,8 +54,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    TallyCounterLocalizations.of(context)?.purposeAddFail ??
-                        'Failed to add purpose',
+                    TallyCounterLocalizations.of(context).purposeAddFail,
                   ),
                 ),
               );
@@ -100,8 +99,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
             child: ElevatedButton(
               onPressed: _addPurposeHandler,
               child: Text(
-                TallyCounterLocalizations.of(context)?.purposeAdd ??
-                    'Add Purpose',
+                TallyCounterLocalizations.of(context).purposeAdd,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -168,8 +166,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
                 child: ElevatedButton(
                   onPressed: _addPurposeHandler,
                   child: Text(
-                    TallyCounterLocalizations.of(context)?.purposeAdd ??
-                        'Add Purpose',
+                    TallyCounterLocalizations.of(context).purposeAdd,
                     textAlign: TextAlign.center,
                   ),
                 ),

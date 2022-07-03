@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import '../register_list_store.dart';
 import 'register_list_widget.dart';
@@ -40,16 +40,14 @@ class _RegisterListLoaderState extends State<RegisterListLoader>
           debugPrintStack(stackTrace: snapshot.stackTrace);
           return Center(
             child: Text(
-              TallyCounterLocalizations.of(context)?.tallyListLoadingError ??
-                  'Loading error',
+              TallyCounterLocalizations.of(context).tallyListLoadingError,
             ),
           );
         } else if (snapshot.connectionState == ConnectionState.done) {
           if (result.isEmpty) {
             return Center(
               child: Text(
-                TallyCounterLocalizations.of(context)?.tallyListEmpty ??
-                    'There is no registers saved',
+                TallyCounterLocalizations.of(context).tallyListEmpty,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.red,

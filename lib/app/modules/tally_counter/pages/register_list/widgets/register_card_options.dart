@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 enum PopupCardOptions { delete, edit }
 
@@ -24,10 +24,7 @@ class RegisterCardOptions extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  TallyCounterLocalizations.of(context)?.tallyCardEdit ??
-                      'Edit',
-                ),
+                Text(TallyCounterLocalizations.of(context).tallyCardEdit),
                 const Icon(Icons.edit),
               ],
             ),
@@ -38,10 +35,7 @@ class RegisterCardOptions extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  TallyCounterLocalizations.of(context)?.tallyCardDelete ??
-                      'Delete',
-                ),
+                Text(TallyCounterLocalizations.of(context).tallyCardDelete),
                 const Icon(Icons.delete_forever_outlined)
               ],
             ),
