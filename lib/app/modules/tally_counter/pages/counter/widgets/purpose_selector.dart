@@ -102,6 +102,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
               child: Text(
                 TallyCounterLocalizations.of(context)?.purposeAdd ??
                     'Add Purpose',
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -169,6 +170,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
                   child: Text(
                     TallyCounterLocalizations.of(context)?.purposeAdd ??
                         'Add Purpose',
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
