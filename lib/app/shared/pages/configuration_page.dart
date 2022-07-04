@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tally_counter/app/core/infra/providers/app_config_provider.dart';
+import 'package:tally_counter/app/shared/widgets/inherited/theme_change_notifier.dart';
 import 'package:tally_counter/app/shared/widgets/theme_change_button.dart';
 
 typedef ItemBuilder = Widget Function(BuildContext);
@@ -14,7 +16,21 @@ class ConfigurationPage extends StatelessWidget {
   Widget _buildDefaultItems(BuildContext context, String settingName) {
     switch (settingName) {
       case "theme":
-        return const Card(child: ThemeChangeButton());
+        return Card(
+          child: ThemeChangeButton(
+            onThemeChanged: (ThemeMode themeMode) {
+              final newConfig = AppConfigProvider.appConfig.copyWith(
+                theme: themeMode,
+              );
+              AppConfigProvider.updateConfig(newConfig).then((success) {
+                if (success) {
+                  ThemeChangeNotifier.of(context)?.themeMode = themeMode;
+                }
+              });
+            },
+            originThemeMode: AppConfigProvider.appConfig.theme,
+          ),
+        );
       case "about":
         return const Card(
           child: AboutListTile(
