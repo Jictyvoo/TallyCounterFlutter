@@ -158,5 +158,17 @@
   "purposeDialogDescriptionLabel": "Description",
   "@purposeDialogDescriptionLabel": {
     "description": "A label for the description of the purpose."
+  },
+  "purposeChangeDelayDurationLabel": "Change click delay duration",
+  "@purposeChangeDelayDurationLabel": {
+    "description": "A label that indicates the user can change the click delay duration."
+  },
+  "purposeChangeIncrementValueLabel": "Change value of increment button",
+  "@purposeChangeIncrementValueLabel": {
+    "description": "A label that indicates the user can change the value of the increment button."
+  },
+  "configPurposeTitle": "Purpose of the counter",
+  "@configPurposeTitle": {
+    "description": "A title for the purpose of the counter."
   }
 }

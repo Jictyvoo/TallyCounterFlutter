@@ -49,6 +49,9 @@ class TallyCounterLocalizations {
     return '$text: ';
   }
 
+  String get configPurposeTitle =>
+      _localizations()?.configPurposeTitle ?? 'Purpose';
+
   String get tallyCardDurationLabel {
     final text = _localizations()?.tallyCardDurationLabel ?? 'Split Duration';
     return '$text: ';
