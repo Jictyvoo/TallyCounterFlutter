@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/modules/tally_counter/tally_routes.dart';
 
 import 'register_card.dart';
 
@@ -70,6 +72,26 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
 
   void _deleteRegister(final CounterRegister register) {
     widget.onDeleteCallback?.call(register);
+  }
+
+  VoidCallback _onEditCard(final BuildContext context, final int index) {
+    return () async {
+      if (index < _registerList.length) {
+        final counterRegister = _registerList[index];
+        final routeFuture = Modular.to.pushNamed(
+          TallyRoutes.editRegister.absoluteRoute,
+          arguments: counterRegister,
+        );
+
+        routeFuture.then((value) {
+          if (value != null && value is CounterRegister) {
+            setState(() {
+              _registerList[index] = value;
+            });
+          }
+        });
+      }
+    };
   }
 
   VoidCallback _onDeleteCard(final BuildContext context, final int index) {
@@ -168,6 +190,7 @@ class _RegisterListWidgetState extends State<RegisterListWidget> {
                 child: RegisterCardWidget(
                   counterRegister: counterRegister,
                   onDeleteCallback: _onDeleteCard(context, index),
+                  onEditCallback: _onEditCard(context, index),
                 ),
               ),
             );

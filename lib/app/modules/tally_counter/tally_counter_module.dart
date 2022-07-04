@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
 
 import 'pages/counter/counter_store.dart';
 import 'pages/counter/purpose_store.dart';
+import 'pages/edit/register_edit_page.dart';
 import 'pages/register_list/register_list_page.dart';
 import 'pages/register_list/register_list_store.dart';
 import 'tally_counter_page.dart';
@@ -26,6 +28,18 @@ class TallyCounterModule extends Module {
             store: RegisterListStore(),
             fromDate: args.data,
           ),
+        ),
+        ChildRoute(
+          TallyRoutes.editRegister.route,
+          child: (context, args) {
+            final data = args.data;
+            if (data is CounterRegister) {
+              return RegisterEditPage(
+                counterRegister: data,
+              );
+            }
+            return const RegisterEditPage();
+          },
         ),
       ];
 }
