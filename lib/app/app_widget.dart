@@ -30,6 +30,7 @@ class TallyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
+            locale: config.locale,
             routeInformationParser: Modular.routeInformationParser,
             routerDelegate: Modular.routerDelegate,
           ),
