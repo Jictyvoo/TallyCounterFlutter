@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
 import 'pages/counter/widgets/purpose_selector.dart';
@@ -72,6 +73,12 @@ class TallyPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         actions: [
+          IconButton(
+            onPressed: () {
+              Modular.to.pushNamed(AppRoutes.settings.route);
+            },
+            icon: const Icon(Icons.settings),
+          ),
           PopupTrailing(
             onTap: (options) {
               if (options == PopupOptions.showAll) {

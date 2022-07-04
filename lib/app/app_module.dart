@@ -8,6 +8,7 @@ import 'core/infra/repositories/date_register_repository_isar.dart';
 import 'core/infra/repositories/purpose_repository_isar.dart';
 import 'modules/splash/splash_module.dart';
 import 'modules/tally_counter/tally_counter_module.dart';
+import 'shared/pages/configuration_page.dart';
 import 'shared/routes.dart';
 
 class AppModule extends Module {
@@ -33,5 +34,15 @@ class AppModule extends Module {
           AppRoutes.tallyCounter.route,
           module: TallyCounterModule(),
         ),
+        ChildRoute(
+          AppRoutes.settings.route,
+          child: (context, args) {
+            final data = args.data;
+            if (data is Map<String, List<ItemBuilder>>) {
+              return ConfigurationPage(extraSettings: data);
+            }
+            return const ConfigurationPage();
+          },
+        )
       ];
 }
