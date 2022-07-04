@@ -43,5 +43,5 @@
   "purposeDialogDescriptionLabel": "Descrição",
   "purposeChangeDelayDurationLabel": "Alterar a duração do atraso do clique",
   "purposeChangeIncrementValueLabel": "Alterar valor do botão de incremento",
-  "configPurposeTitle": "Propósito da contagem"
+  "configPurposeTitle": "Configuração da contagem"
 }

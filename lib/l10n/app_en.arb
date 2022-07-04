@@ -175,7 +175,7 @@
   "@purposeChangeIncrementValueLabel": {
     "description": "A label that indicates the user can change the value of the increment button."
   },
-  "configPurposeTitle": "Purpose of the counter",
+  "configPurposeTitle": "Counter configuration",
   "@configPurposeTitle": {
     "description": "A title for the purpose of the counter."
   }
