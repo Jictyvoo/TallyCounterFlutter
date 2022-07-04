@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tally_counter/app/core/infra/providers/app_config_provider.dart';
+import 'package:tally_counter/app/shared/utils/global_constants.dart';
 import 'package:tally_counter/app/shared/widgets/inherited/theme_change_notifier.dart';
 import 'package:tally_counter/app/shared/widgets/theme_change_button.dart';
 
@@ -32,9 +33,14 @@ class ConfigurationPage extends StatelessWidget {
           ),
         );
       case "about":
-        return const Card(
+        return Card(
           child: AboutListTile(
-            icon: Icon(Icons.info),
+            icon: const Icon(Icons.info),
+            applicationName: 'Tally Counter',
+            applicationIcon: const Icon(Icons.touch_app),
+            applicationVersion:
+                AppConfigProvider.appConfig.databaseVersion.toString(),
+            applicationLegalese: GlobalConstants.legalese,
           ),
         );
       default:
