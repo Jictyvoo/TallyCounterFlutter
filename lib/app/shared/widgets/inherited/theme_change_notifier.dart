@@ -12,6 +12,10 @@ class ThemeChangeNotifier extends InheritedNotifier<ValueNotifier<ThemeMode>> {
     return context.dependOnInheritedWidgetOfExactType<ThemeChangeNotifier>();
   }
 
+  void refreshTheme() {
+    notifier?.value = AppConfigProvider.appConfig.theme;
+  }
+
   ThemeMode get themeMode {
     return notifier?.value ?? AppConfigProvider.appConfig.theme;
   }
