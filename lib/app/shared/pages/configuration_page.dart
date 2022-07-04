@@ -12,6 +12,7 @@ typedef ItemBuilder = Widget Function(BuildContext);
 
 class ConfigurationPage extends StatelessWidget {
   static const defaultSettings = ["theme", "locale", "about"];
+  static const double _maxWidth = 460;
   final Map<String, List<ItemBuilder>> extraSettings;
 
   const ConfigurationPage({Key? key, this.extraSettings = const {}})
@@ -82,27 +83,32 @@ class ConfigurationPage extends StatelessWidget {
     }
 
     if (titleText.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              titleText,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: _maxWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titleText,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                const Divider(),
+              ],
             ),
-            const Divider(),
-          ],
+          ),
         ),
       );
     }
     if (builder != null) {
       return Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 460),
+          constraints: const BoxConstraints(maxWidth: _maxWidth),
           child: builder.call(context),
         ),
       );
@@ -116,7 +122,7 @@ class ConfigurationPage extends StatelessWidget {
       final setting = defaultSettings[index];
       return Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 460),
+          constraints: const BoxConstraints(maxWidth: _maxWidth),
           child: _buildDefaultItems(context, setting),
         ),
       );
