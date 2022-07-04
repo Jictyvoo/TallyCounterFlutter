@@ -48,6 +48,56 @@ class ConfigurationPage extends StatelessWidget {
     }
   }
 
+  Widget _buildExtraItems(int index, BuildContext context) {
+    ItemBuilder? builder;
+    final keys = extraSettings.keys;
+    var cumulativeIndex = defaultSettings.length;
+    var titleText = '';
+    keyLoop:
+    for (final key in keys) {
+      if (index == cumulativeIndex) {
+        titleText = key;
+        break keyLoop;
+      }
+      for (final itemBuilder in extraSettings[key] ?? []) {
+        cumulativeIndex += 1;
+        if (index == cumulativeIndex) {
+          builder = itemBuilder;
+          break keyLoop;
+        }
+      }
+    }
+
+    if (titleText.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              titleText,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            const Divider(),
+          ],
+        ),
+      );
+    }
+    if (builder != null) {
+      return Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 460),
+          child: builder.call(context),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
   Widget _itemBuilder(BuildContext context, int index) {
     if (index < defaultSettings.length) {
       final setting = defaultSettings[index];
@@ -58,53 +108,7 @@ class ConfigurationPage extends StatelessWidget {
         ),
       );
     } else {
-      ItemBuilder? builder;
-      final keys = extraSettings.keys;
-      var cumulativeIndex = defaultSettings.length;
-      var titleText = '';
-      keyLoop:
-      for (final key in keys) {
-        if (index == cumulativeIndex) {
-          titleText = key;
-          break keyLoop;
-        }
-        for (final itemBuilder in extraSettings[key] ?? []) {
-          cumulativeIndex += 1;
-          if (index == cumulativeIndex) {
-            builder = itemBuilder;
-            break keyLoop;
-          }
-        }
-      }
-
-      if (titleText.isNotEmpty) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                titleText,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              const Divider(),
-            ],
-          ),
-        );
-      }
-      if (builder != null) {
-        return Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 460),
-            child: builder.call(context),
-          ),
-        );
-      }
-
-      return const SizedBox.shrink();
+      return _buildExtraItems(index, context);
     }
   }
 
