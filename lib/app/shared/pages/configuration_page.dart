@@ -69,16 +69,31 @@ class ConfigurationPage extends StatelessWidget {
           break keyLoop;
         }
         for (final itemBuilder in extraSettings[key] ?? []) {
+          cumulativeIndex += 1;
           if (index == cumulativeIndex) {
             builder = itemBuilder;
             break keyLoop;
           }
-          cumulativeIndex += 1;
         }
       }
 
       if (titleText.isNotEmpty) {
-        return Text(titleText);
+        return Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                titleText,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const Divider(),
+            ],
+          ),
+        );
       }
       if (builder != null) {
         return Center(
