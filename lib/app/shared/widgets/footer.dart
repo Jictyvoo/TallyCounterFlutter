@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tally_counter/app/shared/utils/global_constants.dart';
 
 class WowlsFooter extends StatelessWidget {
   final Color? backgroundColor;
   final Alignment alignment;
   final EdgeInsetsGeometry padding;
   final Widget? child;
-  final int _enterpriseBirthDate;
 
   const WowlsFooter({
     Key? key,
@@ -13,8 +13,7 @@ class WowlsFooter extends StatelessWidget {
     this.alignment = Alignment.center,
     this.padding = const EdgeInsets.all(5.0),
     this.child,
-  })  : _enterpriseBirthDate = 2020,
-        super(key: key);
+  }) : super(key: key);
 
   List<Widget> buildChildren() {
     return [
@@ -25,8 +24,7 @@ class WowlsFooter extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       Text(
-        '© Wrapped Owls $_enterpriseBirthDate-${DateTime.now().year}'
-        '\nAll rights reserved',
+        '${GlobalConstants.legalese}\nAll rights reserved',
         strutStyle: const StrutStyle(fontWeight: FontWeight.w300),
         textAlign: TextAlign.center,
       ),

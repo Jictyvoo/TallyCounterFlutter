@@ -18,8 +18,7 @@ class RegisterListLoader extends StatefulWidget {
   State<RegisterListLoader> createState() => _RegisterListLoaderState();
 }
 
-class _RegisterListLoaderState extends State<RegisterListLoader>
-    with TickerProviderStateMixin {
+class _RegisterListLoaderState extends State<RegisterListLoader> {
   Future<List<CounterRegister>> _future = Future.value([]);
 
   @override

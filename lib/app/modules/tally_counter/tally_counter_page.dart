@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
 import 'pages/counter/widgets/purpose_selector.dart';
 import 'tally_routes.dart';
+import 'widgets/config_buttons.dart';
 import 'widgets/popup_trailing.dart';
 
 class TallyPage extends StatelessWidget {
@@ -66,12 +69,32 @@ class TallyPage extends StatelessWidget {
     return _buildVerticalLayout();
   }
 
+  Map<String, List<Widget Function(BuildContext)>> extraConfigs(
+    BuildContext context,
+  ) {
+    return {
+      TallyCounterLocalizations.of(context).configPurposeTitle: [
+        ConfigButtons.buildChangeDelay,
+        ConfigButtons.buildIncrementValue
+      ]
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
+          IconButton(
+            onPressed: () {
+              Modular.to.pushNamed(
+                AppRoutes.settings.route,
+                arguments: extraConfigs(context),
+              );
+            },
+            icon: const Icon(Icons.settings),
+          ),
           PopupTrailing(
             onTap: (options) {
               if (options == PopupOptions.showAll) {

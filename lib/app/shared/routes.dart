@@ -1,5 +1,6 @@
 enum AppRoutes {
   default_('/'),
+  settings('/settings'),
   tallyCounter('/home');
 
   final String route;

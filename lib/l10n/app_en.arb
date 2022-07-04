@@ -27,6 +27,30 @@
   "@create": {
     "description": "A label for the create button."
   },
+  "configuration": "Configuration",
+  "@configuration": {
+    "description": "The title for configuration pages."
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "The label for the theme selection."
+  },
+  "useSystemTheme": "Use system theme",
+  "@useSystemTheme": {
+    "description": "The label that indicates to user that he can use the theme used by the system"
+  },
+  "systemTheme": "System theme",
+  "@systemTheme": {
+    "description": "The label that indicates that the app is using the system theme"
+  },
+  "darkTheme": "Dark theme",
+  "@darkTheme": {
+    "description": "The label that indicates that the app is using the dark theme"
+  },
+  "lightTheme": "Light theme",
+  "@lightTheme": {
+    "description": "The label that indicates that the app is using the light theme"
+  },
   "tallyShowAll": "Show all registers",
   "@tallyShowAll": {
     "description": "A label that indicates the user can show all registers."
@@ -134,5 +158,17 @@
   "purposeDialogDescriptionLabel": "Description",
   "@purposeDialogDescriptionLabel": {
     "description": "A label for the description of the purpose."
+  },
+  "purposeChangeDelayDurationLabel": "Change click delay duration",
+  "@purposeChangeDelayDurationLabel": {
+    "description": "A label that indicates the user can change the click delay duration."
+  },
+  "purposeChangeIncrementValueLabel": "Change value of increment button",
+  "@purposeChangeIncrementValueLabel": {
+    "description": "A label that indicates the user can change the value of the increment button."
+  },
+  "configPurposeTitle": "Purpose of the counter",
+  "@configPurposeTitle": {
+    "description": "A title for the purpose of the counter."
   }
 }
