@@ -3,8 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeChangeButton extends StatefulWidget {
   final Function(ThemeMode)? onThemeChanged;
+  final ThemeMode originThemeMode;
 
-  const ThemeChangeButton({Key? key, this.onThemeChanged}) : super(key: key);
+  const ThemeChangeButton({
+    Key? key,
+    this.onThemeChanged,
+    this.originThemeMode = ThemeMode.system,
+  }) : super(key: key);
 
   @override
   State<ThemeChangeButton> createState() => _ThemeChangeButtonState();
@@ -13,6 +18,17 @@ class ThemeChangeButton extends StatefulWidget {
 class _ThemeChangeButtonState extends State<ThemeChangeButton> {
   var _isDark = false;
   var _useSystem = true;
+
+  @override
+  void initState() {
+    if (widget.originThemeMode == ThemeMode.system) {
+      _useSystem = true;
+    } else {
+      _useSystem = false;
+      _isDark = widget.originThemeMode == ThemeMode.dark;
+    }
+    super.initState();
+  }
 
   Icon _buildThemeIcon() {
     if (_isDark) {
