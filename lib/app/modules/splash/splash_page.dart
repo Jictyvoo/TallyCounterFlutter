@@ -7,7 +7,7 @@ import 'package:tally_counter/app/app_module.dart';
 import 'package:tally_counter/app/core/infra/init.dart';
 import 'package:tally_counter/app/shared/routes.dart';
 import 'package:tally_counter/app/shared/widgets/footer.dart';
-import 'package:tally_counter/app/shared/widgets/inherited/theme_change_notifier.dart';
+import 'package:tally_counter/app/shared/widgets/inherited/app_config_change_notifier.dart';
 
 import 'widgets/rotation_logo.dart';
 
@@ -66,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
       Modular.isModuleReady<AppModule>(),
       Future.delayed(const Duration(seconds: 2)),
     ]).then((value) {
-      ThemeChangeNotifier.of(context)?.refreshTheme();
+      AppConfigChangeNotifier.of(context)?.refreshTheme();
       Modular.to.navigate(AppRoutes.tallyCounter.home);
       // ignore: invalid_return_type_for_catch_error
     }).catchError(onStartupError);
