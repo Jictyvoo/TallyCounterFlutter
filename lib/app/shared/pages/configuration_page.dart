@@ -29,7 +29,12 @@ class ConfigurationPage extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, int index) {
     if (index < defaultSettings.length) {
       final setting = defaultSettings[index];
-      return _buildDefaultItems(context, setting);
+      return Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 460),
+          child: _buildDefaultItems(context, setting),
+        ),
+      );
     } else {
       ItemBuilder? builder;
       final keys = extraSettings.keys;
@@ -54,7 +59,12 @@ class ConfigurationPage extends StatelessWidget {
         return Text(titleText);
       }
       if (builder != null) {
-        return builder.call(context);
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 460),
+            child: builder.call(context),
+          ),
+        );
       }
 
       return const SizedBox.shrink();

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeChangeButton extends StatefulWidget {
-  const ThemeChangeButton({Key? key}) : super(key: key);
+  final Function(ThemeMode)? onThemeChanged;
+
+  const ThemeChangeButton({Key? key, this.onThemeChanged}) : super(key: key);
 
   @override
   State<ThemeChangeButton> createState() => _ThemeChangeButtonState();
@@ -30,6 +32,14 @@ class _ThemeChangeButtonState extends State<ThemeChangeButton> {
     return localization?.lightTheme ?? 'Light Theme';
   }
 
+  void _executeChange() {
+    ThemeMode mode = ThemeMode.system;
+    if (!_useSystem) {
+      mode = _isDark ? ThemeMode.dark : ThemeMode.light;
+    }
+    widget.onThemeChanged?.call(mode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,6 +56,7 @@ class _ThemeChangeButtonState extends State<ThemeChangeButton> {
               setState(() {
                 _isDark = value;
                 _useSystem = false;
+                _executeChange();
               });
             },
           ),
@@ -63,6 +74,7 @@ class _ThemeChangeButtonState extends State<ThemeChangeButton> {
               onChanged: (value) {
                 setState(() {
                   _useSystem = value ?? _useSystem;
+                  _executeChange();
                 });
               },
             ),
