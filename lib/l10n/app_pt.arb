@@ -12,6 +12,8 @@
   "systemTheme": "Tema do sistema",
   "darkTheme": "Tema escuro",
   "lightTheme": "Tema claro",
+  "changeLocaleLabel": "Alterar idioma",
+  "useSystemLocale": "Usar idioma do sistema",
   "tallyShowAll": "Mostrar todos os registros",
   "tallyShowToday": "Mostrar registros de hoje",
   "tallyListTitle": "Lista de Registros",

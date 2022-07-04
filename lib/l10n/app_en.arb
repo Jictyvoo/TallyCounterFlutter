@@ -51,6 +51,14 @@
   "@lightTheme": {
     "description": "The label that indicates that the app is using the light theme"
   },
+  "changeLocaleLabel": "Change language",
+  "@changeLocaleLabel": {
+    "description": "The label for the language selection."
+  },
+  "useSystemLocale": "Use system language",
+  "@useSystemLocale": {
+    "description": "The label that indicates to user that he can use the language used by the system"
+  },
   "tallyShowAll": "Show all registers",
   "@tallyShowAll": {
     "description": "A label that indicates the user can show all registers."

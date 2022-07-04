@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tally_counter/app/core/infra/providers/app_config_provider.dart';
+import 'package:tally_counter/app/shared/utils/extensions/locale_name.dart';
 import 'package:tally_counter/app/shared/utils/global_constants.dart';
 import 'package:tally_counter/app/shared/widgets/inherited/app_config_change_notifier.dart';
 import 'package:tally_counter/app/shared/widgets/theme_change_button.dart';
 
+import 'dialogs/change_language_dialog.dart';
+
 typedef ItemBuilder = Widget Function(BuildContext);
 
 class ConfigurationPage extends StatelessWidget {
-  static const defaultSettings = ["theme", "about"];
+  static const defaultSettings = ["theme", "locale", "about"];
   final Map<String, List<ItemBuilder>> extraSettings;
 
   const ConfigurationPage({Key? key, this.extraSettings = const {}})
@@ -23,6 +26,23 @@ class ConfigurationPage extends StatelessWidget {
               AppConfigChangeNotifier.of(context)?.themeMode = themeMode;
             },
             originThemeMode: AppConfigProvider.appConfig.theme,
+          ),
+        );
+      case "locale":
+        return Card(
+          child: ListTile(
+            leading: const Icon(Icons.language),
+            title: Text(
+              AppLocalizations.of(context)?.changeLocaleLabel ??
+                  'Change language',
+            ),
+            trailing: Text(Localizations.localeOf(context).fullLanguageCode),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => const ChangeLanguageDialog(),
+              );
+            },
           ),
         );
       case "about":
