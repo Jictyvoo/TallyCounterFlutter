@@ -130,6 +130,7 @@ class ConfigurationPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemCount: _totalItems,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         itemBuilder: _itemBuilder,
       ),
     );
