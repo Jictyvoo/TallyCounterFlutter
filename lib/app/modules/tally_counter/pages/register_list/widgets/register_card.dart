@@ -42,7 +42,12 @@ class RegisterCardWidget extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Text(value.toString()),
+        child: Text(
+          value.toString(),
+          style: const TextStyle(
+            color: Color(0xFFFFFFFF),
+          ),
+        ),
       ),
     );
   }

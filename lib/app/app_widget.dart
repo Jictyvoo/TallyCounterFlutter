@@ -21,7 +21,7 @@ class TallyApp extends StatelessWidget {
           child: MaterialApp.router(
             title: 'Tally Counter',
             themeMode: config.theme,
-            theme: ThemeData.light().copyWith(useMaterial3: true),
+            theme: ThemeData.light(),
             darkTheme: ThemeData.dark().copyWith(useMaterial3: true),
             localizationsDelegates: const [
               AppLocalizations.delegate,
