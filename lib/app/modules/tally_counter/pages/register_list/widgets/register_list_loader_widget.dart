@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import '../register_list_store.dart';
 import 'register_list_widget.dart';
@@ -17,8 +18,7 @@ class RegisterListLoader extends StatefulWidget {
   State<RegisterListLoader> createState() => _RegisterListLoaderState();
 }
 
-class _RegisterListLoaderState extends State<RegisterListLoader>
-    with TickerProviderStateMixin {
+class _RegisterListLoaderState extends State<RegisterListLoader> {
   Future<List<CounterRegister>> _future = Future.value([]);
 
   @override
@@ -37,15 +37,17 @@ class _RegisterListLoaderState extends State<RegisterListLoader>
         final result = snapshot.data ?? [];
         if (snapshot.hasError) {
           debugPrintStack(stackTrace: snapshot.stackTrace);
-          return const Center(
-            child: Text('Error when loading registers'),
+          return Center(
+            child: Text(
+              TallyCounterLocalizations.of(context).tallyListLoadingError,
+            ),
           );
         } else if (snapshot.connectionState == ConnectionState.done) {
           if (result.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
-                'There is no registers saved',
-                style: TextStyle(
+                TallyCounterLocalizations.of(context).tallyListEmpty,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.red,
                 ),

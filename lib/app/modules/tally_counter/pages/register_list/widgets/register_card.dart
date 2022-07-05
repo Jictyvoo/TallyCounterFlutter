@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tally_counter/app/core/domain/models/entities/counter_register.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import 'register_card_options.dart';
 
@@ -41,7 +42,12 @@ class RegisterCardWidget extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Text(value.toString()),
+        child: Text(
+          value.toString(),
+          style: const TextStyle(
+            color: Color(0xFFFFFFFF),
+          ),
+        ),
       ),
     );
   }
@@ -74,9 +80,10 @@ class RegisterCardWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Purpose: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        TallyCounterLocalizations.of(context)
+                            .tallyCardPurposeLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: 10),
                       Text(counterRegister.purpose.name),
@@ -102,9 +109,10 @@ class RegisterCardWidget extends StatelessWidget {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Text(
-                      'Split Duration: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      TallyCounterLocalizations.of(context)
+                          .tallyCardDurationLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),
                     Text(_duration)
@@ -115,9 +123,10 @@ class RegisterCardWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Value Changes: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      TallyCounterLocalizations.of(context)
+                          .tallyCardValuesLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 26),
                     Expanded(

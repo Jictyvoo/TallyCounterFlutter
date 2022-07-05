@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 enum PopupOptions { showAll, showToday }
 
@@ -17,10 +18,12 @@ class PopupTrailing extends StatelessWidget {
             value: PopupOptions.showAll,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.list),
-                SizedBox(width: 6),
-                Text("Show all registers"),
+              children: [
+                const Icon(Icons.list),
+                const SizedBox(width: 6),
+                Text(
+                  TallyCounterLocalizations.of(internalContext).tallyShowAll,
+                ),
               ],
             ),
           ),
@@ -28,10 +31,12 @@ class PopupTrailing extends StatelessWidget {
             value: PopupOptions.showToday,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.calendar_today),
-                SizedBox(width: 6),
-                Text("Show today registers")
+              children: [
+                const Icon(Icons.calendar_today),
+                const SizedBox(width: 6),
+                Text(
+                  TallyCounterLocalizations.of(internalContext).tallyShowToday,
+                ),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tally_counter/app/core/domain/models/dtos/purpose_dto.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import '../dialogs/create_purpose_dialog.dart';
 import '../purpose_store.dart';
@@ -16,6 +17,10 @@ class PurposeSelector extends StatefulWidget {
 
 class _PurposeSelectorState extends State<PurposeSelector> {
   late final PurposeStore _purposeStore;
+  late final ScrollController _scrollController;
+
+  // FIXME: When this is true, framework complain: thumbVisibility: true
+  bool get _showScrollThumb => false;
 
   void _reloadPurposes() {
     _purposeStore.loadPurposes().then((purposes) {
@@ -28,6 +33,7 @@ class _PurposeSelectorState extends State<PurposeSelector> {
   @override
   initState() {
     super.initState();
+    _scrollController = ScrollController();
     _purposeStore = Modular.get<PurposeStore>();
     _reloadPurposes();
   }
@@ -46,8 +52,10 @@ class _PurposeSelectorState extends State<PurposeSelector> {
               setState(() {});
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Failed to add purpose'),
+                SnackBar(
+                  content: Text(
+                    TallyCounterLocalizations.of(context).purposeAddFail,
+                  ),
                 ),
               );
             }
@@ -90,7 +98,10 @@ class _PurposeSelectorState extends State<PurposeSelector> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _addPurposeHandler,
-              child: const Text('Add Purpose'),
+              child: Text(
+                TallyCounterLocalizations.of(context).purposeAdd,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
@@ -101,11 +112,15 @@ class _PurposeSelectorState extends State<PurposeSelector> {
         Expanded(
           flex: 2,
           child: Scrollbar(
-            thumbVisibility: true,
+            controller: _scrollController,
+            thumbVisibility: _showScrollThumb,
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: _purposeStore.size,
-              controller: ScrollController(),
-              physics: const BouncingScrollPhysics(),
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               itemBuilder: _itemBuilder,
             ),
           ),
@@ -120,10 +135,11 @@ class _PurposeSelectorState extends State<PurposeSelector> {
         Expanded(
           flex: 8,
           child: Scrollbar(
-            thumbVisibility: true,
+            controller: _scrollController,
+            thumbVisibility: _showScrollThumb,
             child: CustomScrollView(
               shrinkWrap: true,
-              controller: ScrollController(),
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
@@ -149,7 +165,10 @@ class _PurposeSelectorState extends State<PurposeSelector> {
                 width: double.maxFinite,
                 child: ElevatedButton(
                   onPressed: _addPurposeHandler,
-                  child: const Text('Add Purpose'),
+                  child: Text(
+                    TallyCounterLocalizations.of(context).purposeAdd,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

@@ -1,0 +1,182 @@
+{
+  "success": "Success!",
+  "@success": {
+    "description": "Inform that the operation was successful."
+  },
+  "failure": "Failure!",
+  "@failure": {
+    "description": "Inform that the operation was unsuccessful."
+  },
+  "undo": "Undo",
+  "@undo": {
+    "description": "Label for undo button."
+  },
+  "atTime": "at",
+  "@atTime": {
+    "description": "Text for linking a time to a date."
+  },
+  "copyClose": "Copy and close",
+  "@copyClose": {
+    "description": "A label that indicates the user can copy the text and close the dialog."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "A label for the cancel button."
+  },
+  "create": "Create",
+  "@create": {
+    "description": "A label for the create button."
+  },
+  "configuration": "Configuration",
+  "@configuration": {
+    "description": "The title for configuration pages."
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "The label for the theme selection."
+  },
+  "useSystemTheme": "Use system theme",
+  "@useSystemTheme": {
+    "description": "The label that indicates to user that he can use the theme used by the system"
+  },
+  "systemTheme": "System theme",
+  "@systemTheme": {
+    "description": "The label that indicates that the app is using the system theme"
+  },
+  "darkTheme": "Dark theme",
+  "@darkTheme": {
+    "description": "The label that indicates that the app is using the dark theme"
+  },
+  "lightTheme": "Light theme",
+  "@lightTheme": {
+    "description": "The label that indicates that the app is using the light theme"
+  },
+  "changeLocaleLabel": "Change language",
+  "@changeLocaleLabel": {
+    "description": "The label for the language selection."
+  },
+  "useSystemLocale": "Use system language",
+  "@useSystemLocale": {
+    "description": "The label that indicates to user that he can use the language used by the system"
+  },
+  "tallyShowAll": "Show all registers",
+  "@tallyShowAll": {
+    "description": "A label that indicates the user can show all registers."
+  },
+  "tallyShowToday": "Show today's registers",
+  "@tallyShowToday": {
+    "description": "A label that indicates the user can show today's registers."
+  },
+  "tallyListTitle": "Tally register list",
+  "@tallyListTitle": {
+    "description": "The title of the tally register list page."
+  },
+  "tallyListEmpty": "No registers was found for the selected date.",
+  "@tallyListEmpty": {
+    "description": "The message displayed when there are no registers."
+  },
+  "tallySaveToFolder": "Save to folder",
+  "@tallySaveToFolder": {
+    "description": "A label that indicates the user can save the tally to a folder."
+  },
+  "tallySavePickText": "Save file to this folder",
+  "@tallySavePickText": {
+    "description": "A label that shows the user to select the folder to save the tally to."
+  },
+  "tallyRegistersExported": "Registers exported successfully to",
+  "@tallyRegistersExported": {
+    "description": "A message that indicates the user that the registers were exported successfully."
+  },
+  "tallyRegistersExportError": "Error while exporting registers from",
+  "@tallyRegistersExportError": {
+    "description": "A message that indicates the user that there was an error while exporting the registers."
+  },
+  "tallyRegisterExportTooltip": "Save register list to a csv file",
+  "@tallyRegisterExportTooltip": {
+    "description": "A tooltip that indicates the user can save the register list to a csv file."
+  },
+  "tallyListLoadingError": "Error while loading registers",
+  "@tallyListLoadingError": {
+    "description": "A message that indicates the user that there was an error while loading the registers."
+  },
+  "tallyCardEdit": "Edit",
+  "@tallyCardEdit": {
+    "description": "A label that indicates the user can edit the register."
+  },
+  "tallyCardDelete": "Delete",
+  "@tallyCardDelete": {
+    "description": "A label that indicates the user can delete the register."
+  },
+  "tallyCardPurposeLabel": "Purpose",
+  "@tallyCardPurposeLabel": {
+    "description": "A label for the purpose of the register."
+  },
+  "tallyCardDurationLabel": "Split Duration",
+  "@tallyCardDurationLabel": {
+    "description": "A label for the split duration of the register."
+  },
+  "tallyCardValuesLabel": "Value Changes",
+  "@tallyCardValuesLabel": {
+    "description": "A label for the value changes of the register."
+  },
+  "tallyListRegisterDeleted": "Register deleted!",
+  "@tallyListRegisterDeleted": {
+    "description": "A message that indicates the user that the register was deleted successfully."
+  },
+  "tallyListDeleteRegisterHint": "Delete register from",
+  "@tallyListDeleteRegisterHint": {
+    "description": "A hint that indicates the user which register he is deleting."
+  },
+  "purposeAdd": "Add purpose",
+  "@purposeAdd": {
+    "description": "A label for the add purpose button."
+  },
+  "purposeAddFail": "Error while adding purpose",
+  "@purposeAddFail": {
+    "description": "A message that indicates the user that there was an error while adding the purpose."
+  },
+  "counterPausedFor": "Paused for",
+  "@counterPausedFor": {
+    "description": "A label that indicates the user that the counter is paused for some time."
+  },
+  "counterValueLabel": "Current counter is on value:",
+  "@counterValueLabel": {
+    "description": "A label that indicates the user that the current counter is on a given value."
+  },
+  "incrementTooltip": "Increment",
+  "@incrementTooltip": {
+    "description": "A tooltip that indicates the user can increment the counter."
+  },
+  "decrementTooltip": "Decrement",
+  "@decrementTooltip": {
+    "description": "A tooltip that indicates the user can decrement the counter."
+  },
+  "counterChangeDialogTitle": "Change counter value",
+  "@counterChangeDialogTitle": {
+    "description": "A title for the change counter value dialog."
+  },
+  "purposeDialogTitle": "New purpose",
+  "@purposeDialogTitle": {
+    "description": "A title for the new purpose dialog."
+  },
+  "purposeDialogNameLabel": "Name",
+  "@purposeDialogNameLabel": {
+    "description": "A label for the name of the purpose."
+  },
+  "purposeDialogDescriptionLabel": "Description",
+  "@purposeDialogDescriptionLabel": {
+    "description": "A label for the description of the purpose."
+  },
+  "purposeChangeDelayDurationLabel": "Change click delay duration",
+  "@purposeChangeDelayDurationLabel": {
+    "description": "A label that indicates the user can change the click delay duration."
+  },
+  "purposeChangeIncrementValueLabel": "Change value of increment button",
+  "@purposeChangeIncrementValueLabel": {
+    "description": "A label that indicates the user can change the value of the increment button."
+  },
+  "configPurposeTitle": "Counter configuration",
+  "@configPurposeTitle": {
+    "description": "A title for the purpose of the counter."
+  }
+}

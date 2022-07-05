@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
 
 import 'counter_store.dart';
 import 'dialogs/change_value_dialog.dart';
@@ -25,9 +26,9 @@ class _CounterPageState extends State<CounterPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Paused for: ',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        Text(
+          '${TallyCounterLocalizations.of(context).counterPausedFor}: ',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         PauseDurationTimerWidget(
           elapsedPauseTime: _store.pauseDuration,
@@ -41,8 +42,8 @@ class _CounterPageState extends State<CounterPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          'Current counter is on value:',
+        Text(
+          TallyCounterLocalizations.of(context).counterValueLabel,
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 100, minHeight: 100),
@@ -76,49 +77,72 @@ class _CounterPageState extends State<CounterPage> {
         ),
         const SizedBox(height: 12),
         if (_store.isPaused) _buildPauseDuration(),
-        ButtonBar(
-          alignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Hero(
-              tag: 'decrement_button@HERO',
-              child: Tooltip(
-                message: 'Decrement',
+        IntrinsicWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Hero(
+                    tag: 'decrement_button@HERO',
+                    child: Tooltip(
+                      message: TallyCounterLocalizations.of(context)
+                          .decrementTooltip,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _store.decrement();
+                          });
+                        },
+                        child: const Icon(Icons.remove),
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Reset',
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _store.resetValue();
+                        });
+                      },
+                      icon: const Icon(Icons.refresh),
+                    ),
+                  ),
+                  Hero(
+                    tag: 'increment_button@HERO',
+                    child: Tooltip(
+                      message: TallyCounterLocalizations.of(context)
+                          .incrementTooltip,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _store.increment();
+                          });
+                        },
+                        child: const Icon(Icons.add),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              FractionallySizedBox(
+                widthFactor: 0.92,
                 child: ElevatedButton(
+                  child: _store.isPaused
+                      ? const Icon(Icons.play_arrow)
+                      : const Icon(Icons.pause),
                   onPressed: () {
                     setState(() {
-                      _store.decrement();
+                      _store.pause();
                     });
                   },
-                  child: const Icon(Icons.remove),
                 ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _store.pause();
-                });
-              },
-              icon: _store.isPaused
-                  ? const Icon(Icons.play_arrow)
-                  : const Icon(Icons.pause),
-            ),
-            Hero(
-              tag: 'increment_button@HERO',
-              child: Tooltip(
-                message: 'Increment',
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _store.increment();
-                    });
-                  },
-                  child: const Icon(Icons.add),
-                ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ],
     );
