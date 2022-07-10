@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/modules/tally_counter/pages/counter/purpose_store.dart';
 
 abstract class ConfigButtons {
+  static Text buildTitle(BuildContext context, {TextStyle? style}) {
+    final purposeTitle = TallyCounterLocalizations.of(
+      context,
+    ).configPurposeTitle;
+    final selectedPurpose = Modular.get<PurposeStore>().selectedPurpose.name;
+    return Text('$purposeTitle: `$selectedPurpose`', style: style);
+  }
+
   static void _unimplementedAlert(context) {
     showDialog(
       context: context,

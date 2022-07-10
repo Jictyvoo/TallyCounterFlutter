@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tally_counter/app/modules/tally_counter/l10n/tally_counter_localizations.dart';
+import 'package:tally_counter/app/shared/pages/configuration_viewmodel.dart';
 import 'package:tally_counter/app/shared/routes.dart';
 
 import 'pages/counter/counter_page.dart';
-import 'pages/counter/purpose_store.dart';
 import 'pages/counter/widgets/purpose_selector.dart';
 import 'tally_routes.dart';
 import 'widgets/config_buttons.dart';
@@ -70,19 +69,18 @@ class TallyPage extends StatelessWidget {
     return _buildVerticalLayout();
   }
 
-  Map<String, List<Widget Function(BuildContext)>> extraConfigs(
+  List<SettingsViewModel> extraConfigs(
     BuildContext context,
   ) {
-    final purposeTitle = TallyCounterLocalizations.of(
-      context,
-    ).configPurposeTitle;
-    final selectedPurpose = Modular.get<PurposeStore>().selectedPurpose.name;
-    return {
-      '$purposeTitle: `$selectedPurpose`': [
-        ConfigButtons.buildChangeDelay,
-        ConfigButtons.buildIncrementValue
-      ]
-    };
+    return <SettingsViewModel>[
+      const SettingsViewModel(
+        titleBuilder: ConfigButtons.buildTitle,
+        actionsBuilder: [
+          ConfigButtons.buildChangeDelay,
+          ConfigButtons.buildIncrementValue
+        ],
+      )
+    ];
   }
 
   @override

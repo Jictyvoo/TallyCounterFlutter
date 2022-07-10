@@ -6,16 +6,15 @@ import 'package:tally_counter/app/shared/utils/global_constants.dart';
 import 'package:tally_counter/app/shared/widgets/inherited/app_config_change_notifier.dart';
 import 'package:tally_counter/app/shared/widgets/theme_change_button.dart';
 
+import 'configuration_viewmodel.dart';
 import 'dialogs/change_language_dialog.dart';
-
-typedef ItemBuilder = Widget Function(BuildContext);
 
 class ConfigurationPage extends StatelessWidget {
   static const defaultSettings = ["theme", "locale", "about"];
   static const double _maxWidth = 460;
-  final Map<String, List<ItemBuilder>> extraSettings;
+  final List<SettingsViewModel> extraSettings;
 
-  const ConfigurationPage({Key? key, this.extraSettings = const {}})
+  const ConfigurationPage({Key? key, this.extraSettings = const []})
       : super(key: key);
 
   Widget _buildDefaultItems(BuildContext context, String settingName) {
@@ -64,16 +63,15 @@ class ConfigurationPage extends StatelessWidget {
 
   Widget _buildExtraItems(int index, BuildContext context) {
     ItemBuilder? builder;
-    final keys = extraSettings.keys;
     var cumulativeIndex = defaultSettings.length;
-    var titleText = '';
+    TitleBuilder? buildTitle;
     keyLoop:
-    for (final key in keys) {
+    for (final element in extraSettings) {
       if (index == cumulativeIndex) {
-        titleText = key;
+        buildTitle = element.titleBuilder;
         break keyLoop;
       }
-      for (final itemBuilder in extraSettings[key] ?? []) {
+      for (final itemBuilder in element.actionsBuilder) {
         cumulativeIndex += 1;
         if (index == cumulativeIndex) {
           builder = itemBuilder;
@@ -82,7 +80,7 @@ class ConfigurationPage extends StatelessWidget {
       }
     }
 
-    if (titleText.isNotEmpty) {
+    if (buildTitle != null) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 8),
@@ -91,8 +89,8 @@ class ConfigurationPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  titleText,
+                buildTitle(
+                  context,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -134,9 +132,10 @@ class ConfigurationPage extends StatelessWidget {
   int get _totalItems =>
       defaultSettings.length +
       extraSettings.length +
-      extraSettings.values.fold(
+      extraSettings.fold(
         0,
-        (previousValue, element) => previousValue + element.length,
+        (previousValue, element) =>
+            previousValue + element.actionsBuilder.length,
       );
 
   @override
