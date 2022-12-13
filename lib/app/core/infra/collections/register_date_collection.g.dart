@@ -7,51 +7,97 @@ part of 'register_date_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
 extension GetRegisterDateCollectionCollection on Isar {
   IsarCollection<RegisterDateCollection> get registerDateCollections =>
-      getCollection();
+      this.collection();
 }
 
 const RegisterDateCollectionSchema = CollectionSchema(
   name: r'RegisterDates',
-  schema:
-      r'{"name":"RegisterDates","idName":"id","properties":[{"name":"date","type":"Long"}],"indexes":[{"name":"date","unique":true,"replace":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
-  idName: r'id',
-  propertyIds: {r'date': 0},
-  listProperties: {},
-  indexIds: {r'date': 0},
-  indexValueTypes: {
-    r'date': [
-      IndexValueType.long,
-    ]
+  id: -6998500612985852622,
+  properties: {
+    r'date': PropertySchema(
+      id: 0,
+      name: r'date',
+      type: IsarType.dateTime,
+    )
   },
-  linkIds: {},
-  backlinkLinkNames: {},
+  estimateSize: _registerDateCollectionEstimateSize,
+  serialize: _registerDateCollectionSerialize,
+  deserialize: _registerDateCollectionDeserialize,
+  deserializeProp: _registerDateCollectionDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'date': IndexSchema(
+      id: -7552997827385218417,
+      name: r'date',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'date',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
+  links: {},
+  embeddedSchemas: {},
   getId: _registerDateCollectionGetId,
-  setId: _registerDateCollectionSetId,
   getLinks: _registerDateCollectionGetLinks,
-  attachLinks: _registerDateCollectionAttachLinks,
-  serializeNative: _registerDateCollectionSerializeNative,
-  deserializeNative: _registerDateCollectionDeserializeNative,
-  deserializePropNative: _registerDateCollectionDeserializePropNative,
-  serializeWeb: _registerDateCollectionSerializeWeb,
-  deserializeWeb: _registerDateCollectionDeserializeWeb,
-  deserializePropWeb: _registerDateCollectionDeserializePropWeb,
-  version: 4,
+  attach: _registerDateCollectionAttach,
+  version: '3.0.5',
 );
 
-int? _registerDateCollectionGetId(RegisterDateCollection object) {
-  if (object.id == Isar.autoIncrement) {
-    return null;
-  } else {
-    return object.id;
+int _registerDateCollectionEstimateSize(
+  RegisterDateCollection object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  return bytesCount;
+}
+
+void _registerDateCollectionSerialize(
+  RegisterDateCollection object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeDateTime(offsets[0], object.date);
+}
+
+RegisterDateCollection _registerDateCollectionDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = RegisterDateCollection();
+  object.date = reader.readDateTime(offsets[0]);
+  object.id = id;
+  return object;
+}
+
+P _registerDateCollectionDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readDateTime(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-void _registerDateCollectionSetId(RegisterDateCollection object, int id) {
-  object.id = id;
+Id _registerDateCollectionGetId(RegisterDateCollection object) {
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _registerDateCollectionGetLinks(
@@ -59,90 +105,10 @@ List<IsarLinkBase<dynamic>> _registerDateCollectionGetLinks(
   return [];
 }
 
-void _registerDateCollectionSerializeNative(
-    IsarCollection<RegisterDateCollection> collection,
-    IsarCObject cObj,
-    RegisterDateCollection object,
-    int staticSize,
-    List<int> offsets,
-    AdapterAlloc alloc) {
-  final size = (staticSize) as int;
-  cObj.buffer = alloc(size);
-  cObj.buffer_length = size;
-
-  final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
-  final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeHeader();
-  writer.writeDateTime(offsets[0], object.date);
-}
-
-RegisterDateCollection _registerDateCollectionDeserializeNative(
-    IsarCollection<RegisterDateCollection> collection,
-    int id,
-    IsarBinaryReader reader,
-    List<int> offsets) {
-  final object = RegisterDateCollection();
-  object.date = reader.readDateTime(offsets[0]);
+void _registerDateCollectionAttach(
+    IsarCollection<dynamic> col, Id id, RegisterDateCollection object) {
   object.id = id;
-  return object;
 }
-
-P _registerDateCollectionDeserializePropNative<P>(
-    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-  switch (propertyIndex) {
-    case -1:
-      return id as P;
-    case 0:
-      return (reader.readDateTime(offset)) as P;
-    default:
-      throw IsarError('Illegal propertyIndex');
-  }
-}
-
-Object _registerDateCollectionSerializeWeb(
-    IsarCollection<RegisterDateCollection> collection,
-    RegisterDateCollection object) {
-  final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(
-      jsObj, r'date', object.date.toUtc().millisecondsSinceEpoch);
-  IsarNative.jsObjectSet(jsObj, r'id', object.id);
-  return jsObj;
-}
-
-RegisterDateCollection _registerDateCollectionDeserializeWeb(
-    IsarCollection<RegisterDateCollection> collection, Object jsObj) {
-  final object = RegisterDateCollection();
-  object.date = IsarNative.jsObjectGet(jsObj, r'date') != null
-      ? DateTime.fromMillisecondsSinceEpoch(
-              IsarNative.jsObjectGet(jsObj, r'date') as int,
-              isUtc: true)
-          .toLocal()
-      : DateTime.fromMillisecondsSinceEpoch(0);
-  object.id =
-      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
-  return object;
-}
-
-P _registerDateCollectionDeserializePropWeb<P>(
-    Object jsObj, String propertyName) {
-  switch (propertyName) {
-    case r'date':
-      return (IsarNative.jsObjectGet(jsObj, r'date') != null
-          ? DateTime.fromMillisecondsSinceEpoch(
-                  IsarNative.jsObjectGet(jsObj, r'date') as int,
-                  isUtc: true)
-              .toLocal()
-          : DateTime.fromMillisecondsSinceEpoch(0)) as P;
-    case r'id':
-      return (IsarNative.jsObjectGet(jsObj, r'id') ??
-          (double.negativeInfinity as int)) as P;
-    default:
-      throw IsarError('Illegal propertyName');
-  }
-}
-
-void _registerDateCollectionAttachLinks(
-    IsarCollection<dynamic> col, int id, RegisterDateCollection object) {}
 
 extension RegisterDateCollectionByIndex
     on IsarCollection<RegisterDateCollection> {
@@ -183,20 +149,20 @@ extension RegisterDateCollectionByIndex
     return deleteAllByIndexSync(r'date', values);
   }
 
-  Future<int> putByDate(RegisterDateCollection object) {
+  Future<Id> putByDate(RegisterDateCollection object) {
     return putByIndex(r'date', object);
   }
 
-  int putByDateSync(RegisterDateCollection object, {bool saveLinks = false}) {
+  Id putByDateSync(RegisterDateCollection object, {bool saveLinks = true}) {
     return putByIndexSync(r'date', object, saveLinks: saveLinks);
   }
 
-  Future<List<int>> putAllByDate(List<RegisterDateCollection> objects) {
+  Future<List<Id>> putAllByDate(List<RegisterDateCollection> objects) {
     return putAllByIndex(r'date', objects);
   }
 
-  List<int> putAllByDateSync(List<RegisterDateCollection> objects,
-      {bool saveLinks = false}) {
+  List<Id> putAllByDateSync(List<RegisterDateCollection> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'date', objects, saveLinks: saveLinks);
   }
 }
@@ -223,7 +189,7 @@ extension RegisterDateCollectionQueryWhereSort
 extension RegisterDateCollectionQueryWhere on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QWhereClause> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
-      QAfterWhereClause> idEqualTo(int id) {
+      QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -233,7 +199,7 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
-      QAfterWhereClause> idNotEqualTo(int id) {
+      QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -256,7 +222,7 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
-      QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
+      QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -265,7 +231,7 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
-      QAfterWhereClause> idLessThan(int id, {bool include = false}) {
+      QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -275,8 +241,8 @@ extension RegisterDateCollectionQueryWhere on QueryBuilder<
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterWhereClause> idBetween(
-    int lowerId,
-    int upperId, {
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -443,7 +409,7 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
-      QAfterFilterCondition> idEqualTo(int value) {
+      QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -454,7 +420,7 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterFilterCondition> idGreaterThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -468,7 +434,7 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterFilterCondition> idLessThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -482,8 +448,8 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<RegisterDateCollection, RegisterDateCollection,
       QAfterFilterCondition> idBetween(
-    int lower,
-    int upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -499,10 +465,13 @@ extension RegisterDateCollectionQueryFilter on QueryBuilder<
   }
 }
 
+extension RegisterDateCollectionQueryObject on QueryBuilder<
+    RegisterDateCollection, RegisterDateCollection, QFilterCondition> {}
+
 extension RegisterDateCollectionQueryLinks on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QFilterCondition> {}
 
-extension RegisterDateCollectionQueryWhereSortBy
+extension RegisterDateCollectionQuerySortBy
     on QueryBuilder<RegisterDateCollection, RegisterDateCollection, QSortBy> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       sortByDate() {
@@ -519,7 +488,7 @@ extension RegisterDateCollectionQueryWhereSortBy
   }
 }
 
-extension RegisterDateCollectionQueryWhereSortThenBy on QueryBuilder<
+extension RegisterDateCollectionQuerySortThenBy on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QSortThenBy> {
   QueryBuilder<RegisterDateCollection, RegisterDateCollection, QAfterSortBy>
       thenByDate() {
@@ -562,16 +531,16 @@ extension RegisterDateCollectionQueryWhereDistinct
 
 extension RegisterDateCollectionQueryProperty on QueryBuilder<
     RegisterDateCollection, RegisterDateCollection, QQueryProperty> {
+  QueryBuilder<RegisterDateCollection, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
   QueryBuilder<RegisterDateCollection, DateTime, QQueryOperations>
       dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
-    });
-  }
-
-  QueryBuilder<RegisterDateCollection, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
     });
   }
 }

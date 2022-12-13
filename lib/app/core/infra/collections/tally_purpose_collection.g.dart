@@ -7,88 +7,91 @@ part of 'tally_purpose_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
 extension GetTallyPurposeCollectionCollection on Isar {
   IsarCollection<TallyPurposeCollection> get tallyPurposeCollections =>
-      getCollection();
+      this.collection();
 }
 
 const TallyPurposeCollectionSchema = CollectionSchema(
   name: r'TallyPurposes',
-  schema:
-      r'{"name":"TallyPurposes","idName":"id","properties":[{"name":"description","type":"String"},{"name":"limit","type":"Long"},{"name":"name","type":"String"}],"indexes":[{"name":"name","unique":true,"replace":false,"properties":[{"name":"name","type":"Hash","caseSensitive":true}]}],"links":[]}',
-  idName: r'id',
-  propertyIds: {r'description': 0, r'limit': 1, r'name': 2},
-  listProperties: {},
-  indexIds: {r'name': 0},
-  indexValueTypes: {
-    r'name': [
-      IndexValueType.stringHash,
-    ]
+  id: 4686534629494287739,
+  properties: {
+    r'description': PropertySchema(
+      id: 0,
+      name: r'description',
+      type: IsarType.string,
+    ),
+    r'limit': PropertySchema(
+      id: 1,
+      name: r'limit',
+      type: IsarType.long,
+    ),
+    r'name': PropertySchema(
+      id: 2,
+      name: r'name',
+      type: IsarType.string,
+    )
   },
-  linkIds: {},
-  backlinkLinkNames: {},
+  estimateSize: _tallyPurposeCollectionEstimateSize,
+  serialize: _tallyPurposeCollectionSerialize,
+  deserialize: _tallyPurposeCollectionDeserialize,
+  deserializeProp: _tallyPurposeCollectionDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'name': IndexSchema(
+      id: 879695947855722453,
+      name: r'name',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'name',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
+  links: {},
+  embeddedSchemas: {},
   getId: _tallyPurposeCollectionGetId,
-  setId: _tallyPurposeCollectionSetId,
   getLinks: _tallyPurposeCollectionGetLinks,
-  attachLinks: _tallyPurposeCollectionAttachLinks,
-  serializeNative: _tallyPurposeCollectionSerializeNative,
-  deserializeNative: _tallyPurposeCollectionDeserializeNative,
-  deserializePropNative: _tallyPurposeCollectionDeserializePropNative,
-  serializeWeb: _tallyPurposeCollectionSerializeWeb,
-  deserializeWeb: _tallyPurposeCollectionDeserializeWeb,
-  deserializePropWeb: _tallyPurposeCollectionDeserializePropWeb,
-  version: 4,
+  attach: _tallyPurposeCollectionAttach,
+  version: '3.0.5',
 );
 
-int? _tallyPurposeCollectionGetId(TallyPurposeCollection object) {
-  if (object.id == Isar.autoIncrement) {
-    return null;
-  } else {
-    return object.id;
-  }
+int _tallyPurposeCollectionEstimateSize(
+  TallyPurposeCollection object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.name.length * 3;
+  return bytesCount;
 }
 
-void _tallyPurposeCollectionSetId(TallyPurposeCollection object, int id) {
-  object.id = id;
-}
-
-List<IsarLinkBase<dynamic>> _tallyPurposeCollectionGetLinks(
-    TallyPurposeCollection object) {
-  return [];
-}
-
-void _tallyPurposeCollectionSerializeNative(
-    IsarCollection<TallyPurposeCollection> collection,
-    IsarCObject cObj,
-    TallyPurposeCollection object,
-    int staticSize,
-    List<int> offsets,
-    AdapterAlloc alloc) {
-  final description$Bytes =
-      IsarBinaryWriter.utf8Encoder.convert(object.description);
-  final name$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.name);
-  final size =
-      (staticSize + (description$Bytes.length) + (name$Bytes.length)) as int;
-  cObj.buffer = alloc(size);
-  cObj.buffer_length = size;
-
-  final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
-  final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeHeader();
-  writer.writeBytes(offsets[0], description$Bytes);
+void _tallyPurposeCollectionSerialize(
+  TallyPurposeCollection object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.description);
   writer.writeLong(offsets[1], object.limit);
-  writer.writeBytes(offsets[2], name$Bytes);
+  writer.writeString(offsets[2], object.name);
 }
 
-TallyPurposeCollection _tallyPurposeCollectionDeserializeNative(
-    IsarCollection<TallyPurposeCollection> collection,
-    int id,
-    IsarBinaryReader reader,
-    List<int> offsets) {
+TallyPurposeCollection _tallyPurposeCollectionDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
   final object = TallyPurposeCollection(
-    description: reader.readString(offsets[0]),
+    description: reader.readStringOrNull(offsets[0]) ?? '',
     limit: reader.readLongOrNull(offsets[1]),
     name: reader.readString(offsets[2]),
   );
@@ -96,64 +99,37 @@ TallyPurposeCollection _tallyPurposeCollectionDeserializeNative(
   return object;
 }
 
-P _tallyPurposeCollectionDeserializePropNative<P>(
-    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-  switch (propertyIndex) {
-    case -1:
-      return id as P;
+P _tallyPurposeCollectionDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     default:
-      throw IsarError('Illegal propertyIndex');
+      throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Object _tallyPurposeCollectionSerializeWeb(
-    IsarCollection<TallyPurposeCollection> collection,
+Id _tallyPurposeCollectionGetId(TallyPurposeCollection object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _tallyPurposeCollectionGetLinks(
     TallyPurposeCollection object) {
-  final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, r'description', object.description);
-  IsarNative.jsObjectSet(jsObj, r'id', object.id);
-  IsarNative.jsObjectSet(jsObj, r'limit', object.limit);
-  IsarNative.jsObjectSet(jsObj, r'name', object.name);
-  return jsObj;
+  return [];
 }
 
-TallyPurposeCollection _tallyPurposeCollectionDeserializeWeb(
-    IsarCollection<TallyPurposeCollection> collection, Object jsObj) {
-  final object = TallyPurposeCollection(
-    description: IsarNative.jsObjectGet(jsObj, r'description') ?? '',
-    limit: IsarNative.jsObjectGet(jsObj, r'limit'),
-    name: IsarNative.jsObjectGet(jsObj, r'name') ?? '',
-  );
-  object.id =
-      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
-  return object;
+void _tallyPurposeCollectionAttach(
+    IsarCollection<dynamic> col, Id id, TallyPurposeCollection object) {
+  object.id = id;
 }
-
-P _tallyPurposeCollectionDeserializePropWeb<P>(
-    Object jsObj, String propertyName) {
-  switch (propertyName) {
-    case r'description':
-      return (IsarNative.jsObjectGet(jsObj, r'description') ?? '') as P;
-    case r'id':
-      return (IsarNative.jsObjectGet(jsObj, r'id') ??
-          (double.negativeInfinity as int)) as P;
-    case r'limit':
-      return (IsarNative.jsObjectGet(jsObj, r'limit')) as P;
-    case r'name':
-      return (IsarNative.jsObjectGet(jsObj, r'name') ?? '') as P;
-    default:
-      throw IsarError('Illegal propertyName');
-  }
-}
-
-void _tallyPurposeCollectionAttachLinks(
-    IsarCollection<dynamic> col, int id, TallyPurposeCollection object) {}
 
 extension TallyPurposeCollectionByIndex
     on IsarCollection<TallyPurposeCollection> {
@@ -193,20 +169,20 @@ extension TallyPurposeCollectionByIndex
     return deleteAllByIndexSync(r'name', values);
   }
 
-  Future<int> putByName(TallyPurposeCollection object) {
+  Future<Id> putByName(TallyPurposeCollection object) {
     return putByIndex(r'name', object);
   }
 
-  int putByNameSync(TallyPurposeCollection object, {bool saveLinks = false}) {
+  Id putByNameSync(TallyPurposeCollection object, {bool saveLinks = true}) {
     return putByIndexSync(r'name', object, saveLinks: saveLinks);
   }
 
-  Future<List<int>> putAllByName(List<TallyPurposeCollection> objects) {
+  Future<List<Id>> putAllByName(List<TallyPurposeCollection> objects) {
     return putAllByIndex(r'name', objects);
   }
 
-  List<int> putAllByNameSync(List<TallyPurposeCollection> objects,
-      {bool saveLinks = false}) {
+  List<Id> putAllByNameSync(List<TallyPurposeCollection> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
   }
 }
@@ -219,21 +195,12 @@ extension TallyPurposeCollectionQueryWhereSort
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
-
-  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterWhere>
-      anyName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'name'),
-      );
-    });
-  }
 }
 
 extension TallyPurposeCollectionQueryWhere on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QWhereClause> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
-      QAfterWhereClause> idEqualTo(int id) {
+      QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -243,7 +210,7 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
-      QAfterWhereClause> idNotEqualTo(int id) {
+      QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -266,7 +233,7 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
-      QAfterWhereClause> idGreaterThan(int id, {bool include = false}) {
+      QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -275,7 +242,7 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
-      QAfterWhereClause> idLessThan(int id, {bool include = false}) {
+      QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -285,8 +252,8 @@ extension TallyPurposeCollectionQueryWhere on QueryBuilder<
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterWhereClause> idBetween(
-    int lowerId,
-    int upperId, {
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -365,8 +332,8 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> descriptionGreaterThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -381,8 +348,8 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> descriptionLessThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
@@ -398,9 +365,9 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
       QAfterFilterCondition> descriptionBetween(
     String lower,
     String upper, {
-    bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -467,7 +434,27 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
-      QAfterFilterCondition> idEqualTo(int value) {
+      QAfterFilterCondition> descriptionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
+      QAfterFilterCondition> descriptionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
+      QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -478,7 +465,7 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> idGreaterThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -492,7 +479,7 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> idLessThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -506,8 +493,8 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
 
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> idBetween(
-    int lower,
-    int upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -526,6 +513,15 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
       QAfterFilterCondition> limitIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'limit',
+      ));
+    });
+  }
+
+  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
+      QAfterFilterCondition> limitIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'limit',
       ));
     });
@@ -604,8 +600,8 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> nameGreaterThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -620,8 +616,8 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
       QAfterFilterCondition> nameLessThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
@@ -637,9 +633,9 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
       QAfterFilterCondition> nameBetween(
     String lower,
     String upper, {
-    bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -704,12 +700,35 @@ extension TallyPurposeCollectionQueryFilter on QueryBuilder<
       ));
     });
   }
+
+  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
+      QAfterFilterCondition> nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TallyPurposeCollection, TallyPurposeCollection,
+      QAfterFilterCondition> nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
 }
+
+extension TallyPurposeCollectionQueryObject on QueryBuilder<
+    TallyPurposeCollection, TallyPurposeCollection, QFilterCondition> {}
 
 extension TallyPurposeCollectionQueryLinks on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QFilterCondition> {}
 
-extension TallyPurposeCollectionQueryWhereSortBy
+extension TallyPurposeCollectionQuerySortBy
     on QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QSortBy> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       sortByDescription() {
@@ -754,7 +773,7 @@ extension TallyPurposeCollectionQueryWhereSortBy
   }
 }
 
-extension TallyPurposeCollectionQueryWhereSortThenBy on QueryBuilder<
+extension TallyPurposeCollectionQuerySortThenBy on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QSortThenBy> {
   QueryBuilder<TallyPurposeCollection, TallyPurposeCollection, QAfterSortBy>
       thenByDescription() {
@@ -839,16 +858,16 @@ extension TallyPurposeCollectionQueryWhereDistinct
 
 extension TallyPurposeCollectionQueryProperty on QueryBuilder<
     TallyPurposeCollection, TallyPurposeCollection, QQueryProperty> {
+  QueryBuilder<TallyPurposeCollection, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
   QueryBuilder<TallyPurposeCollection, String, QQueryOperations>
       descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
-    });
-  }
-
-  QueryBuilder<TallyPurposeCollection, int, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
     });
   }
 

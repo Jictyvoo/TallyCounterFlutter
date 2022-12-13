@@ -7,83 +7,83 @@ part of 'app_config_collection.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
 extension GetAppConfigCollectionCollection on Isar {
   IsarCollection<AppConfigCollection> get appConfigCollections =>
-      getCollection();
+      this.collection();
 }
 
 const AppConfigCollectionSchema = CollectionSchema(
   name: r'AppConfigs',
-  schema:
-      r'{"name":"AppConfigs","idName":"id","properties":[{"name":"key","type":"String"},{"name":"value","type":"String"}],"indexes":[{"name":"key","unique":true,"replace":false,"properties":[{"name":"key","type":"Hash","caseSensitive":true}]}],"links":[]}',
-  idName: r'id',
-  propertyIds: {r'key': 0, r'value': 1},
-  listProperties: {},
-  indexIds: {r'key': 0},
-  indexValueTypes: {
-    r'key': [
-      IndexValueType.stringHash,
-    ]
+  id: -2996188857709716460,
+  properties: {
+    r'key': PropertySchema(
+      id: 0,
+      name: r'key',
+      type: IsarType.string,
+    ),
+    r'value': PropertySchema(
+      id: 1,
+      name: r'value',
+      type: IsarType.string,
+    )
   },
-  linkIds: {},
-  backlinkLinkNames: {},
+  estimateSize: _appConfigCollectionEstimateSize,
+  serialize: _appConfigCollectionSerialize,
+  deserialize: _appConfigCollectionDeserialize,
+  deserializeProp: _appConfigCollectionDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'key': IndexSchema(
+      id: -4906094122524121629,
+      name: r'key',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'key',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
+  links: {},
+  embeddedSchemas: {},
   getId: _appConfigCollectionGetId,
-  setId: _appConfigCollectionSetId,
   getLinks: _appConfigCollectionGetLinks,
-  attachLinks: _appConfigCollectionAttachLinks,
-  serializeNative: _appConfigCollectionSerializeNative,
-  deserializeNative: _appConfigCollectionDeserializeNative,
-  deserializePropNative: _appConfigCollectionDeserializePropNative,
-  serializeWeb: _appConfigCollectionSerializeWeb,
-  deserializeWeb: _appConfigCollectionDeserializeWeb,
-  deserializePropWeb: _appConfigCollectionDeserializePropWeb,
-  version: 4,
+  attach: _appConfigCollectionAttach,
+  version: '3.0.5',
 );
 
-int? _appConfigCollectionGetId(AppConfigCollection object) {
-  if (object.id == Isar.autoIncrement) {
-    return null;
-  } else {
-    return object.id;
-  }
+int _appConfigCollectionEstimateSize(
+  AppConfigCollection object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.key.length * 3;
+  bytesCount += 3 + object.value.length * 3;
+  return bytesCount;
 }
 
-void _appConfigCollectionSetId(AppConfigCollection object, int id) {
-  object.id = id;
+void _appConfigCollectionSerialize(
+  AppConfigCollection object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.key);
+  writer.writeString(offsets[1], object.value);
 }
 
-List<IsarLinkBase<dynamic>> _appConfigCollectionGetLinks(
-    AppConfigCollection object) {
-  return [];
-}
-
-void _appConfigCollectionSerializeNative(
-    IsarCollection<AppConfigCollection> collection,
-    IsarCObject cObj,
-    AppConfigCollection object,
-    int staticSize,
-    List<int> offsets,
-    AdapterAlloc alloc) {
-  final key$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.key);
-  final value$Bytes = IsarBinaryWriter.utf8Encoder.convert(object.value);
-  final size = (staticSize + (key$Bytes.length) + (value$Bytes.length)) as int;
-  cObj.buffer = alloc(size);
-  cObj.buffer_length = size;
-
-  final buffer = IsarNative.bufAsBytes(cObj.buffer, size);
-  final writer = IsarBinaryWriter(buffer, staticSize);
-  writer.writeHeader();
-  writer.writeBytes(offsets[0], key$Bytes);
-  writer.writeBytes(offsets[1], value$Bytes);
-}
-
-AppConfigCollection _appConfigCollectionDeserializeNative(
-    IsarCollection<AppConfigCollection> collection,
-    int id,
-    IsarBinaryReader reader,
-    List<int> offsets) {
+AppConfigCollection _appConfigCollectionDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
   final object = AppConfigCollection(
     key: reader.readString(offsets[0]),
     value: reader.readString(offsets[1]),
@@ -92,57 +92,35 @@ AppConfigCollection _appConfigCollectionDeserializeNative(
   return object;
 }
 
-P _appConfigCollectionDeserializePropNative<P>(
-    int id, IsarBinaryReader reader, int propertyIndex, int offset) {
-  switch (propertyIndex) {
-    case -1:
-      return id as P;
+P _appConfigCollectionDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     default:
-      throw IsarError('Illegal propertyIndex');
+      throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Object _appConfigCollectionSerializeWeb(
-    IsarCollection<AppConfigCollection> collection,
+Id _appConfigCollectionGetId(AppConfigCollection object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _appConfigCollectionGetLinks(
     AppConfigCollection object) {
-  final jsObj = IsarNative.newJsObject();
-  IsarNative.jsObjectSet(jsObj, r'id', object.id);
-  IsarNative.jsObjectSet(jsObj, r'key', object.key);
-  IsarNative.jsObjectSet(jsObj, r'value', object.value);
-  return jsObj;
+  return [];
 }
 
-AppConfigCollection _appConfigCollectionDeserializeWeb(
-    IsarCollection<AppConfigCollection> collection, Object jsObj) {
-  final object = AppConfigCollection(
-    key: IsarNative.jsObjectGet(jsObj, r'key') ?? '',
-    value: IsarNative.jsObjectGet(jsObj, r'value') ?? '',
-  );
-  object.id =
-      IsarNative.jsObjectGet(jsObj, r'id') ?? (double.negativeInfinity as int);
-  return object;
+void _appConfigCollectionAttach(
+    IsarCollection<dynamic> col, Id id, AppConfigCollection object) {
+  object.id = id;
 }
-
-P _appConfigCollectionDeserializePropWeb<P>(Object jsObj, String propertyName) {
-  switch (propertyName) {
-    case r'id':
-      return (IsarNative.jsObjectGet(jsObj, r'id') ??
-          (double.negativeInfinity as int)) as P;
-    case r'key':
-      return (IsarNative.jsObjectGet(jsObj, r'key') ?? '') as P;
-    case r'value':
-      return (IsarNative.jsObjectGet(jsObj, r'value') ?? '') as P;
-    default:
-      throw IsarError('Illegal propertyName');
-  }
-}
-
-void _appConfigCollectionAttachLinks(
-    IsarCollection<dynamic> col, int id, AppConfigCollection object) {}
 
 extension AppConfigCollectionByIndex on IsarCollection<AppConfigCollection> {
   Future<AppConfigCollection?> getByKey(String key) {
@@ -181,20 +159,20 @@ extension AppConfigCollectionByIndex on IsarCollection<AppConfigCollection> {
     return deleteAllByIndexSync(r'key', values);
   }
 
-  Future<int> putByKey(AppConfigCollection object) {
+  Future<Id> putByKey(AppConfigCollection object) {
     return putByIndex(r'key', object);
   }
 
-  int putByKeySync(AppConfigCollection object, {bool saveLinks = false}) {
+  Id putByKeySync(AppConfigCollection object, {bool saveLinks = true}) {
     return putByIndexSync(r'key', object, saveLinks: saveLinks);
   }
 
-  Future<List<int>> putAllByKey(List<AppConfigCollection> objects) {
+  Future<List<Id>> putAllByKey(List<AppConfigCollection> objects) {
     return putAllByIndex(r'key', objects);
   }
 
-  List<int> putAllByKeySync(List<AppConfigCollection> objects,
-      {bool saveLinks = false}) {
+  List<Id> putAllByKeySync(List<AppConfigCollection> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'key', objects, saveLinks: saveLinks);
   }
 }
@@ -206,20 +184,12 @@ extension AppConfigCollectionQueryWhereSort
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
-
-  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhere> anyKey() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'key'),
-      );
-    });
-  }
 }
 
 extension AppConfigCollectionQueryWhere
     on QueryBuilder<AppConfigCollection, AppConfigCollection, QWhereClause> {
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
-      idEqualTo(int id) {
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -229,7 +199,7 @@ extension AppConfigCollectionQueryWhere
   }
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
-      idNotEqualTo(int id) {
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -252,7 +222,7 @@ extension AppConfigCollectionQueryWhere
   }
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
-      idGreaterThan(int id, {bool include = false}) {
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -261,7 +231,7 @@ extension AppConfigCollectionQueryWhere
   }
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
-      idLessThan(int id, {bool include = false}) {
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -271,8 +241,8 @@ extension AppConfigCollectionQueryWhere
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterWhereClause>
       idBetween(
-    int lowerId,
-    int upperId, {
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -335,7 +305,7 @@ extension AppConfigCollectionQueryWhere
 extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
     AppConfigCollection, QFilterCondition> {
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
-      idEqualTo(int value) {
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -346,7 +316,7 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       idGreaterThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -360,7 +330,7 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       idLessThan(
-    int value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -374,8 +344,8 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       idBetween(
-    int lower,
-    int upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -407,8 +377,8 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       keyGreaterThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -423,8 +393,8 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       keyLessThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
@@ -440,9 +410,9 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
       keyBetween(
     String lower,
     String upper, {
-    bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -507,6 +477,26 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
   }
 
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
+      keyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'key',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
+      keyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'key',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       valueEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -523,8 +513,8 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       valueGreaterThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -539,8 +529,8 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
       valueLessThan(
     String value, {
-    bool caseSensitive = true,
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
@@ -556,9 +546,9 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
       valueBetween(
     String lower,
     String upper, {
-    bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -621,12 +611,35 @@ extension AppConfigCollectionQueryFilter on QueryBuilder<AppConfigCollection,
       ));
     });
   }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
+      valueIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'value',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterFilterCondition>
+      valueIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'value',
+        value: '',
+      ));
+    });
+  }
 }
+
+extension AppConfigCollectionQueryObject on QueryBuilder<AppConfigCollection,
+    AppConfigCollection, QFilterCondition> {}
 
 extension AppConfigCollectionQueryLinks on QueryBuilder<AppConfigCollection,
     AppConfigCollection, QFilterCondition> {}
 
-extension AppConfigCollectionQueryWhereSortBy
+extension AppConfigCollectionQuerySortBy
     on QueryBuilder<AppConfigCollection, AppConfigCollection, QSortBy> {
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterSortBy>
       sortByKey() {
@@ -657,7 +670,7 @@ extension AppConfigCollectionQueryWhereSortBy
   }
 }
 
-extension AppConfigCollectionQueryWhereSortThenBy
+extension AppConfigCollectionQuerySortThenBy
     on QueryBuilder<AppConfigCollection, AppConfigCollection, QSortThenBy> {
   QueryBuilder<AppConfigCollection, AppConfigCollection, QAfterSortBy>
       thenById() {
