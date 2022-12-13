@@ -8,9 +8,8 @@ part 'counter_register_collection.g.dart';
 @Collection()
 @Name("TallyRegisters")
 class TallyRegisterCollection {
-  @Id()
   @Name("id")
-  int id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   @Name("date")
   final dateTimestamp = IsarLink<RegisterDateCollection>();

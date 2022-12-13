@@ -5,9 +5,8 @@ part 'tally_purpose_collection.g.dart';
 @Collection()
 @Name("TallyPurposes")
 class TallyPurposeCollection {
-  @Id()
   @Name("id")
-  int id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   @Name("name")
   @Index(unique: true)

@@ -5,9 +5,8 @@ part 'app_config_collection.g.dart';
 @Collection()
 @Name("AppConfigs")
 class AppConfigCollection {
-  @Id()
   @Name("id")
-  int id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   @Name("key")
   @Index(unique: true)

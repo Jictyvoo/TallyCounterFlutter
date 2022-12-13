@@ -5,9 +5,8 @@ part 'register_date_collection.g.dart';
 @Collection()
 @Name("RegisterDates")
 class RegisterDateCollection {
-  @Id()
   @Name("id")
-  int id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   @Name("date")
   @Index(unique: true)

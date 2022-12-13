@@ -5,9 +5,8 @@ part 'migration_collection.g.dart';
 @Collection()
 @Name("Migrations")
 class MigrationCollection {
-  @Id()
   @Name("id")
-  int id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   @Name("name")
   String name;
